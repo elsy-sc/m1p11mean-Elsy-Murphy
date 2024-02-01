@@ -44,14 +44,14 @@ async function loginUtilisateur (req,res) {
         utilisateur.email = req.body?.email;
         await utilisateur.read(db).then((result) => {
             if (result.length === 0) {
-                httpUtil.sendJson(res,null, 201 , "votre compte n'existe pas !!");
+                httpUtil.sendJson(res,null, 404 , "votre compte n'existe pas !!");
             } 
             else {
                 var validmotdepasse = checkPassword(req.body?.motdepasse, result[0].motdepasse);
                 if (validmotdepasse) {
                     httpUtil.sendJson(res,result[0],200);
                 } else {
-                    httpUtil.sendJson(res,null,201, "votre mot de passe est incorrect !!");
+                    httpUtil.sendJson(res,null,401, "votre mot de passe est incorrect !!");
                 }
             }
         });
