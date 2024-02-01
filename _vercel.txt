@@ -1,0 +1,1 @@
+vc-domain-verify=beauty-salon.app,06f9d88077dedd688c33
