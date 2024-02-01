@@ -9,6 +9,14 @@ class Service extends TableObject {
         this.duree = duree; // en heure // nombre floatant
         this.prix = prix; // en ariary // nombre floatant
         this.commission = commission; // en pourcentage // nombre floatant
+        this.linkedTableId = [
+            {
+                tableName: "categorieservice",
+                foreignField: "_id",
+                localField: "idcategorieservice",
+                as: "categorieservice",
+            },
+        ];
     }
 
     setNom(nom) {
