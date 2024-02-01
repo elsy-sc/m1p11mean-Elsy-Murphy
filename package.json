@@ -2,7 +2,7 @@
   "name": "m1p11mean-elsy-murphy-back",
   "version": "1.0.0",
   "description": "PROJET MEAN Master 1 - Promotion 11 - BACK",
-  "main": "server.js",
+  "main": "index.js",
   "scripts": {
     "start": "node .",
     "dev": "nodemon ."
