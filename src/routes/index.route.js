@@ -1,3 +1,4 @@
 const categorieserviceRoute = require("./categorieservice.route");
+const serviceRoute = require("./service.route");
 
-module.exports = [categorieserviceRoute];
+module.exports = [categorieserviceRoute, serviceRoute];
