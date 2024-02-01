@@ -41,7 +41,9 @@ class Rendezvous extends TableObject {
         if (dateheurerendezvous == null || dateheurerendezvous == undefined || dateheurerendezvous.trim() == "") {
             this.dateheurerendezvous = new Date().date;
         }
-        this.dateheurerendezvous = dateheurerendezvous;
+        else {  
+            this.dateheurerendezvous = dateheurerendezvous;
+        }
     }
 
     async read(connection, afterWhereString) {

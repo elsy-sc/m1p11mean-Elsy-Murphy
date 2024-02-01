@@ -20,14 +20,18 @@ class SuiviEmployeRendezvous extends Rendezvous {
         if (dateheuredebutsuivi == null || dateheuredebutsuivi == undefined || dateheuredebutsuivi.trim() == "") {
             this.dateheuredebutsuivi = this.dateheurerendezvous;
         }
-        this.dateheuredebutsuivi = dateheuredebutsuivi;
+        else {
+            this.dateheuredebutsuivi = dateheuredebutsuivi;
+        }
     }
 
     setDateheurefinsuivi(dateheurefinsuivi) {
         if (dateheurefinsuivi == null || dateheurefinsuivi == undefined || dateheurefinsuivi.trim() == "") {
             this.dateheurefinsuivi = new Date().date;
         }
-        this.dateheurefinsuivi = dateheurefinsuivi;
+        else {
+            this.dateheurefinsuivi = dateheurefinsuivi;
+        }
     }
 }
 
