@@ -5,5 +5,6 @@ const rendezvousRoute = require("./rendezvous.route");
 const suiviemployerendezvousRoute = require("./suiviemployerendezvous.route");
 const employe = require("./employe.route");
 const typedepense = require("./typedepense.route");
+const paiement = require("./paiement.route");
 
-module.exports = [categorieserviceRoute, serviceRoute , categorieserviceRoute,UtilisateurRoute, rendezvousRoute, suiviemployerendezvousRoute , employe , typedepense];
+module.exports = [categorieserviceRoute, serviceRoute , categorieserviceRoute,UtilisateurRoute, rendezvousRoute, suiviemployerendezvousRoute , employe , typedepense , paiement];
