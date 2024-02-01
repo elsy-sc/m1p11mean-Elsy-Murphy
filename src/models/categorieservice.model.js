@@ -6,6 +6,14 @@ class Categorieservice extends TableObject {
         this.nom = nom;
         this.description = description;
         this.idcategorieservice = idcategorieservice;
+        this.linkedTableId = [
+            {
+                tableName: "categorieservice",
+                foreignField: "_id",
+                localField: "idcategorieservice",
+                as: "categorieservice",
+            },
+        ];
     }
 
     setNom(nom) {

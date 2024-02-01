@@ -3,9 +3,10 @@ const UtilisateurRoute = require('./utilisateur.route');
 const serviceRoute = require("./service.route");
 const rendezvousRoute = require("./rendezvous.route");
 const suiviemployerendezvousRoute = require("./suiviemployerendezvous.route");
-const employe = require("./employe.route");
-const typedepense = require("./typedepense.route");
-const paiement = require("./paiement.route");
-const depense = require("./depense.route");
+const typedepenseRoute = require("./typedepense.route");
+const paiementRoute = require("./paiement.route");
+const employeRoute = require("./employe.route");
+const offrespecialeRoute = require("./offrespeciale.route");
+const depenseRoute = require("./depense.route");
 
-module.exports = [categorieserviceRoute, serviceRoute , categorieserviceRoute,UtilisateurRoute, rendezvousRoute, suiviemployerendezvousRoute , employe , typedepense , paiement , depense];
+module.exports = [categorieserviceRoute, serviceRoute , categorieserviceRoute,UtilisateurRoute, rendezvousRoute, suiviemployerendezvousRoute , employeRoute, offrespecialeRoute, typedepenseRoute , paiementRoute , depenseRoute];
