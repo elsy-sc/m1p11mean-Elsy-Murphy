@@ -4,9 +4,28 @@ const { Rendezvous } = require("./rendezvous.model");
 class SuiviEmployeRendezvous extends Rendezvous {
     constructor(idemploye, dateheuredebutsuivi, dateheurefinsuivi) {
         super();
+        this.tableName = "rendezvous";
         this.idemploye = idemploye;
         this.dateheuredebutsuivi = dateheuredebutsuivi;
         this.dateheurefinsuivi = dateheurefinsuivi;
+        this.linkedTableId ?
+            this.linkedTableId = [
+                ...this.linkedTableId,
+                {
+                    tableName: "utilisateur",
+                    foreignField: "_id",
+                    localField: "idemploye",
+                    as: "employe",
+                },
+            ]:
+            this.linkedTableId = [
+                {
+                    tableName: "utilisateur",
+                    foreignField: "_id",
+                    localField: "idemploye",
+                    as: "employe",
+                },
+            ];
     }
 
     setIdemploye(idemploye) {
