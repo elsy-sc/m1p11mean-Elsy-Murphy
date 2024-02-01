@@ -5,9 +5,10 @@ const httpUtil = require("../utils/http.util");
 async function createRendezvous(req, res) {
     const db = await getMongoDBDatabase();
     try {
-        const rendezvous = new Rendezvous(null, null, req.body?.dateheurerendezvous);
+        const rendezvous = new Rendezvous(null, null, null);
         rendezvous.setIdclient(req.body?.idclient);
         rendezvous.setIdservice(req.body?.idservice);
+        rendezvous.setDateheurerendezvous(req.body?.dateheurerendezvous);
 
         await rendezvous.create(db).then(() => {
             httpUtil.sendJson(res, null, 201, "OK");        

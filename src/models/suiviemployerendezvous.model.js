@@ -1,5 +1,5 @@
+const { Date } = require("../bean/date.bean.util");
 const { Rendezvous } = require("./rendezvous.model");
-const { Date } = require("./date.bean.util");
 
 class SuiviEmployeRendezvous extends Rendezvous {
     constructor(idemploye, dateheuredebutsuivi, dateheurefinsuivi) {
@@ -25,7 +25,7 @@ class SuiviEmployeRendezvous extends Rendezvous {
 
     setDateheurefinsuivi(dateheurefinsuivi) {
         if (dateheurefinsuivi == null || dateheurefinsuivi == undefined || dateheurefinsuivi.trim() == "") {
-            this.dateheurefinsuivi = new Date();
+            this.dateheurefinsuivi = new Date().date;
         }
         this.dateheurefinsuivi = dateheurefinsuivi;
     }

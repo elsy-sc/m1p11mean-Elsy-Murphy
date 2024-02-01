@@ -1,11 +1,11 @@
 const express = require("express"); 
 const { getRouter } = require("../utils/route.express.util");
-const { createRendervous, readRendervous, updateRendervous, deleteRendervous } = require("../controllers/Rendervous.controller");
+const { createRendezvous, readRendezvous, updateRendezvous, deleteRendezvous } = require("../controllers/rendezvous.controller");
 const router = express.Router();
 
-router.post("/create", createRendervous);
-router.get("/read", readRendervous);
-router.put("/update", updateRendervous);
-router.delete("/delete", deleteRendervous);
+router.post("/create", createRendezvous);
+router.get("/read", readRendezvous);
+router.put("/update", updateRendezvous);
+router.delete("/delete", deleteRendezvous);
 
-module.exports = getRouter(express, router, '/rendervous');
+module.exports = getRouter(express, router, '/rendezvous');

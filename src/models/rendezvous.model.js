@@ -1,5 +1,5 @@
+const { Date } = require("../bean/date.bean.util");
 const { TableObject } = require("../bean/tableobject.bean");
-const { Date } = require("./date.bean.util");
 
 class Rendezvous extends TableObject {
     constructor(idclient, idservice, dateheurerendezvous) {
@@ -7,6 +7,20 @@ class Rendezvous extends TableObject {
         this.idclient = idclient;
         this.idservice = idservice;
         this.dateheurerendezvous = dateheurerendezvous;
+        this.linkedTableId = [
+            {
+                tableName: "utilisateur",
+                foreignField: "_id",
+                localField: "idclient",
+                as: "client",
+            },
+            {
+                tableName: "service",
+                foreignField: "_id",
+                localField: "idservice",
+                as: "service",
+            },
+        ];
     }
 
     setIdclient(idclient) {
@@ -25,7 +39,7 @@ class Rendezvous extends TableObject {
 
     setDateheurerendezvous(dateheurerendezvous) {
         if (dateheurerendezvous == null || dateheurerendezvous == undefined || dateheurerendezvous.trim() == "") {
-            this.dateheurerendezvous = new Date();
+            this.dateheurerendezvous = new Date().date;
         }
         this.dateheurerendezvous = dateheurerendezvous;
     }

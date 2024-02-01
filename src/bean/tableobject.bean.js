@@ -11,6 +11,7 @@ class TableObject {
         name: this.constructor.name.toLowerCase() + "_seq",
         start: this.constructor.name.substring(0, 4).toUpperCase(),
     };
+    linkedTableId = [];
 
     getSanitizedObject() {
         return sanitizedObject(this); 
@@ -35,6 +36,21 @@ class TableObject {
         if (this._state) whereObject._state = this._state;
         let combinedWhere = combineObject(filterNullColumn(whereObject));
         if (afterWhereString) combinedWhere = combineObject(combinedWhere, afterWhereString);
+        if (this.linkedTableId.length > 0) {
+            return await connection.collection(this.tableName).aggregate([
+                { $match: combinedWhere },
+                ...this.linkedTableId.map((linkedTable) => {
+                    return {
+                        $lookup: {
+                            from: linkedTable.tableName,
+                            localField: linkedTable.localField,
+                            foreignField: linkedTable.foreignField,
+                            as: linkedTable.as,
+                        },
+                    };
+                }),
+            ]).toArray();
+        }
         return await connection.collection(this.tableName).find(combinedWhere).toArray();
     }
 

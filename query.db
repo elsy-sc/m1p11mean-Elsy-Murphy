@@ -1,0 +1,24 @@
+[
+  {
+    $lookup: {
+      from: "utilisateur",
+      localField: "idclient",
+      foreignField: "_id",
+      as: "client",
+    },
+  },
+  {
+    $lookup: {
+      from: "service",
+      localField: "idservice",
+      foreignField: "_id",
+      as: "service",
+    },
+  },
+  {
+    $unwind: "$client",
+  },
+  {
+    $unwind: "$service",
+  },
+]
