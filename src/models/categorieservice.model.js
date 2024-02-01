@@ -21,9 +21,10 @@ class Categorieservice extends TableObject {
     }
 
     async delete (connection, afterWhereString) {
-        let tableobject = new TableObject();
-        tableobject._state = -1;
-        super.update(connection, tableobject, afterWhereString);
+        if (this._id == null || this._id == undefined || this._id.trim() == ""){
+            throw new Error("L'id du service est obligatoire");
+        }
+        await super.update(connection, {_state: -1}, afterWhereString);
     }
     
 }
