@@ -40,7 +40,9 @@ async function updateSuiviEmployeRendezvous(req, res) {
 
         const suiviemployerendezvousSet = new SuiviEmployeRendezvous(null, null, req.body?.dateheurefinsuivi);
         suiviemployerendezvousSet.setIdemploye(req.body?.idemploye);
-        suiviemployerendezvousSet.setDateheuredebutsuivi(req.body?.dateheuredebutsuivi);
+        suiviemployerendezvousSet.setIdclient(req.body?.idclient);
+        suiviemployerendezvousSet.setIdservice(req.body?.idservice);
+        suiviemployerendezvousSet._state = req.body?._state;
 
         await suiviemployerendezvousWhere.update(db, suiviemployerendezvousSet).then(() => {
             httpUtil.sendJson(res, null, 201, "OK");        
