@@ -7,6 +7,14 @@ class Depense extends TableObject {
         this.idtypedepense = idtypedepense;
         this.montant = montant;
         this.datedepense = datedepense;
+        this.linkedTableId = [
+            {
+                tableName: "typedepense",
+                foreignField: "_id",
+                localField: "idtypedepense",
+                as: "Type",
+            },
+        ];
     }
 
     setIdTypeDepense (idtypedepense) {

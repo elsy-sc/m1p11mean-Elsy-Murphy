@@ -18,6 +18,17 @@ async function createDepense(req, res) {
     }
 }
 
+async function readDepense(req, res) {
+    const db = await getMongoDBDatabase();
+    try {
+        await new Depense(req.body?.idtypedepense,  req.body?.montant , req.body?.datedepense).read(db).then((result) => {
+            httpUtil.sendJson(res, result, 201, "OK");
+        });
+    } catch (error) {
+        httpUtil.sendJson(res, null, 201, error.message);
+    }
+}
+
 async function updateDepense(req, res) {
     const db = await getMongoDBDatabase();
     try {
@@ -54,3 +65,4 @@ async function deleteDepense(req, res) {
 exports.createDepense = createDepense ;
 exports.updateDepense = updateDepense;
 exports.deleteDepense = deleteDepense;
+exports.readDepense = readDepense;

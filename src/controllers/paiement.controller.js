@@ -19,6 +19,17 @@ async function createPaiement(req, res) {
     }
 }
 
+async function readPaiement(req, res) {
+    const db = await getMongoDBDatabase();
+    try {
+        await new Paiement(req.body?.idclient, req.body?.idrendezvous, req.body?.montantpaye , req.body?.dateheurepaiement).read(db).then((result) => {
+            httpUtil.sendJson(res, result, 201, "OK");
+        });
+    } catch (error) {
+        httpUtil.sendJson(res, null, 201, error.message);
+    }
+}
+
 async function updatePaiement(req, res) {
     const db = await getMongoDBDatabase();
     try {
@@ -56,3 +67,4 @@ async function deletePaiement(req, res) {
 exports.createPaiement = createPaiement;
 exports.updatePaiement = updatePaiement;
 exports.deletePaiement = deletePaiement;
+exports.readPaiement = readPaiement;

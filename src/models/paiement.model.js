@@ -8,6 +8,20 @@ class Paiement extends TableObject {
         this.idrendezvous = idrendezvous;
         this.montantpaye = montantpaye;
         this.dateheurepaiement = dateheurepaiement;
+        this.linkedTableId = [
+            {
+                tableName: "utilisateur",
+                foreignField: "_id",
+                localField: "idclient",
+                as: "client",
+            },
+            {
+                tableName: "rendezvous",
+                foreignField: "_id",
+                localField: "idrendezvous",
+                as: "rendez-vous",
+            },
+        ];
     }
 
     setIdclient(idclient) {

@@ -1,10 +1,10 @@
 const express = require("express"); 
 const { getRouter } = require("../utils/route.express.util");
-const { createPaiement , updatePaiement , deletePaiement } = require("../controllers/paiement.controller");
+const { createPaiement , updatePaiement , deletePaiement , readPaiement } = require("../controllers/paiement.controller");
 const router = express.Router();
 
 router.post("/create", createPaiement);
-// router.get("/read", readTypeDepense);
+router.get("/read", readPaiement);
 router.put("/update", updatePaiement);
 router.delete("/delete", deletePaiement);
 
