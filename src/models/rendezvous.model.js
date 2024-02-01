@@ -1,10 +1,32 @@
 const { TableObject } = require("../bean/tableobject.bean");
+const { Date } = require("./date.bean.util");
 
 class Rendezvous extends TableObject {
     constructor(idclient, idservice, dateheurerendezvous) {
         super();
         this.idclient = idclient;
         this.idservice = idservice;
+        this.dateheurerendezvous = dateheurerendezvous;
+    }
+
+    setIdclient(idclient) {
+        if (idclient == null || idclient == undefined || idclient.trim() == "") {
+            throw new Error("L'id du client est obligatoire");
+        }
+        this.idclient = idclient;
+    }
+
+    setIdservice(idservice) {
+        if (idservice == null || idservice == undefined || idservice.trim() == "") {
+            throw new Error("L'id du service est obligatoire");
+        }
+        this.idservice = idservice;
+    }
+
+    setDateheurerendezvous(dateheurerendezvous) {
+        if (dateheurerendezvous == null || dateheurerendezvous == undefined || dateheurerendezvous.trim() == "") {
+            this.dateheurerendezvous = new Date();
+        }
         this.dateheurerendezvous = dateheurerendezvous;
     }
 
