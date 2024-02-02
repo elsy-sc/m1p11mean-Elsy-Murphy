@@ -1,4 +1,4 @@
-const { Date } = require("../bean/date.bean.util");
+const { Date } = require("../beans/date.bean.util");
 const { Rendezvous } = require("./rendezvous.model");
 
 class SuiviEmployeRendezvous extends Rendezvous {

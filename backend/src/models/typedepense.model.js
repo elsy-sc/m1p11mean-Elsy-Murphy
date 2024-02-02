@@ -1,4 +1,4 @@
-const { TableObject } = require("../bean/tableobject.bean");
+const { TableObject } = require("../beans/tableobject.bean");
 
 class TypeDepense extends TableObject {
     constructor (nom,description) {
