@@ -1,7 +1,10 @@
 const express = require("express"); 
 const { getRouter } = require("../utils/route.express.util");
 const { createCategorieservice, readCategorieservice, updateCategorieservice, deleteCategorieservice } = require("../controllers/categorieservice.controller");
+const { testToken } = require("../middlewares/tokenobject.middleware");
 const router = express.Router();
+
+router.use(testToken);
 
 router.post("/create", createCategorieservice);
 router.get("/read", readCategorieservice);
