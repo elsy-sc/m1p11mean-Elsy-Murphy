@@ -1,7 +1,12 @@
 function loadRoutes(app, routes) {
     if (!Array.isArray(routes)) routes = [routes];
     routes.forEach((route) => {
-        app.use('/' + process.env.APP_NAME|| 'app', route);
+        if (process.env.APP_NAME) {
+            app.use( '/' + process.env.APP_NAME, route);
+        }
+        else {
+            app.use(route);
+        }
     });
 }
 
