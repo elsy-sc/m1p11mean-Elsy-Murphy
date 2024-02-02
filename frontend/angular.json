@@ -3,9 +3,19 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "m1p11mean-elsy-murphy-frontend": {
+    "m1p11mean-elsy-murphy": {
       "projectType": "application",
-      "schematics": {},
+      "schematics": {
+        "@schematics/angular:component": {
+          "standalone": false
+        },
+        "@schematics/angular:directive": {
+          "standalone": false
+        },
+        "@schematics/angular:pipe": {
+          "standalone": false
+        }
+      },
       "root": "",
       "sourceRoot": "src",
       "prefix": "app",
@@ -13,7 +23,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/m1p11mean-elsy-murphy-frontend",
+            "outputPath": "dist/m1p11mean-elsy-murphy",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
@@ -61,10 +71,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "m1p11mean-elsy-murphy-frontend:build:production"
+              "buildTarget": "m1p11mean-elsy-murphy:build:production"
             },
             "development": {
-              "buildTarget": "m1p11mean-elsy-murphy-frontend:build:development"
+              "buildTarget": "m1p11mean-elsy-murphy:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -72,7 +82,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "buildTarget": "m1p11mean-elsy-murphy-frontend:build"
+            "buildTarget": "m1p11mean-elsy-murphy:build"
           }
         },
         "test": {
@@ -95,6 +105,6 @@
     }
   },
   "cli": {
-    "analytics": "08a10859-e432-4c1a-9957-97b881e12378"
+    "analytics": "8bea4b93-9397-410b-81f6-5437a4089cd0"
   }
 }
