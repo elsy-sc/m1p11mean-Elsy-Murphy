@@ -3,18 +3,16 @@ import { BrowserModule, provideClientHydration } from '@angular/platform-browser
 
 import { AppRoutingModule } from './app-routing.module';
 import { App } from './app.component';
-import { TextInput } from './components/input/textinput.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { InputTextModule } from 'primeng/inputtext';
+import { LabelInputModule } from './modules/labelinput.module';
 
 @NgModule({
   declarations: [
     App,
-    TextInput
   ],
   imports: [
     BrowserModule,
-    InputTextModule,
+    LabelInputModule,
     BrowserAnimationsModule,
     AppRoutingModule,
   ],
