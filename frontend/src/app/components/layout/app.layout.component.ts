@@ -25,9 +25,9 @@ export class AppLayoutComponent implements OnDestroy {
         this.overlayMenuOpenSubscription = this.layoutService.overlayOpen$.subscribe(() => {
             if (!this.menuOutsideClickListener) {
                 this.menuOutsideClickListener = this.renderer.listen('document', 'click', event => {
-                    const isOutsideClicked = !(this.appSidebar.el.nativeElement.isSameNode(event.target) || this.appSidebar.el.nativeElement.contains(event.target) 
+                    const isOutsideClicked = !(this.appSidebar.el.nativeElement.isSameNode(event.target) || this.appSidebar.el.nativeElement.contains(event.target)
                         || this.appTopbar.menuButton.nativeElement.isSameNode(event.target) || this.appTopbar.menuButton.nativeElement.contains(event.target));
-                    
+
                     if (isOutsideClicked) {
                         this.hideMenu();
                     }
@@ -86,14 +86,16 @@ export class AppLayoutComponent implements OnDestroy {
     }
 
     unblockBodyScroll(): void {
-        if (document.body.classList) {
-            document.body.classList.remove('blocked-scroll');
-        }
-        else {
-            document.body.className = document.body.className.replace(new RegExp('(^|\\b)' +
-                'blocked-scroll'.split(' ').join('|') + '(\\b|$)', 'gi'), ' ');
+        if (typeof document !== 'undefined' && document.body) {
+            if (document.body.classList) {
+                document.body.classList.remove('blocked-scroll');
+            } else {
+                document.body.className = document.body.className.replace(new RegExp('(^|\\b)' +
+                    'blocked-scroll'.split(' ').join('|') + '(\\b|$)', 'gi'), ' ');
+            }
         }
     }
+
 
     get containerClass() {
         return {
