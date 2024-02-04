@@ -1,6 +1,6 @@
 import { InputTextModule } from 'primeng/inputtext';
 import { NgModule } from '@angular/core';
-import { LabelInput } from '../components/labelinput/labelinput.component';
+import { LabelInput } from './labelinput.component';
 
 @NgModule({
     declarations: [
