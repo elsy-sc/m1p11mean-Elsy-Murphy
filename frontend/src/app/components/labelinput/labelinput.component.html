@@ -1,4 +1,19 @@
 <div class="flex flex-column gap-2 container">
-    <div class="labelContainer"><label class="label" for="username">Username</label></div>
-    <div class="inputContainer"><input class="input" pInputText id="username" aria-describedby="username-help" /></div>
+  <div class="labelContainer">
+    <label class="label" for="input">{{ label }}</label>
+  </div>
+  <div class="inputContainer">
+    <span class="p-input-icon-left p-input-icon-right">
+      <i class="{{ iconLeft }}"></i>
+      <input
+        id="input"
+        class="input"
+        pInputText
+        [name]="name"
+        [type]="type"
+        [value]="value"
+      />
+      <i class="{{ iconRight }}"></i>
+    </span>
+  </div>
 </div>

@@ -16,7 +16,8 @@ import { AppLayoutModule } from './components/layout/app.layout.module';
     LabelInputModule,
     BrowserAnimationsModule,
     AppRoutingModule,
-    AppLayoutModule
+    AppLayoutModule,
+    LabelInputModule
   ],
   providers: [
     provideClientHydration()
