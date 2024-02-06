@@ -1,13 +1,14 @@
 {
     "compilerOptions": {
-      "target": "es5", 
-      "module": "commonjs", 
-      "outDir": "./dist/m1p11mean-elsy-murphy-standalone",
-      "rootDir": ".",
-      "strict": true, 
-      "esModuleInterop": true,
-      "moduleResolution": "node", 
-      "sourceMap": true
+        "experimentalDecorators": true,
+        "target": "es5", 
+        "module": "commonjs", 
+        "outDir": "./dist/m1p11mean-elsy-murphy-standalone",
+        "rootDir": ".",
+        "strict": true, 
+        "esModuleInterop": true,
+        "moduleResolution": "node", 
+        "sourceMap": true
     },
     "include": ["src/app/main/test.main.ts"],
     "exclude": ["node_modules"]

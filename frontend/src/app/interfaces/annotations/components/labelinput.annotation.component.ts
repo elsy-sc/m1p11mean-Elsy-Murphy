@@ -1,3 +1,5 @@
+import 'reflect-metadata';
+
 export interface LabelInput {
     label?: string;
     type?: string;
@@ -8,13 +10,9 @@ export interface LabelInput {
     rest?: { [key: string]: any };
 }
 
-export function LabelInput(options: LabelInput) {
-    return function (target: any, propertyKey: string) {
-        Object.defineProperty(target, propertyKey, {
-            value: options,
-            enumerable: true,
-            configurable: true
-        });
+export function LabelInput(options: LabelInput): PropertyDecorator {
+    return function (target: Object, propertyKey: string | symbol) {
+        Reflect.defineMetadata('LabelInput', options, target, propertyKey);
     }
 }
 
