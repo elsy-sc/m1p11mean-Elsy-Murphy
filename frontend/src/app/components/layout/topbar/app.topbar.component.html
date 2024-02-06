@@ -12,18 +12,22 @@
         <i class="pi pi-ellipsis-v"></i>
     </button>
 
+    
+    <!-- <p-menubar [model]="tieredItems">
+        <ng-template pTemplate="end">
+            <span class="p-input-icon-right">
+                <input type="text" pInputText placeholder="Search">
+                <i class="pi pi-search"></i>
+            </span>
+        </ng-template>
+    </p-menubar> -->
+
     <div #topbarmenu class="layout-topbar-menu" [ngClass]="{'layout-topbar-menu-mobile-active': layoutService.state.profileSidebarVisible}">
-        <button class="p-link layout-topbar-button">
-            <i class="pi pi-calendar"></i>
-            <span>Calendar</span>
-        </button>
-        <button class="p-link layout-topbar-button">
+        <button class="p-link layout-topbar-button" (click)="menu.toggle($event)">
             <i class="pi pi-user"></i>
             <span>Profile</span>
         </button>
-        <button class="p-link layout-topbar-button" [routerLink]="'/documentation'">
-            <i class="pi pi-cog"></i>
-            <span>Settings</span>
-        </button>
+        <p-menu #menu [popup]="true" [model]="items"></p-menu>
     </div>
+    
 </div>

@@ -18,6 +18,8 @@ import { AppConfigModule } from './config/config.module';
 import { AppSidebarComponent } from "./sidebar/app.sidebar.component";
 import { AppLayoutComponent } from "./app.layout.component";
 import { CommonModule } from '@angular/common';
+import { MenuModule } from 'primeng/menu';
+import { MenubarModule } from 'primeng/menubar';
 
 @NgModule({
     declarations: [
@@ -26,7 +28,7 @@ import { CommonModule } from '@angular/common';
         AppFooterComponent,
         AppMenuComponent,
         AppSidebarComponent,
-        AppLayoutComponent,
+        AppLayoutComponent
     ],
     imports: [
         CommonModule,
@@ -41,7 +43,9 @@ import { CommonModule } from '@angular/common';
         InputSwitchModule,
         RippleModule,
         RouterModule,
-        AppConfigModule
+        AppConfigModule,
+        MenuModule,
+        MenubarModule
     ],
     exports: [AppLayoutComponent]
 })

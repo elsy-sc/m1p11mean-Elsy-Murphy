@@ -91,6 +91,24 @@ export class AppMenuComponent implements OnInit {
                                 ]
                             },
                         ]
+                    },
+                    {
+                        label: 'Submenu 3', icon: 'pi pi-fw pi-bookmark',
+                        items: [
+                            {
+                                label: 'Submenu 3.1', icon: 'pi pi-fw pi-bookmark',
+                                items: [
+                                    { label: 'Submenu 3.1.1', icon: 'pi pi-fw pi-bookmark' },
+                                    { label: 'Submenu 3.1.2', icon: 'pi pi-fw pi-bookmark' },
+                                ]
+                            },
+                            {
+                                label: 'Submenu 3.2', icon: 'pi pi-fw pi-bookmark',
+                                items: [
+                                    { label: 'Submenu 3.2.1', icon: 'pi pi-fw pi-bookmark' },
+                                ]
+                            },
+                        ]
                     }
                 ]
             }

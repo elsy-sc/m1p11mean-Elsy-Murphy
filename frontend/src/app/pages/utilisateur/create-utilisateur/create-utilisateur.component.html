@@ -1,0 +1,85 @@
+<div class="grid">
+	<div class="col-8 md:col-6">
+		<div class="card p-fluid">
+			<h5>Utilisateur</h5>
+			<div class="field">
+				<label htmlFor="name1">Nom</label>
+				<input pInputText id="name1" type="text" />
+			</div>
+			<div class="field">
+				<label htmlFor="name1">Prenom</label>
+				<input pInputText id="name1" type="text" />
+			</div>
+			<div class="field">
+				<label htmlFor="email1">Email</label>
+				<input pInputText id="email1" type="email" />
+			</div>
+			<div class="field">
+				<label for="">Sexe</label>
+				<div class="grid formgrid">
+					<div class="col-12 md:col-4">
+						<div class="field-radiobutton">
+							<p-radioButton name="sexe" value="Los Angeles" [(ngModel)]="valRadio" id="city2">
+							</p-radioButton>
+							<label for="city2">Homme</label>
+						</div>
+					</div>
+					<div class="col-12 md:col-4">
+						<div class="field-radiobutton">
+							<p-radioButton name="sexe" value="New York" [(ngModel)]="valRadio" id="city3">
+							</p-radioButton>
+							<label for="city3">Femme</label>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="field">
+				<label htmlFor="email1">Mot de passe</label>
+				<input pInputText id="email1" type="password" />
+			</div>
+			<div class="field">
+				<label for="">Situation</label>
+				<div class="grid formgrid">
+					<div class="col-12 md:col-4">
+						<div class="field-checkbox">
+							<p-checkbox name="group1" value="Marié" [(ngModel)]="valCheck" id="ny"></p-checkbox>
+							<label for="ny">Marié</label>
+						</div>
+					</div>
+					<div class="col-12 md:col-4">
+						<div class="field-checkbox">
+							<p-checkbox name="group1" value="Celibataire" [(ngModel)]="valCheck" id="sf"></p-checkbox>
+							<label for="sf">Celibataire</label>
+						</div>
+					</div>
+					<div class="col-12 md:col-4">
+						<div class="field-checkbox">
+							<p-checkbox name="group1" value="a des enfants" [(ngModel)]="valCheck" id="la"></p-checkbox>
+							<label for="la">a des enfants</label>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="field">
+				<label for="">Diplome</label>
+				<p-dropdown placeholder="Choisir " [options]="cities" [showClear]="true"></p-dropdown>
+			</div>
+			<div class="field">
+				<label for="">description</label>
+				<textarea rows="5" cols="30" placeholder="Your description" pInputTextarea></textarea>
+			</div>
+			<div class="field">
+				<label for="">Pays</label>
+				<p-multiSelect [options]="countries" [(ngModel)]="selectedMulti" placeholder="Select a Country"
+					optionLabel="value.name" class="multiselect-custom" display="chip">
+					<ng-template let-country pTemplate="item">
+						<div class="flex align-items-center">
+							<span class="ml-2">{{country.value.name}}</span>
+						</div>
+					</ng-template>
+				</p-multiSelect>
+			</div>
+			<button pButton label="Submit"></button>
+		</div>
+	</div>
+</div>
