@@ -3,9 +3,9 @@ import { LabelInput } from '../interfaces/annotations/components/labelinput.anno
 import { Utilisateur } from './utilisateur.model';
 
 export class Employe extends Utilisateur {
-    // @LabelInput({
-    //     name: 'cin',
-    // })
+    @LabelInput({
+        name: 'cin',
+    })
     cin: string|undefined;
     numerocartebancaire: string|undefined;
 

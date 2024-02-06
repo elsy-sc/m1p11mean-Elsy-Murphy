@@ -9,4 +9,6 @@ export class TableObject extends HtmlObject{
         this._id = id;
         this._state = state;
     }
+
+    
 }
