@@ -25,7 +25,7 @@ export class LabelInput {
   }
 
 
-  ngAfterViewOnInit() {
+  ngOnInit() {
     this.setRest();
   }
 }

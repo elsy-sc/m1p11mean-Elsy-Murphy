@@ -7,7 +7,7 @@ export interface LabelInput {
     value?: string;
     iconLeft?: string;
     iconRight?: string;
-    rest?: { [key: string]: any };
+    rest?: string; // { [key: string]: any }
 }
 
 export function LabelInput(options: LabelInput): PropertyDecorator {
@@ -60,7 +60,7 @@ function getIconRightKeyValueString( labelInput: LabelInput ) {
 
 function getRestKeyValueString( labelInput: LabelInput ) {
     if(labelInput.rest) {
-        return ` rest="${labelInput.rest}"`;
+        return ` [rest]="${labelInput.rest}"`;
     }
     return '';
 }

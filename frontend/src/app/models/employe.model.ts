@@ -6,6 +6,7 @@ export class Employe extends Utilisateur {
     @LabelInput({
         name: 'cin',
         type: 'text',
+        rest: "{required: 'true', placeholder: 'CIN'}"
     })
     cin: string|undefined;
     numerocartebancaire: string|undefined;
