@@ -1,11 +1,11 @@
 import moment from 'moment';
-import { Constante } from '../utils/constante.util';
+import { DATE_FORMAT } from '../utils/constante.util';
 
 class DateClass {
     date: string;
 
     constructor(date?: string | Date) {
-        const format = Constante.hasOwnProperty('DATE_FORMAT') ? Constante.DATE_FORMAT : "YYYY-MM-DD HH:mm:ss";
+        const format = DATE_FORMAT || "YYYY-MM-DD HH:mm:ss";
         if (!date) {
             this.date = moment().format(format);
         } else {

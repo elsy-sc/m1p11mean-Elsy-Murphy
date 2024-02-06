@@ -2,6 +2,8 @@
   "name": "m1p11mean-elsy-murphy",
   "version": "0.0.0",
   "scripts": {
+    "build-tsc": "tsc -p tsconfig-standalone.json",
+    "run-tsc": "node dist/m1p11mean-elsy-murphy-standalone/src/app/main/test.main.js",
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
