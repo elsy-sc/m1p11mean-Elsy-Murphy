@@ -5,6 +5,7 @@ import { Utilisateur } from './utilisateur.model';
 export class Employe extends Utilisateur {
     @LabelInput({
         name: 'cin',
+        type: 'text',
     })
     cin: string|undefined;
     numerocartebancaire: string|undefined;
