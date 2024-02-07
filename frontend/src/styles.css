@@ -10,3 +10,7 @@
 /* layout */
 @import "./assets/layout/styles/layout/layout.scss";  
 
+.container {
+    margin: 15px;
+}
+

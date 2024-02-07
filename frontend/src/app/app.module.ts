@@ -36,7 +36,8 @@ import { MultiSelectModule } from "primeng/multiselect";
     DropdownModule,
     RadioButtonModule,
     CheckboxModule,
-    MultiSelectModule
+    MultiSelectModule,
+    LabelInputModule
   ],
   providers: [
     provideClientHydration()

@@ -1,14 +1,22 @@
 import { Date } from '../beans/date.bean.util';
+import { Checkbox } from '../interfaces/annotations/components/checkbox.annotation.component';
 import { LabelInput } from '../interfaces/annotations/components/labelinput.annotation.component';
+import { Radio } from '../interfaces/annotations/components/radio.annotation.component';
 import { Utilisateur } from './utilisateur.model';
 
 export class Employe extends Utilisateur {
     @LabelInput({
+        label: 'CIN',
         name: 'cin',
         type: 'text',
-        rest: "{required: 'true', placeholder: 'CIN'}"
     })
     cin: string|undefined;
+    @Radio({
+        label: 'Avez-vous un numero de carte bancaire ?',
+        name: 'numeroCarteBancaire',
+        labelValues: {1: 'oui', 2: 'non'},
+        ngModel: 'numeroCarteBancaire',
+    })
     numerocartebancaire: string|undefined;
 
     constructor(nom?: string, prenom?: string, email?: string, datenaissance?: Date, numerotelephone?: string, motdepasse?: string, role?: number, cin?: string, numerocartebancaire?: string ) {

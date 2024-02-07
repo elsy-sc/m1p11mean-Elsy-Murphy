@@ -4,6 +4,4 @@ import { writeToFile } from "../utils/file.util";
 
 const employe = new Employe();
 
-console.log(employe.getLabelInputsHtml());
-
-writeToFile( process.cwd() + PAGE_PATH + 'employe/employe.html', employe.getLabelInputsHtml());
+writeToFile( process.cwd() + PAGE_PATH + 'employe/employe.html', employe.getElementsHtml());
