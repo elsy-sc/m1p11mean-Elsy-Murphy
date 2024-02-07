@@ -16,6 +16,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { CheckboxModule } from 'primeng/checkbox';
 import { MultiSelectModule } from "primeng/multiselect";
+import { ListeUtilisateurModule } from './pages/utilisateur/liste-utilisateur/liste-utilisateur.module';
 
 
 @NgModule({
@@ -37,7 +38,7 @@ import { MultiSelectModule } from "primeng/multiselect";
     RadioButtonModule,
     CheckboxModule,
     MultiSelectModule,
-    LabelInputModule
+    ListeUtilisateurModule
   ],
   providers: [
     provideClientHydration()
