@@ -33,7 +33,7 @@ export class Utilisateur extends TableObject {
     @Select({
         label: 'Role',
         name: 'role',
-        labelValues: {1: {id:1, name:'Employe'}, 2: {id:2, name:'Client'}, 3: {id:3, name:'Admin'}},
+        labelValues: "[{label:  'Employe',value: { id:  1, name: 'Employe' }},{label: 'Manager',value: { id:  2, name: 'Manager' }},{label: 'Client',value: { id:  2, name: 'Client' }},]",
         multiple: true,
         multipleLabelSearch: 'name'
     })
