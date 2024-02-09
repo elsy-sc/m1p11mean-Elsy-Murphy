@@ -2,7 +2,7 @@ export interface Select {
     label?: string;
     name: string;
     placeholder?: string;
-    labelValues?: {};
+    labelValues?: string;
     objectOptions?: {}; // object, label, value // { [key: string]: any }
     rest?: string; // { [key: string]: any }
     multiple: boolean;
@@ -45,15 +45,11 @@ function getNameKeyValueString ( select: Select ) {
 
 function getLabelValuesKeyValueString(select: Select) {
     if (select.labelValues) {
-        let result = "[options]=\"[";
-        for (let key in select.labelValues) {
-            result = result + "{label: '" + (select.labelValues as {[key: string]: string})[key] + "', value: '" + key + "'},";
-        }
-        result = result + "]\"";
-        return result;
+        return ` [options]="${select.labelValues}"`;
     }
     return '';
 }
+
 
 export function getSelectHtml(select: Select) {
     let result = "<div class=\"flex flex-column gap-2 container\">" + getLabelHtml(select) + "<div class=\"inputContainer\"><div class=\"grid formgrid\">"; 
