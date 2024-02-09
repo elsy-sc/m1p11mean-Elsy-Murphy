@@ -35,7 +35,7 @@ export function getRadioHtml(radio: Radio) {
     }
     else {
         for (let key in radio.labelValues) {
-            result = result + `<div class="p-field-radiobutton col-12 md:col-4"><p-radioButton [ngModel]="${radio.ngModel}" name="${radio.name}" ${getRestKeyValueString(radio)}value="${key}" label="${(radio.labelValues as {[key: string]: string})[key]}"></p-radioButton></div>`;
+            result = result + `<div class="p-field-radiobutton col-12 md:col-4"><p-radioButton [(ngModel)]="${radio.ngModel}" name="${radio.name}" ${getRestKeyValueString(radio)}value="${key}" label="${(radio.labelValues as {[key: string]: string})[key]}"></p-radioButton></div>`;
         }
     }
     result = result + "</div></div></div>";

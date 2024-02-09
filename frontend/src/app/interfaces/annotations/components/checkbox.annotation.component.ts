@@ -29,7 +29,7 @@ function getRestKeyValueString ( checkbox: Checkbox ) {
 
 function getNgModelKeyValueString(checkbox: Checkbox) {
     if (checkbox.ngModel) {
-        return ` [ngModel]="${checkbox.ngModel}"`;
+        return ` [(ngModel)]="${checkbox.ngModel}"`;
     }
     return '';
 }
