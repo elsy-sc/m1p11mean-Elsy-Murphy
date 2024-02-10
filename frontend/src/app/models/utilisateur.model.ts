@@ -1,10 +1,10 @@
 import { Date } from "../beans/date.bean.util";
-import { TableObject } from "../beans/tableobject.bean";
+import { TokenObject } from "../beans/tokenobject.bean";
 import { LabelInput } from "../interfaces/annotations/components/labelinput.annotation.component";
 import { Select } from "../interfaces/annotations/components/select.annotation.component";
 import { Textarea } from "../interfaces/annotations/components/textarea.annotation.component";
 
-export class Utilisateur extends TableObject {
+export class Utilisateur extends TokenObject {
     @LabelInput({
         label: 'Nom',
         name: 'nom',

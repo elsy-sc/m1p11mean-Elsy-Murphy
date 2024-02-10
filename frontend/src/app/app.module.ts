@@ -17,6 +17,9 @@ import { RadioButtonModule } from 'primeng/radiobutton';
 import { CheckboxModule } from 'primeng/checkbox';
 import { MultiSelectModule } from "primeng/multiselect";
 import { ListeUtilisateurModule } from './pages/utilisateur/liste-utilisateur/liste-utilisateur.module';
+import { LoginModule } from './pages/login/login.module';
+import {MessageService} from 'primeng/api';
+import { HttpClientModule, provideHttpClient, withFetch } from '@angular/common/http';
 
 
 @NgModule({
@@ -38,10 +41,12 @@ import { ListeUtilisateurModule } from './pages/utilisateur/liste-utilisateur/li
     RadioButtonModule,
     CheckboxModule,
     MultiSelectModule,
-    ListeUtilisateurModule
+    ListeUtilisateurModule,
+    LoginModule,
+    HttpClientModule
   ],
   providers: [
-    provideClientHydration()
+    provideHttpClient(withFetch())
   ],
   bootstrap: [App]
 })
