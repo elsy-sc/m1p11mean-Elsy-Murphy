@@ -3,6 +3,8 @@ import { HttpResponseApi } from '../../interfaces/http/HttpResponseApi';
 import { Utilisateur } from '../../models/utilisateur.model';
 import { LayoutService } from '../../services/layout/app.layout.service';
 import { UtilisateurService } from '../../services/utilisateur/utilisateur.service';
+import { Router } from '@angular/router';
+
 
 @Component({
     selector: 'app-login',
@@ -24,7 +26,7 @@ export class LoginComponent implements OnInit {
     motdepasseError: string|undefined;
 
 
-    constructor(public layoutService: LayoutService, private utilisateurService: UtilisateurService) { }
+    constructor(public layoutService: LayoutService, private utilisateurService: UtilisateurService, private router: Router) { }
 
     ngOnInit(): void {
         this.utilisateur = new Utilisateur(); 
@@ -36,14 +38,13 @@ export class LoginComponent implements OnInit {
     }
 
     login() {
-        this.utilisateurService.authentifications(this.utilisateur).subscribe
+        this.utilisateurService.authentications(this.utilisateur).subscribe
         ((response: HttpResponseApi) => {
             if (response.message == '' && response.status == 200) {
                 if (response.data) {
                     let utilisateurLogin = Object.assign(new Utilisateur(),response.data[0]);
-                    this.utilisateurService.updateUtilisateurConnecte(utilisateurLogin);
-                    this.utilisateurService.setToken(utilisateurLogin.tokenValue);
-                    console.log("utilisateur ==",this.utilisateurService.utilisateurConnecte);
+                    this.utilisateurService.setUserConnecte(utilisateurLogin);
+                    this.router.navigate(['/firstpage']);
                 }
             } else {
                 if (response.status == 401) {

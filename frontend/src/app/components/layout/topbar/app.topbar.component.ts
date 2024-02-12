@@ -1,6 +1,8 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MenuItem } from 'primeng/api';
+import { Utilisateur } from '../../../models/utilisateur.model';
 import { LayoutService } from "../../../services/layout/app.layout.service";
+import { UtilisateurService } from '../../../services/utilisateur/utilisateur.service';
 
 @Component({
     selector: 'app-topbar',
@@ -12,26 +14,34 @@ export class AppTopBarComponent implements OnInit {
     
     tieredItems: MenuItem[] = [];
 
+    utilisateur: Utilisateur|undefined;
+
     @ViewChild('menubutton') menuButton!: ElementRef;
 
     @ViewChild('topbarmenubutton') topbarMenuButton!: ElementRef;
 
     @ViewChild('topbarmenu') menu!: ElementRef;
 
-
-    constructor(public layoutService: LayoutService) { }
+    constructor(public layoutService: LayoutService, private utilisateurservice: UtilisateurService) { }
 
 
     ngOnInit(): void {
+
+        let userCOnnecte = this.utilisateurservice.getUserConnecte();
+        if (userCOnnecte) {
+            this.utilisateur = JSON.parse(userCOnnecte);
+        }
+
         //on cick utilisateurs
         this.items = [
             {
-                label: 'RAKOTO Jean',
+                label: this.utilisateur?.nom +' '+this.utilisateur?.prenom,
                 icon: ''
             },
             {
                 label: 'Deconnexion',
-                icon: 'pi pi-power-off'
+                icon: 'pi pi-power-off',
+                command: () => this.logout()
             }
         ];
 
@@ -118,7 +128,10 @@ export class AppTopBarComponent implements OnInit {
             }
         ];
 
+    }
 
+    logout () {
+        this.utilisateurservice.logout();
     }
 
 }

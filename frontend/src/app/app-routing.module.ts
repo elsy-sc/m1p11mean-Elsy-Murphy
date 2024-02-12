@@ -5,15 +5,16 @@ import { AppLayoutComponent } from './components/layout/app.layout.component';
 import { LoginComponent } from './pages/login/login.component';
 import { CreateUtilisateurComponent } from './pages/utilisateur/create-utilisateur/create-utilisateur.component';
 import { ListeUtilisateurComponent } from './pages/utilisateur/liste-utilisateur/liste-utilisateur.component';
+import { AuthGuard } from './services/routegarde/guard.route';
 
 const routes: Routes = [
-  // {
-  //   path: '' , component: AppLayoutComponent,
-  //   children: [
-  //     {path:'' , component: ListeUtilisateurComponent}
-  //   ]
-  // }
-  { path: '', component: LoginComponent }
+  { path: '', component: LoginComponent },
+  {
+    path: 'firstpage' , component: AppLayoutComponent,
+    children: [
+      {path:'' , component: ListeUtilisateurComponent, canActivate: [AuthGuard]}
+    ]
+  }
 ];
 
 @NgModule({
