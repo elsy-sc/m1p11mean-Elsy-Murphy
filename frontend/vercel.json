@@ -1,15 +1,16 @@
 {
   "version": 2,
-  "builds": [
+  "public": true,
+  "name": "m1p11mean-elsy-murphy",
+  "rewrites": [
     {
-      "src": "package.json",
-      "use": "@vercel/static-build"
+      "source": "/(.*)",
+      "destination": "/"
     }
   ],
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "/index.html"
+  "functions": {
+    "api/index.js": {
+      "includeFiles": "dist/m1p11mean-elsy-murphy/**"
     }
-  ]
+  }
 }
