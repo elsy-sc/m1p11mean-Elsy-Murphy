@@ -1,5 +1,5 @@
-const { Date } = require("../bean/date.bean.util");
-const { TableObject } = require("../bean/tableobject.bean");
+const { Date } = require("../beans/date.bean.util");
+const { TableObject } = require("../beans/tableobject.bean");
 
 class Rendezvous extends TableObject {
     constructor(idclient, idservice, dateheurerendezvous) {

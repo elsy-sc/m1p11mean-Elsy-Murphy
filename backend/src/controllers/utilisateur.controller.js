@@ -27,7 +27,6 @@ async function readUtilisateur (req , res) {
     const db = await getMongoDBDatabase();
     try {
         var utilisateur = new Utilisateur(req.body?.nom,req.body?.prenom,req.body?.email,req.body?.datenaissance,req.body?.numerotelephone,req.body?.motdepasse,req.body?.role);
-
         await utilisateur.read(db).then( (result) => {
             httpUtil.sendJson(res, result, 200);
         });
@@ -49,7 +48,7 @@ async function loginUtilisateur (req,res) {
             else {
                 var validmotdepasse = checkPassword(req.body?.motdepasse, result[0].motdepasse);
                 if (validmotdepasse) {
-                    httpUtil.sendJson(res,result[0],200);
+                    httpUtil.sendJson(res,result,200);
                 } else {
                     httpUtil.sendJson(res,null,401, "votre mot de passe est incorrect !!");
                 }
@@ -97,6 +96,8 @@ async function deleteUtilisateur (req, res) {
         httpUtil.sendJson(res,null,error.status || error.statusCode || 500,error.message);
     }
 }
+
+
 
 exports.createUtilisateur = createUtilisateur;
 exports.readUtilisateur = readUtilisateur;

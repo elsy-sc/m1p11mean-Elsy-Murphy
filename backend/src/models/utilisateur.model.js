@@ -1,5 +1,5 @@
 const {hashPassword} = require('../utils/hash.util');
-const { TokenObject } = require("../bean/tokenobject.bean.util");
+const { TokenObject } = require("../beans/tokenobject.bean.util");
 
 class Utilisateur extends TokenObject {
     constructor (nom , prenom , email , datenaissance , numerotelephone , motdepasse , role) {

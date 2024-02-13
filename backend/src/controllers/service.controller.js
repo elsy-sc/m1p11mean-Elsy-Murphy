@@ -21,7 +21,9 @@ async function createService(req, res) {
 async function readService(req, res) {
     const db = await getMongoDBDatabase();
     try {
-        await new Service(req.body?.idcategorieservice, req.body?.nom ? { $regex: new RegExp(req.body?.nom, 'i')} : null, req.body?.description ? { $regex: new RegExp(req.body?.description, 'i')} : null, req.body?.duree, req.body?.prix, req.body?.commission).read(db).then((result) => {
+        const service = new Service(req.body?.idcategorieservice, req.body?.nom ? { $regex: new RegExp(req.body?.nom, 'i')} : null, req.body?.description ? { $regex: new RegExp(req.body?.description, 'i')} : null, req.body?.duree, req.body?.prix, req.body?.commission);
+        service._id = req.body?._id;
+        await service.read(db).then((result) => {
             httpUtil.sendJson(res, result, 201, "OK");
         });
     } catch (error) {

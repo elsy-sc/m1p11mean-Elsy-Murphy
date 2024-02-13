@@ -1,7 +1,7 @@
 {
-  "name": "m1p11mean-elsy-murphy-back",
+  "name": "m1p11mean-elsy-murphy-backend",
   "version": "1.0.0",
-  "description": "PROJET MEAN Master 1 - Promotion 11 - BACK",
+  "description": "PROJET MEAN Master 1 - Promotion 11 - BACKEND",
   "main": "index.js",
   "scripts": {
     "start": "node .",
@@ -9,16 +9,17 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/elsy-sc/m1p11mean-Elsy-Murphy-back.git"
+    "url": "git+https://github.com/elsy-sc/m1p11mean-Elsy-Murphy.git"
   },
   "author": "https://github.com/elsy-sc",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/elsy-sc/m1p11mean-Elsy-Murphy-back/issues"
+    "url": "https://github.com/elsy-sc/m1p11mean-Elsy-Murphy/issues"
   },
-  "homepage": "https://github.com/elsy-sc/m1p11mean-Elsy-Murphy-back#readme",
+  "homepage": "https://github.com/elsy-sc/m1p11mean-Elsy-Murphy#readme",
   "dependencies": {
     "bcrypt": "^5.1.1",
+    "cors": "^2.8.5",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "jsonwebtoken": "^9.0.2",

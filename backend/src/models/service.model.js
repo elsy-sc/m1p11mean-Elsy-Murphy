@@ -1,4 +1,4 @@
-const { TableObject } = require("../bean/tableobject.bean");
+const { TableObject } = require("../beans/tableobject.bean");
 
 class Service extends TableObject {
     constructor(idcategorieservice, nom, description, duree, prix, commission) {
