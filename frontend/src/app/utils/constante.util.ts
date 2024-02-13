@@ -1,2 +1,3 @@
 export const DATE_FORMAT = "YYYY-MM-DD HH:mm:ss";
 export const PAGE_PATH = "/src/app/pages/";
+export const BASE_URL = 'https://m1p11mean-elsy-murphy.vercel.app';

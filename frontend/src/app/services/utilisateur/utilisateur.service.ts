@@ -4,8 +4,8 @@ import { response } from 'express';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { HttpResponseApi } from '../../interfaces/http/HttpResponseApi';
 import { Utilisateur } from '../../models/utilisateur.model';
-import { BASE_URL } from '../config';
 import { Router } from '@angular/router';
+import { BASE_URL } from '../../utils/constante.util';
 
 
 @Injectable({
