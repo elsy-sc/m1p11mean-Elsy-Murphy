@@ -9,7 +9,7 @@
     }
   ],
   "functions": {
-    "api/index.js": {
+    "index.js": {
       "includeFiles": "dist/m1p11mean-elsy-murphy/**"
     }
   }
