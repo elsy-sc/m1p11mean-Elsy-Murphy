@@ -7,7 +7,7 @@ import { Textarea, getTextareaHtml } from "../interfaces/annotations/components/
 import { getTitleHtml } from "../interfaces/annotations/list.annotation";
 import { getFields } from "../utils/reflect.util";
 
-export class HtmlObject {
+export class HtmlTsObject {
 
     public getLabelInputsHtml(): string {
         let result = '';

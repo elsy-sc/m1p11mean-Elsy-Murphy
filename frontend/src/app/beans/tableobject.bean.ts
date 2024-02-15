@@ -1,6 +1,6 @@
-import { HtmlObject } from "./htmlobject.bean";
+import { HtmlTsObject } from "./htmltsobject.bean";
 
-export class TableObject extends HtmlObject{
+export class TableObject extends HtmlTsObject{
     _id: string|undefined;
     _state: string|undefined;
     
