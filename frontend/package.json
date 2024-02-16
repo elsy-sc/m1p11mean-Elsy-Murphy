@@ -8,8 +8,7 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test",
-    "serve:ssr:m1p11mean-elsy-murphy": "node dist/m1p11mean-elsy-murphy/server/server.mjs"
+    "test": "ng test"
   },
   "private": true,
   "dependencies": {
