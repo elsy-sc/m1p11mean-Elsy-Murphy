@@ -16,7 +16,7 @@ async function createUtilisateur (req,res) {
         await utilisateur.setRole(req.body.role);
 
         await utilisateur.create(db).then(() => {
-            httpUtil.sendJson(res, null, 201, "Created");
+            httpUtil.sendJson(res,[utilisateur], 201, "Created");
         })
     } catch (error) {
         httpUtil.sendJson(res,null,error.status || error.statusCode || 500,error.message);
@@ -44,7 +44,7 @@ async function loginUtilisateur (req,res) {
         await utilisateur.read(db).then((result) => {
             if (result.length === 0) {
                 httpUtil.sendJson(res,null, 404 , "votre compte n'existe pas !!");
-            } 
+            }
             else {
                 var validmotdepasse = checkPassword(req.body?.motdepasse, result[0].motdepasse);
                 if (validmotdepasse) {

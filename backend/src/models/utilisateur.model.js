@@ -35,7 +35,7 @@ class Utilisateur extends TokenObject {
     }
 
     async setDateNaissance (datenaissance) {
-        if (datenaissance == null || datenaissance == undefined || datenaissance.trim() == '') {
+        if (datenaissance == null || datenaissance == undefined) {
             throw new Error('le champ datenaissance est obligatoire. veuillez entrer votre datenaissance');
         }
         this.datenaissance = datenaissance;
