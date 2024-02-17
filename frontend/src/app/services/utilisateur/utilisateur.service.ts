@@ -53,4 +53,15 @@ export class UtilisateurService {
     this.router.navigate(['/']);
   }
 
+  inscription (utilisateur: Utilisateur): Observable<HttpResponseApi> {
+    let url = BASE_URL + "/utilisateur/inscription";
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    let body = JSON.stringify(utilisateur);
+    return this.http.post<HttpResponseApi>(url,body,httpOptions);
+  }
+
 }

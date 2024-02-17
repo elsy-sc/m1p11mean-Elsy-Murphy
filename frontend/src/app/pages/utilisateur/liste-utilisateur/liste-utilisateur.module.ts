@@ -7,6 +7,7 @@ import { RippleModule } from 'primeng/ripple';
 import { InputTextModule } from 'primeng/inputtext';
 import { AccordionModule } from 'primeng/accordion';
 import { DropdownModule } from 'primeng/dropdown';
+import { ToastModule } from 'primeng/toast';
 
 
 @NgModule({
@@ -18,7 +19,8 @@ import { DropdownModule } from 'primeng/dropdown';
     RippleModule,
     InputTextModule,
     AccordionModule,
-    DropdownModule
+    DropdownModule,
+    ToastModule
   ]
 })
 export class ListeUtilisateurModule { }

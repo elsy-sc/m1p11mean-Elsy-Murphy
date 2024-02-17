@@ -20,6 +20,8 @@ import { ListeUtilisateurModule } from './pages/utilisateur/liste-utilisateur/li
 import { LoginModule } from './pages/login/login.module';
 import {MessageService} from 'primeng/api';
 import { HttpClientModule, provideHttpClient, withFetch } from '@angular/common/http';
+import { InscriptionComponent } from './pages/inscription/inscription/inscription.component';
+import { InscriptionModule } from './pages/inscription/inscription/inscription.module';
 
 
 @NgModule({
@@ -43,10 +45,12 @@ import { HttpClientModule, provideHttpClient, withFetch } from '@angular/common/
     MultiSelectModule,
     ListeUtilisateurModule,
     LoginModule,
-    HttpClientModule
+    HttpClientModule,
+    InscriptionModule
   ],
   providers: [
-    provideHttpClient(withFetch())
+    provideHttpClient(withFetch()),
+    MessageService
   ],
   bootstrap: [App]
 })
