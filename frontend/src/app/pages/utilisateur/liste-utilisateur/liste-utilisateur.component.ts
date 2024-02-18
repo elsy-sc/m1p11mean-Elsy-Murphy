@@ -20,6 +20,8 @@ export class ListeUtilisateurComponent implements OnInit {
 
   types: SelectItem[] = [];
 
+  showPopUp: boolean = false;
+
   ngOnInit(): void {
     this.utilisateurs = [
       new Utilisateur('RAKOTO','Jean','jean.rakoto@gmail.com',new Date('2000-01-01'),'032 89 768 67',undefined,1),
@@ -39,6 +41,22 @@ export class ListeUtilisateurComponent implements OnInit {
 
   onGlobalFilter(table: Table, event: Event) {
     table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
+  }
+
+  DeleteUtilisateur () {
+    this.showPopUp = true;    
+  }
+
+  handleClose() {
+    this.showPopUp = false;
+  }
+
+  CancelDeleteUtilisateur () {
+    this.showPopUp = false;
+  }
+
+  ValidDeleteUtilisateur () {
+
   }
 
 }

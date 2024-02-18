@@ -8,10 +8,13 @@ import { InputTextModule } from 'primeng/inputtext';
 import { AccordionModule } from 'primeng/accordion';
 import { DropdownModule } from 'primeng/dropdown';
 import { ToastModule } from 'primeng/toast';
+import { GenericPopupModule } from '../../../components/generic-popup/generic-popup.module';
 
 
 @NgModule({
-  declarations: [ListeUtilisateurComponent],
+  declarations: [
+    ListeUtilisateurComponent,
+  ],
   imports: [
     CommonModule,
     TableModule,
@@ -20,7 +23,8 @@ import { ToastModule } from 'primeng/toast';
     InputTextModule,
     AccordionModule,
     DropdownModule,
-    ToastModule
+    ToastModule,
+    GenericPopupModule
   ]
 })
 export class ListeUtilisateurModule { }

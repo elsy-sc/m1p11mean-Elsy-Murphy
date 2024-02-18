@@ -11,10 +11,11 @@
                             <span class="p-input-icon-left mb-2">
                                 <i class="pi pi-search"></i>
                                 <input pInputText type="text" #filter (input)="onGlobalFilter(dt1, $event)"
-                                placeholder="Search Keyword" class="w-full" />
+                                    placeholder="Search Keyword" class="w-full" />
                             </span>
                             <span class="p-input-icon-left space-between">
-                                <p-dropdown [options]="types" placeholder="Choisir Type"  [showClear]="true"></p-dropdown>
+                                <p-dropdown [options]="types" placeholder="Choisir Type" [showClear]="true">
+                                </p-dropdown>
                             </span>
                             <button pButton label="Recherche" class="p-button mb-2 space-between"></button>
                         </p-accordionTab>
@@ -42,7 +43,7 @@
                                 <button pButton pRipple icon="pi pi-pencil"
                                     class="p-button-rounded p-button-success mr-2" label="Modifier"></button>
                                 <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger"
-                                    label="Supprimer"></button>
+                                    label="Supprimer" (click)="DeleteUtilisateur()"></button>
                             </div>
                         </td>
                     </tr>
@@ -59,5 +60,8 @@
                 </ng-template>
             </p-table>
         </div>
+        <generic-popup title="Delete Utilisateur" subtitle="Etes-vous sûr de vouloir supprimer cette utilisateur ?"
+            [show]="showPopUp" (handleClose)="handleClose()" (validClick)="ValidDeleteUtilisateur()" (cancelClick)="CancelDeleteUtilisateur()">
+        </generic-popup>
     </div>
 </div>
