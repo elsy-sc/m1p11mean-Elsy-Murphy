@@ -5,7 +5,17 @@
   "projects": {
     "m1p11mean-elsy-murphy": {
       "projectType": "application",
-      "schematics": {},
+      "schematics": {
+        "@schematics/angular:component": {
+          "standalone": false
+        },
+        "@schematics/angular:directive": {
+          "standalone": false
+        },
+        "@schematics/angular:pipe": {
+          "standalone": false
+        }
+      },
       "root": "",
       "sourceRoot": "src",
       "prefix": "app",
@@ -21,7 +31,6 @@
             ],
             "tsConfig": "tsconfig.app.json",
             "assets": [
-              "src/favicon.ico",
               "src/assets"
             ],
             "styles": [
@@ -79,7 +88,6 @@
               "zone.js/testing"
             ],
             "assets": [
-              "src/favicon.ico",
               "src/assets"
             ],
             "styles": [
@@ -90,5 +98,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": "8bea4b93-9397-410b-81f6-5437a4089cd0"
   }
 }
