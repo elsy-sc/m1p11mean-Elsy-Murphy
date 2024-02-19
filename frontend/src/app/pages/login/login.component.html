@@ -12,12 +12,12 @@
                     <div class="fiels p-fluid  mb-5">
                         <label for="email1" class="block text-900 text-xl font-medium mb-2">Email</label>
                         <input id="email1" type="text" name="email" [(ngModel)]="utilisateur.email"  placeholder="adresse email" pInputText class="w-full md:w-30rem" style="padding:1rem" [ngClass]="{ 'ng-dirty ng-invalid': emailError}" (input)="onInput()">
-                        <p *ngIf="emailError" style="color: red;" class="input-error">{{emailError}}</p> 
+                        <p *ngIf="emailError" class="w-full md:w-30rem" style="color: red;" class="input-error">{{emailError}}</p> 
                     </div>
                     <div class="field p-fluid mb-5">
                         <label for="password1" class="block text-900 font-medium text-xl mb-2">Mot de passe</label>
                         <p-password id="password1" [feedback]="false" name="motdepasse" [(ngModel)]="utilisateur.motdepasse" placeholder="mot de passe" [toggleMask]="true" inputStyleClass="w-full p-3 md:w-30rem" [ngClass]="{ 'ng-dirty ng-invalid': motdepasseError}" (input)="onInput()"></p-password>
-                        <p *ngIf="motdepasseError" style="color: red;">{{motdepasseError}}</p>
+                        <p *ngIf="motdepasseError" class="w-full md:w-30rem" style="color: red;">{{motdepasseError}}</p>
                     </div>
 
 

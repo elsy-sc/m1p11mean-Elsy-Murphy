@@ -22,14 +22,14 @@ export class LoginComponent implements OnInit {
 
     utilisateur!: Utilisateur;
 
-    emailError: string|undefined;
-    motdepasseError: string|undefined;
+    emailError: string | undefined;
+    motdepasseError: string | undefined;
 
 
     constructor(public layoutService: LayoutService, private utilisateurService: UtilisateurService, private router: Router) { }
 
     ngOnInit(): void {
-        this.utilisateur = new Utilisateur(); 
+        this.utilisateur = new Utilisateur();
     }
 
     onInput() {
@@ -38,25 +38,33 @@ export class LoginComponent implements OnInit {
     }
 
     login() {
-        this.utilisateurService.authentications(this.utilisateur).subscribe
-        ((response: HttpResponseApi) => {
-            if (response.message == '' && response.status == 200) {
-                if (response.data) {
-                    let utilisateurLogin = Object.assign(new Utilisateur(),response.data[0]);
-                    this.utilisateurService.setUserConnecte(utilisateurLogin);
-                    this.router.navigate(['/firstpage']);
-                }
-            } else {
-                if (response.status == 401) {
-                    this.motdepasseError = response.message;
+        this.utilisateurService.authentications(this.utilisateur).subscribe(
+            (response: HttpResponseApi) => {
+                if (response.message == '' && response.status == 200) {
+                    if (response.data) {
+                        let utilisateurLogin = Object.assign(new Utilisateur(), response.data[0]);
+                        this.utilisateurService.setUserConnecte(utilisateurLogin);
+                        this.router.navigate(['/firstpage']);
+                    }
                 } else {
-                    this.emailError = response.message;
+                    if (response.status == 401) {
+                        this.motdepasseError = response.message;
+                    } 
+                    else if (response.status == 422) {
+                        if (this.utilisateur.email != undefined && this.utilisateur.email.trim() != '') {
+                            this.motdepasseError = response.message;
+                        } else {
+                            this.emailError = response.message;
+                        }
+                    }
+                    else if (response.status == 404) {
+                        this.emailError = response.message;
+                    }
                 }
+            },
+            (error: any) => {
+                console.error(error);
             }
-        }),
-        ((error: any) => {
-            console.error(error);
-        })
+        )
     }
-
 }
