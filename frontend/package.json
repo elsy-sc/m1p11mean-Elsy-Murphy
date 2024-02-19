@@ -21,20 +21,22 @@
     "@angular/platform-browser-dynamic": "^17.1.0",
     "@angular/platform-server": "^17.1.0",
     "@angular/router": "^17.1.0",
+    "express": "^4.18.2",
     "moment": "^2.30.1",
     "primeflex": "^3.3.1",
     "primeicons": "^6.0.1",
     "primeng": "^17.5.0",
     "reflect-metadata": "^0.2.1",
     "rxjs": "~7.8.0",
-    "tslib": "^2.3.0",
     "zone.js": "~0.14.3"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^17.1.2",
     "@angular/cli": "^17.1.2",
     "@angular/compiler-cli": "^17.1.0",
+    "@types/express": "^4.17.17",
     "@types/jasmine": "~5.1.0",
+    "@types/node": "^18.18.0",
     "jasmine-core": "~5.1.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.2.0",
@@ -42,5 +44,6 @@
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
     "typescript": "~5.3.2"
-  }
+  },
+  "type": "module"
 }
