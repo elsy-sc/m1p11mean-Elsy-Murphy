@@ -125,4 +125,41 @@ export class HtmlTsObject {
         return '';
     }
 
+    public getTsCreate(): string {
+        let result = '';
+        result = result + 'import { Component, OnInit } from "@angular/core";\n';
+        result = result + 'import { ' + this.constructor.name + ' } from "../../models/' + this.constructor.name.toLowerCase() + '.model";\n';
+        result = result + '@Component({\n';
+        result = result + '    selector: "create-' + this.constructor.name.toLowerCase() + '",\n';
+        result = result + '    templateUrl: "./create-' + this.constructor.name.toLowerCase() + '.component.html",\n';
+        result = result + '    styleUrls: ["./create-' + this.constructor.name.toLowerCase() + '.component.css"]\n';
+        result = result + '})\n';
+        result = result + 'export class Create' + this.constructor.name.charAt(0).toUpperCase() + this.constructor.name.slice(1) + ' implements OnInit {\n\n';
+        result = result + this.constructor.name.toLowerCase() + ': ' + this.constructor.name + ' = new ' + this.constructor.name + '();\n\n';
+        result = result + 'ngOnInit(): void {\n\n';
+        result = result + '}\n\n';
+        result = result + 'submit() {\n\n';
+        result = result + '}\n\n';  
+        result = result + '}';  
+        return result;
+    }
+
+    public getTsRead(): string {
+        let result = '';
+        result = result + 'import { Component, OnInit } from "@angular/core";\n';
+        result = result + 'import { ' + this.constructor.name + ' } from "../../models/' + this.constructor.name.toLowerCase() + '.model";\n';
+        result = result + '@Component({\n';
+        result = result + '    selector: "read-' + this.constructor.name.toLowerCase() + '",\n';
+        result = result + '    templateUrl: "./read-' + this.constructor.name.toLowerCase() + '.component.html",\n';
+        result = result + '    styleUrls: ["./read-' + this.constructor.name.toLowerCase() + '.component.css"]\n';
+        result = result + '})\n';
+        result = result + 'export class Read' + this.constructor.name.charAt(0).toUpperCase() + this.constructor.name.slice(1) + ' implements OnInit {\n\n';
+        result = result + this.constructor.name.toLowerCase() + 'Search: ' + this.constructor.name + ' = new ' + this.constructor.name + '();\n';
+        result = result + this.constructor.name.toLowerCase() + 'Liste: ' + this.constructor.name + '[] = [];\n\n';
+        result = result + 'ngOnInit(): void {\n\n';
+        result = result + '}\n\n';
+        result = result + '}';  
+        return result;
+    }
+
 }
