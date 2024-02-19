@@ -20,8 +20,8 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent implements OnInit {
 
+    isLoading: boolean = false;
     utilisateur!: Utilisateur;
-
     emailError: string | undefined;
     motdepasseError: string | undefined;
 
@@ -38,15 +38,18 @@ export class LoginComponent implements OnInit {
     }
 
     login() {
+        this.isLoading = true;
         this.utilisateurService.authentications(this.utilisateur).subscribe(
             (response: HttpResponseApi) => {
                 if (response.message == '' && response.status == 200) {
                     if (response.data) {
                         let utilisateurLogin = Object.assign(new Utilisateur(), response.data[0]);
                         this.utilisateurService.setUserConnecte(utilisateurLogin);
+                        this.isLoading = false;
                         this.router.navigate(['/firstpage']);
                     }
                 } else {
+                    this.isLoading = false;
                     if (response.status == 401) {
                         this.motdepasseError = response.message;
                     } 
@@ -63,6 +66,7 @@ export class LoginComponent implements OnInit {
                 }
             },
             (error: any) => {
+                this.isLoading = false;
                 console.error(error);
             }
         )
