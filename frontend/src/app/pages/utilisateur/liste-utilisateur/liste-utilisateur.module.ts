@@ -9,6 +9,7 @@ import { AccordionModule } from 'primeng/accordion';
 import { DropdownModule } from 'primeng/dropdown';
 import { ToastModule } from 'primeng/toast';
 import { GenericPopupModule } from '../../../components/generic-popup/generic-popup.module';
+import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -17,6 +18,7 @@ import { GenericPopupModule } from '../../../components/generic-popup/generic-po
   ],
   imports: [
     CommonModule,
+    FormsModule,
     TableModule,
     ButtonModule,
     RippleModule,

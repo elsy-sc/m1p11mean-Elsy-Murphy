@@ -8,16 +8,21 @@
                 <ng-template pTemplate="caption">
                     <p-accordion>
                         <p-accordionTab header="Recherche" [selected]="false" class="line-height-3 m-0">
-                            <span class="p-input-icon-left mb-2">
+                            <!-- <span class="p-input-icon-left mb-2">
                                 <i class="pi pi-search"></i>
                                 <input pInputText type="text" #filter (input)="onGlobalFilter(dt1, $event)"
-                                    placeholder="Search Keyword" class="w-full" />
+                                    placeholder="Cherche..." class="w-full" />
+                            </span> -->
+                            <span class="p-input space-between">
+                                <input pInputText id="nom"  [(ngModel)]="utilisateurSearch.nom" (input)="recherche()" placeholder="nom" type="text" />
                             </span>
-                            <span class="p-input-icon-left space-between">
-                                <p-dropdown [options]="types" placeholder="Choisir Type" [showClear]="true">
-                                </p-dropdown>
+                            <span class="p-input space-between">
+                                <input pInputText id="prenom" [(ngModel)]="utilisateurSearch.prenom"  (input)="recherche()"placeholder="prenom" type="text" />
                             </span>
-                            <button pButton label="Recherche" class="p-button mb-2 space-between"></button>
+                            <span class="p-input space-between">
+                                <input pInputText id="email" [(ngModel)]="utilisateurSearch.email" (input)="recherche()"  placeholder="email" type="text" />
+                            </span>
+                            <!-- <button pButton label="Recherche" class="p-button mb-2 space-between" (click)="recherche()" ></button> -->
                         </p-accordionTab>
                     </p-accordion>
                 </ng-template>

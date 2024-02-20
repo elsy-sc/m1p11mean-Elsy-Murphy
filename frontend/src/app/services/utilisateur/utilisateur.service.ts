@@ -73,15 +73,20 @@ export class UtilisateurService {
     return this.http.post<HttpResponseApi>(url, body, httpOptions);
   }
 
-  readAll(): Observable<HttpResponseApi> {
+  read(utilisateurSearch: Utilisateur): Observable<HttpResponseApi> {
     let url = BASE_URL + "/utilisateur/read";
     let token = this.getToken();
+
     const httpOptions = {
       headers: new HttpHeaders({
+        'Content-Type': 'application/json',
         'Authorization': `Bearer ${token}`
-      })
+      }),
     };
-    return this.http.get<HttpResponseApi>(url, httpOptions);
+
+    let body = JSON.stringify(utilisateurSearch);
+
+    return this.http.post<HttpResponseApi>(url,body,httpOptions);
   }
 
 }

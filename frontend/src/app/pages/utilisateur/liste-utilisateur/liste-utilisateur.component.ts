@@ -14,8 +14,8 @@ import { HttpResponseApi } from '../../../interfaces/http/HttpResponseApi';
 })
 export class ListeUtilisateurComponent implements OnInit {
 
+  utilisateurSearch: Utilisateur = new Utilisateur();
   utilisateurs: Utilisateur[] = [];
-
   loading: boolean = true;
 
   expanded: boolean = false;
@@ -48,8 +48,10 @@ export class ListeUtilisateurComponent implements OnInit {
   }
 
   getListUtilisateur () {
-    this.utilisateurService.readAll().subscribe(
+    this.utilisateurService.read(this.utilisateurSearch).subscribe(
       (response: HttpResponseApi) => {
+        console.log("params,",this.utilisateurSearch);
+        console.log("response ==",response);
         if (response.data) {
           this.utilisateurs = response.data;
         }
@@ -62,6 +64,10 @@ export class ListeUtilisateurComponent implements OnInit {
 
   onGlobalFilter(table: Table, event: Event) {
     table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
+  }
+
+  recherche () {
+    this.getListUtilisateur();
   }
 
   DeleteUtilisateur () {

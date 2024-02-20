@@ -4,9 +4,9 @@ const { TokenObject } = require("../beans/tokenobject.bean.util");
 class Utilisateur extends TokenObject {
     constructor (nom , prenom , email , datenaissance , numerotelephone , motdepasse , role) {
         super();        
-        this.nom = nom;
-        this.prenom = prenom;
-        this.email = email;
+        this.nom = (nom != undefined && nom != null && nom.toString().trim() != "")  ? nom : undefined;
+        this.prenom = (prenom != undefined &&  prenom != null && prenom.toString().trim() != "")  ? prenom : undefined;
+        this.email = (email != undefined && email != null && email.toString().trim() != "")  ? email : undefined;;
         this.datenaissance = datenaissance;
         this.numerotelephone = numerotelephone;
         this.motdepasse = motdepasse;

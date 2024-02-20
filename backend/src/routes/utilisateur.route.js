@@ -10,7 +10,7 @@ router.post("/inscription", inscriptionUtilisateur);
 router.use(testToken);
 
 router.post("/create", createUtilisateur);
-router.get("/read", readUtilisateur);
+router.post("/read", readUtilisateur);
 router.put("/update", updateUtilisateur);
 router.delete("/delete", deleteUtilisateur);
 
