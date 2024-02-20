@@ -16,6 +16,9 @@ PORT=[port]
 BCRYPT_SALT_ROUNDS=[bcrypt_salt_rounds]
 DATE_FORMAT=[date_format]
 SECRET_TOKEN_KEY=[secret_token_key]
+EMAIL_SERVICE=[email_service]
+EMAIL_USERNAME=[email_username]
+EMAIL_PASSWORD=[email_password]
 ```
 
 # Usage
