@@ -9,5 +9,6 @@ const employeRoute = require("./employe.route");
 const offrespecialeRoute = require("./offrespeciale.route");
 const depenseRoute = require("./depense.route");
 const horairetravailRoute = require("./horairetravail.route");
+const emailRoute = require("./email.route");
 
-module.exports = [categorieserviceRoute, serviceRoute , categorieserviceRoute,UtilisateurRoute, rendezvousRoute, suiviemployerendezvousRoute , employeRoute, offrespecialeRoute, typedepenseRoute , paiementRoute , depenseRoute , horairetravailRoute];
+module.exports = [categorieserviceRoute, serviceRoute , categorieserviceRoute,UtilisateurRoute, rendezvousRoute, suiviemployerendezvousRoute , employeRoute, offrespecialeRoute, typedepenseRoute , paiementRoute , depenseRoute , horairetravailRoute, emailRoute];
