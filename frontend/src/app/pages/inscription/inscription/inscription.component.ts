@@ -16,6 +16,7 @@ import { Date } from "../../../beans/date.bean.util";
 })
 export class InscriptionComponent implements OnInit {
 
+  isLoading: boolean = false;
   utilisateur!: Utilisateur;
 
   confirmotdepasse: string | undefined;
@@ -37,7 +38,7 @@ export class InscriptionComponent implements OnInit {
 
   isValideNom() {
     if (this.utilisateur.nom == null || this.utilisateur.nom == undefined || this.utilisateur.nom.trim() == '') {
-      this.errorNom = "Le champ nom est requis";
+      this.errorNom = "Veuillez entrez votre nom";
       return false;
     }
     return true;
@@ -45,7 +46,7 @@ export class InscriptionComponent implements OnInit {
 
   isValidePrenom() {
     if (this.utilisateur.prenom == null || this.utilisateur.prenom == undefined || this.utilisateur.prenom.trim() == '') {
-      this.errorPrenom = "Le champ prenom est requis";
+      this.errorPrenom = "Veuillez entrez votre prenom";
       return false;
     }
     return true;
@@ -53,7 +54,7 @@ export class InscriptionComponent implements OnInit {
 
   isValideMail() {
     if (this.utilisateur.email == null || this.utilisateur.email == undefined || this.utilisateur.email.trim() == '') {
-      this.errorEmail = "Le champ email est requis";
+      this.errorEmail = "Veuillez entrez votre email";
       return false;
     }
     return true;
@@ -63,13 +64,13 @@ export class InscriptionComponent implements OnInit {
     if (this.datenaissance != null && this.datenaissance != undefined && this.datenaissance.trim() != '') {
       return true;
     }
-    this.errrorDateNaissance = "Le champ date de naissance est requis";
+    this.errrorDateNaissance = "Veuillez entrez votre date de naissance";
     return false;
   }
 
   isValideNumeroTelephone() {
     if (this.utilisateur.numerotelephone == null || this.utilisateur.numerotelephone == undefined || this.utilisateur.numerotelephone.trim() == '') {
-      this.errorNumeroTelephone = "Le champ numero de telephone est requis";
+      this.errorNumeroTelephone = "Veuillez entrez votre numero de telephone";
       return false;
     }
     return true;
@@ -77,7 +78,7 @@ export class InscriptionComponent implements OnInit {
 
   isValideMotDePasse() {
     if (this.utilisateur.motdepasse == null || this.utilisateur.motdepasse == undefined || this.utilisateur.motdepasse.trim() == '') {
-      this.errorMotDePasse = "Le champ mot de passe est requis";
+      this.errorMotDePasse = "Veuillez entrez votre mot de passe";
       return false;
     }
     return true;
@@ -86,7 +87,7 @@ export class InscriptionComponent implements OnInit {
   isMotDePasseConfirme() {
     if (this.utilisateur.motdepasse) {
       if (this.confirmotdepasse == null || this.confirmotdepasse == undefined || this.utilisateur.motdepasse.trim() == '') {
-        this.errorConfirmMotDePasse = "Le champ de confirmation de mot de passe est requis";
+        this.errorConfirmMotDePasse = "Veuillez entrez votre mot de passe de confirmation";
       }
       else {
         if (this.utilisateur.motdepasse != this.confirmotdepasse) {
@@ -117,26 +118,34 @@ export class InscriptionComponent implements OnInit {
   }
 
   incription() {
+    this.isLoading = true;
     let isValide = this.isInscriptioValide();
     if (isValide) {
       this.utilisateur.datenaissance = new Date(this.datenaissance);
       this.utilisateur.role = 2;
       this.utilisateurService.inscription(this.utilisateur).subscribe(
         ((response: HttpResponseApi) => {
-          console.log("response ==", response);
+          this.isLoading = false;
           if (response.status == 201) {
             if (response.data) {
               this.utilisateurService.setUserConnecte(response.data[0]);
               this.router.navigate(['/firstpage']);
             }
-          } else {
+          } 
+          else if (response.status == 400) {
+            this.errorEmail = response.message;
+          }
+          else {
             this.messageService.add({severity:'error',summary:'Erreur',detail: response.message});
           }
         }),
         ((error) => {
+          this.isLoading = false;
           console.error(error);
         })
       )
+    } else {
+      this.isLoading = false;
     }
   }
 

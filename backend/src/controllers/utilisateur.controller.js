@@ -62,6 +62,34 @@ async function loginUtilisateur(req, res) {
     }
 }
 
+async function inscriptionUtilisateur(req, res) {
+    const db = await getMongoDBDatabase();
+    try {
+        var utilisateur = new Utilisateur();
+        await utilisateur.setNom(req.body.nom);
+        await utilisateur.setPrenom(req.body.prenom);
+        await utilisateur.setEmail(req.body.email);
+        await utilisateur.setDateNaissance(req.body.datenaissance);
+        await utilisateur.setNumeroTelephone(req.body.numerotelephone);
+        await utilisateur.setMotDePasse(req.body.motdepasse);
+        await utilisateur.setRole(req.body.role);
+
+        var existingutilisateur = new Utilisateur();
+        existingutilisateur.email = utilisateur.email;
+        await existingutilisateur.read(db).then((result) =>{
+            if (result.length !== 0) {
+                httpUtil.sendJson(res, null, 400, "Adresse e-mail déjà utilisée. Veuillez choisir une autre adresse e-mail.");
+            } else {
+                utilisateur.create(db).then(() => {
+                    httpUtil.sendJson(res, [utilisateur], 201, "Created");
+                })
+            }
+        });
+    } catch (error) {
+        httpUtil.sendJson(res, null, error.status || error.statusCode || 500, error.message);
+    }
+}
+
 async function updateUtilisateur(req, res) {
     const db = await getMongoDBDatabase();
     try {
@@ -107,3 +135,4 @@ exports.readUtilisateur = readUtilisateur;
 exports.loginUtilisateur = loginUtilisateur;
 exports.updateUtilisateur = updateUtilisateur;
 exports.deleteUtilisateur = deleteUtilisateur;
+exports.inscriptionUtilisateur = inscriptionUtilisateur;

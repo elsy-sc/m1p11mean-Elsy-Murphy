@@ -16,7 +16,7 @@ export class UtilisateurService {
   private utilisateurConnecteSubject = new BehaviorSubject<Utilisateur | null>(null);
   public utilisateurConnecte = this.utilisateurConnecteSubject.asObservable();
 
-  constructor(private http: HttpClient, private router: Router) {  }
+  constructor(private http: HttpClient, private router: Router) { }
 
   authentications(utilisateur: Utilisateur): Observable<HttpResponseApi> {
     let url = BASE_URL + "/utilisateur/login";
@@ -38,7 +38,7 @@ export class UtilisateurService {
 
   setUserConnecte(user: Utilisateur): void {
     if (typeof window !== 'undefined') {
-      localStorage.setItem("user",JSON.stringify(user));
+      localStorage.setItem("user", JSON.stringify(user));
     }
   }
 
@@ -48,12 +48,21 @@ export class UtilisateurService {
     }
   }
 
+  getToken(): string {
+    let userConnecte = this.getUserConnecte();
+    if (userConnecte) {
+      let token = JSON.parse(userConnecte).tokenValue;
+      return token;
+    }
+    return '';
+  }
+
   logout() {
     this.removeUserConnecte();
     this.router.navigate(['/']);
   }
 
-  inscription (utilisateur: Utilisateur): Observable<HttpResponseApi> {
+  inscription(utilisateur: Utilisateur): Observable<HttpResponseApi> {
     let url = BASE_URL + "/utilisateur/inscription";
     const httpOptions = {
       headers: new HttpHeaders({
@@ -61,7 +70,18 @@ export class UtilisateurService {
       })
     };
     let body = JSON.stringify(utilisateur);
-    return this.http.post<HttpResponseApi>(url,body,httpOptions);
+    return this.http.post<HttpResponseApi>(url, body, httpOptions);
+  }
+
+  readAll(): Observable<HttpResponseApi> {
+    let url = BASE_URL + "/utilisateur/read";
+    let token = this.getToken();
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Authorization': `Bearer ${token}`
+      })
+    };
+    return this.http.get<HttpResponseApi>(url, httpOptions);
   }
 
 }

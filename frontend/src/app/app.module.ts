@@ -6,7 +6,6 @@ import { App } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LabelInputModule } from './components/labelinput/labelinput.module';
 import { AppLayoutModule } from './components/layout/app.layout.module';
-import { UtilisateurComponent } from './pages/utilisateur/utilisateur.component';
 import { CreateUtilisateurComponent } from './pages/utilisateur/create-utilisateur/create-utilisateur.component';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
@@ -22,12 +21,12 @@ import {MessageService} from 'primeng/api';
 import { HttpClientModule, provideHttpClient, withFetch } from '@angular/common/http';
 import { InscriptionComponent } from './pages/inscription/inscription/inscription.component';
 import { InscriptionModule } from './pages/inscription/inscription/inscription.module';
+import { CreateUtilisateurModule } from './pages/utilisateur/create-utilisateur/create-utilisateur.module';
 
 
 @NgModule({
   declarations: [
-    App,
-    CreateUtilisateurComponent
+    App
   ],
   imports: [
     BrowserModule,
@@ -46,7 +45,8 @@ import { InscriptionModule } from './pages/inscription/inscription/inscription.m
     ListeUtilisateurModule,
     LoginModule,
     HttpClientModule,
-    InscriptionModule
+    InscriptionModule,
+    CreateUtilisateurModule
   ],
   providers: [
     provideHttpClient(withFetch()),

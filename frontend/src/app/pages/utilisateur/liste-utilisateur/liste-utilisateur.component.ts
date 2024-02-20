@@ -3,6 +3,8 @@ import { Date } from '../../../beans/date.bean.util';
 import { Utilisateur } from '../../../models/utilisateur.model';
 import { Table } from 'primeng/table';
 import { SelectItem } from 'primeng/api';
+import { UtilisateurService } from '../../../services/utilisateur/utilisateur.service';
+import { HttpResponseApi } from '../../../interfaces/http/HttpResponseApi';
 
 
 @Component({
@@ -22,13 +24,19 @@ export class ListeUtilisateurComponent implements OnInit {
 
   showPopUp: boolean = false;
 
+  constructor (private utilisateurService :UtilisateurService) {
+
+  }
+
   ngOnInit(): void {
-    this.utilisateurs = [
-      new Utilisateur('RAKOTO','Jean','jean.rakoto@gmail.com',new Date('2000-01-01'),'032 89 768 67',undefined,1),
-      new Utilisateur('RASOA','Jeanne','jeanne.rasoa@gmail.com',new Date('2000-01-01'),'032 89 768 67',undefined,1),
-      new Utilisateur('RABAO','Be','be.rabao@gmail.com',new Date('2000-01-01'),'032 89 768 67',undefined,1),
-      new Utilisateur('RASETA','Soa','soa.raseta@gmail.com',new Date('2000-01-01'),'032 89 768 67',undefined,1),
-    ];
+    // this.utilisateurs = [
+    //   new Utilisateur('RAKOTO','Jean','jean.rakoto@gmail.com',new Date('2000-01-01'),'032 89 768 67',undefined,1),
+    //   new Utilisateur('RASOA','Jeanne','jeanne.rasoa@gmail.com',new Date('2000-01-01'),'032 89 768 67',undefined,1),
+    //   new Utilisateur('RABAO','Be','be.rabao@gmail.com',new Date('2000-01-01'),'032 89 768 67',undefined,1),
+    //   new Utilisateur('RASETA','Soa','soa.raseta@gmail.com',new Date('2000-01-01'),'032 89 768 67',undefined,1),
+    // ];
+
+    this.getListUtilisateur();
 
     this.types = [
       { label: 'Employe', value: { id: 1, name: 'Employe', code: 'Emp' } },
@@ -37,6 +45,19 @@ export class ListeUtilisateurComponent implements OnInit {
     ]
 
     this.loading = false;
+  }
+
+  getListUtilisateur () {
+    this.utilisateurService.readAll().subscribe(
+      (response: HttpResponseApi) => {
+        if (response.data) {
+          this.utilisateurs = response.data;
+        }
+      },
+      (error) => {
+        console.error(error);
+      }
+    )
   }
 
   onGlobalFilter(table: Table, event: Event) {

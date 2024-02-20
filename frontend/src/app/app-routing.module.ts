@@ -14,7 +14,8 @@ const routes: Routes = [
   {
     path: 'firstpage' , component: AppLayoutComponent,
     children: [
-      {path:'' , component: ListeUtilisateurComponent, canActivate: [AuthGuard]}
+      {path:'' , component: ListeUtilisateurComponent, canActivate: [AuthGuard]},
+      {path:'utilisateur/create' , component: CreateUtilisateurComponent, canActivate: [AuthGuard]},
     ]
   }
 ];
