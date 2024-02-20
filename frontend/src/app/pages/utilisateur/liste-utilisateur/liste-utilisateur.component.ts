@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Date } from '../../../beans/date.bean.util';
 import { Utilisateur } from '../../../models/utilisateur.model';
 import { Table } from 'primeng/table';
-import { SelectItem } from 'primeng/api';
+import { MessageService, SelectItem } from 'primeng/api';
 import { UtilisateurService } from '../../../services/utilisateur/utilisateur.service';
 import { HttpResponseApi } from '../../../interfaces/http/HttpResponseApi';
 
@@ -15,6 +15,7 @@ import { HttpResponseApi } from '../../../interfaces/http/HttpResponseApi';
 export class ListeUtilisateurComponent implements OnInit {
 
   utilisateurSearch: Utilisateur = new Utilisateur();
+  utilisateurDelete: Utilisateur = new Utilisateur();
   utilisateurs: Utilisateur[] = [];
   loading: boolean = true;
 
@@ -24,18 +25,11 @@ export class ListeUtilisateurComponent implements OnInit {
 
   showPopUp: boolean = false;
 
-  constructor (private utilisateurService :UtilisateurService) {
+  constructor (private utilisateurService :UtilisateurService, private messageService: MessageService) {
 
   }
 
   ngOnInit(): void {
-    // this.utilisateurs = [
-    //   new Utilisateur('RAKOTO','Jean','jean.rakoto@gmail.com',new Date('2000-01-01'),'032 89 768 67',undefined,1),
-    //   new Utilisateur('RASOA','Jeanne','jeanne.rasoa@gmail.com',new Date('2000-01-01'),'032 89 768 67',undefined,1),
-    //   new Utilisateur('RABAO','Be','be.rabao@gmail.com',new Date('2000-01-01'),'032 89 768 67',undefined,1),
-    //   new Utilisateur('RASETA','Soa','soa.raseta@gmail.com',new Date('2000-01-01'),'032 89 768 67',undefined,1),
-    // ];
-
     this.getListUtilisateur();
 
     this.types = [
@@ -62,16 +56,13 @@ export class ListeUtilisateurComponent implements OnInit {
     )
   }
 
-  onGlobalFilter(table: Table, event: Event) {
-    table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
-  }
-
   recherche () {
     this.getListUtilisateur();
   }
 
-  DeleteUtilisateur () {
-    this.showPopUp = true;    
+  DeleteUtilisateur (utilisateur: Utilisateur) {
+    this.showPopUp = true;
+    this.utilisateurDelete = utilisateur;    
   }
 
   handleClose() {
@@ -83,7 +74,21 @@ export class ListeUtilisateurComponent implements OnInit {
   }
 
   ValidDeleteUtilisateur () {
-
+    this.showPopUp = false;
+    this.loading = true;
+    this.utilisateurService.delete(this.utilisateurDelete).subscribe(
+      (response: HttpResponseApi) => {
+        if (response.status == 200 && response.message == "OK") {
+          this.getListUtilisateur();
+          this.loading = false;
+          this.messageService.add({severity:'success',summary:'Success',detail: "L'utilisateur a été supprimé avec succès."});
+        }
+      },
+      (error) => {
+        this.loading = false;
+        console.error(error);
+      }
+    )
   }
 
 }

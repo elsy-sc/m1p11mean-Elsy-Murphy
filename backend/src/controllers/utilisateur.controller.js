@@ -121,7 +121,7 @@ async function deleteUtilisateur(req, res) {
         utilisateur._id = req.body?._id;
 
         await utilisateur.delete(db).then(() => {
-            httpUtil.sendJson(res, null, 201, "OK");
+            httpUtil.sendJson(res, null, 200, "OK");
         });
     } catch (error) {
         httpUtil.sendJson(res, null, error.status || error.statusCode || 500, error.message);

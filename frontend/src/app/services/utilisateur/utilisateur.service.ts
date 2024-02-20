@@ -76,7 +76,6 @@ export class UtilisateurService {
   read(utilisateurSearch: Utilisateur): Observable<HttpResponseApi> {
     let url = BASE_URL + "/utilisateur/read";
     let token = this.getToken();
-
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -87,6 +86,19 @@ export class UtilisateurService {
     let body = JSON.stringify(utilisateurSearch);
 
     return this.http.post<HttpResponseApi>(url,body,httpOptions);
+  }
+
+  delete (utilisateur: Utilisateur): Observable<HttpResponseApi> {
+    let url = BASE_URL + "/utilisateur/delete";
+    let token = this.getToken();
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      }),
+      body: {_id: utilisateur._id}
+    };
+    return this.http.delete<HttpResponseApi>(url,httpOptions);
   }
 
 }

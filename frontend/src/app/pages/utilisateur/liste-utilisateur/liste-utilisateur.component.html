@@ -48,7 +48,7 @@
                                 <button pButton pRipple icon="pi pi-pencil"
                                     class="p-button-rounded p-button-success mr-2" label="Modifier"></button>
                                 <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger"
-                                    label="Supprimer" (click)="DeleteUtilisateur()"></button>
+                                    label="Supprimer" (click)="DeleteUtilisateur(utilisateur)"></button>
                             </div>
                         </td>
                     </tr>
@@ -65,7 +65,7 @@
                 </ng-template>
             </p-table>
         </div>
-        <generic-popup title="Delete Utilisateur" subtitle="Etes-vous sûr de vouloir supprimer cette utilisateur ?"
+        <generic-popup title="Supprimer Utilisateur" subtitle="Etes-vous sûr de vouloir supprimer cette utilisateur ?"
             [show]="showPopUp" (handleClose)="handleClose()" (validClick)="ValidDeleteUtilisateur()" (cancelClick)="CancelDeleteUtilisateur()">
         </generic-popup>
     </div>
