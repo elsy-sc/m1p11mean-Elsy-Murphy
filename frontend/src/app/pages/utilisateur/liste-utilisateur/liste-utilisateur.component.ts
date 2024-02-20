@@ -31,13 +31,6 @@ export class ListeUtilisateurComponent implements OnInit {
 
   ngOnInit(): void {
     this.getListUtilisateur();
-
-    this.types = [
-      { label: 'Employe', value: { id: 1, name: 'Employe', code: 'Emp' } },
-      { label: 'Client', value: { id: 1, name: 'Client', code: 'Cli' } },
-      { label: 'Manager', value: { id: 1, name: 'Manager', code: 'Mg' } },
-    ]
-
     this.loading = false;
   }
 

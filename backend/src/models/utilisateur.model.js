@@ -15,49 +15,67 @@ class Utilisateur extends TokenObject {
 
     async setNom (nom) {
         if (nom == null || nom == undefined || nom.trim() == '') {
-            throw new Error('le champ nom est obligatoire. veuillez entrer votre nom');
+            throw {
+                field: 'nom',
+                message: 'Le champ nom est obligatoire. veuillez entrer votre nom'
+            }
         }
         this.nom = nom;
     }
 
     async setPrenom (prenom) {
         if (prenom == null || prenom == undefined || prenom.trim() == '') {
-            throw new Error('le champ prenom est obligatoire. veuillez entrer votre prenom');
+            throw {
+                field: 'prenom',
+                message: 'Le champ prenom est obligatoire. veuillez entrer votre prenom'
+            }
         }
         this.prenom = prenom;
     }
 
     async setEmail (email) {
         if (email == null || email == undefined || email.trim() == '') {
-            throw new Error('le champ email est obligatoire. veuillez entrer votre email');
+            throw {
+                field: 'email',
+                message: 'Le champ email est obligatoire. veuillez entrer votre email'
+            }
         }
         this.email = email;
     }
 
     async setDateNaissance (datenaissance) {
         if (datenaissance == null || datenaissance == undefined) {
-            throw new Error('le champ datenaissance est obligatoire. veuillez entrer votre datenaissance');
+            throw {
+                field: 'datenaissance',
+                message: 'Le champ datenaissance est obligatoire. veuillez entrer votre datenaissance'
+            }
         }
         this.datenaissance = datenaissance;
     }
 
     async setNumeroTelephone (numerotelephone) {
         if (numerotelephone == null || numerotelephone == undefined || numerotelephone.trim() == '') {
-            throw new Error('le champ numerotelephone est obligatoire. veuillez entrer votre numerotelephone');
+            throw {
+                field: 'numerotelephone',
+                message: 'Le champ numerotelephone est obligatoire. veuillez entrer votre numerotelephone'
+            }
         }
         this.numerotelephone = numerotelephone;
     }
 
     async setMotDePasse (motdepasse) {
         if (motdepasse == null || motdepasse == undefined || motdepasse.trim() == '') {
-            throw new Error('le champ motdepasse est obligatoire. veuillez entrer votre motdepasse');
+            throw {
+                field: 'motdepasse',
+                message: 'Le champ motdepasse est obligatoire. veuillez entrer votre motdepasse'
+            }
         }
         this.motdepasse =  hashPassword(motdepasse);
     }
     
     async setRole (role) {
         if (role == null || role == undefined) {
-            throw new Error('le champ role est obligatoire. veuillez entrer votre role');
+            throw new Error('Le champ role est obligatoire. veuillez entrer votre role');
         }
         this.role = role;
     }

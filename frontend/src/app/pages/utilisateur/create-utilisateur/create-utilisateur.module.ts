@@ -10,6 +10,8 @@ import { DropdownModule } from 'primeng/dropdown';
 import { CheckboxModule } from 'primeng/checkbox';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { AppLayoutModule } from '../../../components/layout/app.layout.module';
+import { PasswordModule } from 'primeng/password';
+import { ToastModule } from 'primeng/toast';
 
 
 
@@ -27,6 +29,8 @@ import { AppLayoutModule } from '../../../components/layout/app.layout.module';
     RadioButtonModule,
     CheckboxModule,
     MultiSelectModule,
+    PasswordModule,
+    ToastModule,
   ]
 })
 export class CreateUtilisateurModule { }

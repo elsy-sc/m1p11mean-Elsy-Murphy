@@ -5,6 +5,7 @@ const { checkPassword } = require('../utils/hash.util');
 
 async function createUtilisateur(req, res) {
     const db = await getMongoDBDatabase();
+    let errors = [];
     try {
         var utilisateur = new Utilisateur();
         await utilisateur.setNom(req.body.nom);
@@ -19,7 +20,20 @@ async function createUtilisateur(req, res) {
             httpUtil.sendJson(res, [utilisateur], 201, "Created");
         })
     } catch (error) {
-        httpUtil.sendJson(res, null, error.status || error.statusCode || 500, error.message);
+        if (error.field && error.message) {
+            errors.push(error);
+        } 
+        else if (error.code) {
+            let field  = error.keyPattern ? Object.keys(error.keyPattern)[0] : null;
+            if (field) {
+                let error = {
+                    field: field,
+                    message: field+" déjà utilisée. Veuillez choisir une autre "+field
+                }
+                errors.push(error);
+            }
+        }
+        httpUtil.sendJson(res, errors, 422, "error");
     }
 }
 

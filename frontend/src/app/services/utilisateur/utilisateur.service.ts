@@ -101,4 +101,18 @@ export class UtilisateurService {
     return this.http.delete<HttpResponseApi>(url,httpOptions);
   }
 
+  create (utilisateur: Utilisateur): Observable<HttpResponseApi> {
+    let url = BASE_URL + "/utilisateur/create";
+    let token = this.getToken();
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      }),
+    };
+    let body = JSON.stringify(utilisateur);
+
+    return this.http.post<HttpResponseApi>(url,body,httpOptions);
+  }
+
 }
