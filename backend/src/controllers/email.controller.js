@@ -8,7 +8,7 @@ async function sendMail (req, res) {
         const email = new Email(req.body?.receiver);
         email.setCode(code);
         await email.sendMail().then((info) => {
-            httpUtil.sendJson(res, info, 201, "OK");
+            httpUtil.sendJson(res, email.getSanitizedObject(), 201, "OK");
         });
     } catch (error) {
         httpUtil.sendJson(res, null, 400, error.message);
