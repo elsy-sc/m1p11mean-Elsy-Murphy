@@ -192,11 +192,11 @@ export class HtmlTsObject {
     public getTsCreate(): string {
         let result = '';
         result = result + 'import { MessageService } from "primeng/api";\n';
-        result = result + 'import {HttpResponseApi} from "../../interfaces/http/HttpResponseApi";\n';
+        result = result + 'import {HttpResponseApi} from "../../../interfaces/http/HttpResponseApi";\n';
         result = result + 'import { Router } from "@angular/router";\n';
         result = result + 'import { Component, OnInit } from "@angular/core";\n';
-        result = result + 'import { ' + this.constructor.name + ' } from "../../models/' + this.constructor.name.toLowerCase() + '.model";\n';
-        result = result + 'import { ' + this.constructor.name + 'Service } from "../../services/' + this.constructor.name.toLowerCase() + '/' + this.constructor.name.toLowerCase() + '.service";\n';
+        result = result + 'import { ' + this.constructor.name + ' } from "../../../models/' + this.constructor.name.toLowerCase() + '.model";\n';
+        result = result + 'import { ' + this.constructor.name + 'Service } from "../../../services/' + this.constructor.name.toLowerCase() + '/' + this.constructor.name.toLowerCase() + '.service";\n';
         result = result + '@Component({\n';
         result = result + '    selector: "create-' + this.constructor.name.toLowerCase() + '",\n';
         result = result + '    templateUrl: "./' + this.constructor.name.toLowerCase() + '.create.page.html",\n';
@@ -311,10 +311,10 @@ export class HtmlTsObject {
     public getTsRead(): string {
         let result = '';
         result = result + 'import { MessageService } from "primeng/api";\n';
-        result = result + 'import {HttpResponseApi} from "../../interfaces/http/HttpResponseApi";\n';
+        result = result + 'import {HttpResponseApi} from "../../../interfaces/http/HttpResponseApi";\n';
         result = result + 'import { Component, OnInit } from "@angular/core";\n';
-        result = result + 'import { ' + this.constructor.name + ' } from "../../models/' + this.constructor.name.toLowerCase() + '.model";\n';
-        result = result + 'import { ' + this.constructor.name + 'Service } from "../../services/' + this.constructor.name.toLowerCase() + '/' + this.constructor.name.toLowerCase() + '.service";\n';
+        result = result + 'import { ' + this.constructor.name + ' } from "../../../models/' + this.constructor.name.toLowerCase() + '.model";\n';
+        result = result + 'import { ' + this.constructor.name + 'Service } from "../../../services/' + this.constructor.name.toLowerCase() + '/' + this.constructor.name.toLowerCase() + '.service";\n';
         result = result + '@Component({\n';
         result = result + '    selector: "read-' + this.constructor.name.toLowerCase() + '",\n';
         result = result + '    templateUrl: "./' + this.constructor.name.toLowerCase() + '.read.page.html",\n';
@@ -471,11 +471,11 @@ export class HtmlTsObject {
 
     public getTsService(): string {
         let result = 'import { Injectable } from "@angular/core";\n';
-        result = result + 'import { ' + this.constructor.name + ' } from "../../models/' + this.constructor.name.toLowerCase() + '.model";\n';
+        result = result + 'import { ' + this.constructor.name + ' } from "../../../models/' + this.constructor.name.toLowerCase() + '.model";\n';
         result = result + 'import { HttpClient, HttpHeaders } from "@angular/common/http";\n';
         result = result + 'import { Observable } from "rxjs";\n';
-        result = result + 'import { HttpResponseApi } from "../../interfaces/http/HttpResponseApi";\n';
-        result = result + 'import { BASE_URL } from "../../utils/constante.util";\n';
+        result = result + 'import { HttpResponseApi } from "../../../interfaces/http/HttpResponseApi";\n';
+        result = result + 'import { BASE_URL } from "../../../utils/constante.util";\n';
         result = result + '@Injectable({\n';
         result = result + 'providedIn: "root"\n';
         result = result + '})\n';
@@ -503,22 +503,83 @@ export class HtmlTsObject {
         return result;
     }
 
-    public getTsModule(): string {
+    public getCreateTsModule(): string {
         let result = '';
         result = result + 'import { NgModule } from "@angular/core";\n';
         result = result + 'import { CommonModule } from "@angular/common";\n';
-        result = result + 'import { ' + this.constructor.name + 'Service } from "../../services/' + this.constructor.name.toLowerCase() + '/' + this.constructor.name.toLowerCase() + '.service";\n';
-        result = result + 'import { ' + this.constructor.name + ' } from "../../models/' + this.constructor.name.toLowerCase() + '.model";\n';
+        result = result + 'import { Create' + this.constructor.name + ' } from "./' + this.constructor.name.toLowerCase() + '.create";\n';
+        result = result + 'import { RadioButtonModule } from "primeng/radiobutton";\n';
+        result = result + 'import { InputTextModule } from "primeng/inputtext";\n';
+        result = result + 'import { FormsModule, ReactiveFormsModule } from "@angular/forms";\n';
+        result = result + 'import { ButtonModule } from "primeng/button";\n';
+        result = result + 'import { InputTextareaModule } from "primeng/inputtextarea";\n';
+        result = result + 'import { DropdownModule } from "primeng/dropdown";\n';
+        result = result + 'import { CheckboxModule } from "primeng/checkbox";\n';
+        result = result + 'import { MultiSelectModule } from "primeng/multiselect";\n';
+        result = result + 'import { AppLayoutModule } from "../../../components/layout/app.layout.module";\n';
+        result = result + 'import { PasswordModule } from "primeng/password";\n';
+        result = result + 'import { ToastModule } from "primeng/toast";\n';
         result = result + '@NgModule({\n';
-        result = result + 'declarations: [],\n';
-        result = result + 'imports: [\n';
-        result = result + 'CommonModule\n';
+        result = result + 'declarations: [\n';
+        result = result + 'Create' + this.constructor.name + '\n';
         result = result + '],\n';
-        result = result + 'providers: [\n';
-        result = result + this.constructor.name + 'Service\n';
+        result = result + 'imports: [\n';
+        result = result + 'CommonModule,\n';
+        result = result + 'FormsModule,\n';
+        result = result + 'ReactiveFormsModule,\n';
+        result = result + 'AppLayoutModule,\n';
+        result = result + 'InputTextModule,\n';
+        result = result + 'ButtonModule,\n';
+        result = result + 'InputTextareaModule,\n';
+        result = result + 'DropdownModule,\n';
+        result = result + 'RadioButtonModule,\n';
+        result = result + 'CheckboxModule,\n';
+        result = result + 'MultiSelectModule,\n';
+        result = result + 'PasswordModule,\n';
+        result = result + 'ToastModule,\n';
         result = result + ']\n';
         result = result + '})\n';
-        result = result + 'export class ' + this.constructor.name + 'Module { }\n';
+        result = result + 'export class Create' + this.constructor.name + 'Module { }\n';
+        return result;
+    }
+
+
+    public getReadTsModule(): string { 
+        let result = '';
+        result = result + 'import { NgModule } from "@angular/core";\n';
+        result = result + 'import { CommonModule } from "@angular/common";\n';
+        result = result + 'import { TableModule } from "primeng/table";\n';
+        result = result + 'import { Read' + this.constructor.name + ' } from "./' + this.constructor.name.toLowerCase() + '.read";\n';
+        result = result + 'import { ButtonModule } from "primeng/button";\n';
+        result = result + 'import { RippleModule } from "primeng/ripple";\n';
+        result = result + 'import { InputTextModule } from "primeng/inputtext";\n';
+        result = result + 'import { AccordionModule } from "primeng/accordion";\n';
+        result = result + 'import { DropdownModule } from "primeng/dropdown";\n';
+        result = result + 'import { ToastModule } from "primeng/toast";\n';
+        result = result + 'import { GenericPopupModule } from "../../../components/generic-popup/generic-popup.module";\n';
+        result = result + 'import { FormsModule } from "@angular/forms";\n';
+        result = result + 'import { InputTextareaModule } from "primeng/inputtextarea";\n';
+        result = result + 'import { DialogModule } from "primeng/dialog";\n';
+        result = result + '@NgModule({\n';
+        result = result + 'declarations: [\n';
+        result = result + 'Read' + this.constructor.name + '\n';
+        result = result + '],\n';
+        result = result + 'imports: [\n';
+        result = result + 'CommonModule,\n';
+        result = result + 'FormsModule,\n';
+        result = result + 'TableModule,\n';
+        result = result + 'ButtonModule,\n';
+        result = result + 'RippleModule,\n';
+        result = result + 'InputTextModule,\n';
+        result = result + 'AccordionModule,\n';
+        result = result + 'DropdownModule,\n';
+        result = result + 'ToastModule,\n';
+        result = result + 'GenericPopupModule,\n';
+        result = result + 'InputTextareaModule,\n';
+        result = result + 'DialogModule,\n';
+        result = result + ']\n';
+        result = result + '})\n';
+        result = result + 'export class Read' + this.constructor.name + 'Module { }\n';
         return result;
     }
 
@@ -528,8 +589,8 @@ export class HtmlTsObject {
     }
 
     public setTs(){
-        writeToFile(process.cwd() + PAGE_PATH + this.constructor.name.toLowerCase() + '/' + this.constructor.name.toLowerCase() + '.create.ts', this.getTsCreate());
-        writeToFile(process.cwd() + PAGE_PATH + this.constructor.name.toLowerCase() + '/' + this.constructor.name.toLowerCase() + '.read.ts', this.getTsRead());
+        writeToFile(process.cwd() + PAGE_PATH + this.constructor.name.toLowerCase() + '/create-' + this.constructor.name.toLowerCase() + '/' + this.constructor.name.toLowerCase() + '.create.ts', this.getTsCreate());
+        writeToFile(process.cwd() + PAGE_PATH + this.constructor.name.toLowerCase() + '/read-' + this.constructor.name.toLowerCase() + '/' + this.constructor.name.toLowerCase() + '.read.ts', this.getTsRead());
     }
 
     public setHtml(){
@@ -539,10 +600,16 @@ export class HtmlTsObject {
         writeToFile(process.cwd() + PAGE_PATH + this.constructor.name.toLowerCase() + '/read-' + this.constructor.name.toLowerCase() + '/' + this.constructor.name.toLowerCase() + '.read.page.css', "");
     }
 
+    public setModule(){
+        writeToFile(process.cwd() + PAGE_PATH + this.constructor.name.toLowerCase() + '/create-' + this.constructor.name.toLowerCase() + '/' + this.constructor.name.toLowerCase() + '.create.module.ts', this.getCreateTsModule());
+        writeToFile(process.cwd() + PAGE_PATH + this.constructor.name.toLowerCase() + '/read-' + this.constructor.name.toLowerCase() + '/' + this.constructor.name.toLowerCase() + '.read.module.ts', this.getReadTsModule());
+    }
+
     public generateCRUD(){
         this.setTs();
         this.setHtml();
         this.setTsService();
+        this.setModule();
     }
 
 }
