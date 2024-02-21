@@ -4,6 +4,7 @@
       <form (ngSubmit)="submit()">
         <h5>Création de Service</h5>
         <LabelInput
+          label="Nom du service"
           name="nom"
           [(ngModel)]="service.nom"
           (input)="onInput()"
@@ -13,6 +14,9 @@
           {{errors[0]?.message}}
         </p>
         <div class="flex flex-column gap-2 container">
+          <div class="labelContainer">
+            <label for="textarea" class="label">Description du service</label>
+          </div>
           <div class="inputContainer">
             <span class="p-input-icon-left p-input-icon-right">
               <textarea
@@ -35,6 +39,7 @@
           {{errors[0]?.message}}
         </p>
         <LabelInput
+          label="Durée du service(en heure)"
           type="number"
           name="duree"
           [(ngModel)]="service.duree"
@@ -45,6 +50,7 @@
           {{errors[0]?.message}}
         </p>
         <LabelInput
+          label="Prix du service(en MGA)"
           type="number"
           name="prix"
           [(ngModel)]="service.prix"
@@ -55,6 +61,7 @@
           {{errors[0]?.message}}
         </p>
         <LabelInput
+          label="Commission du service(en %)"
           type="number"
           name="commission"
           [(ngModel)]="service.commission"
@@ -67,7 +74,34 @@
         >
           {{errors[0]?.message}}
         </p>
-        <button pButton label="Submit" [loading]="isLoading"></button>
+        <div class="flex flex-column gap-2 container">
+          <div class="labelContainer">
+            <label class="label">Catégorie du service</label>
+          </div>
+          <div class="inputContainer">
+            <div class="grid formgrid">
+              <div class="inputContainer">
+                <p-dropdown
+                  [(ngModel)]="service.idcategorieservice"
+                  (input)="onInput()"
+                  [ngClass]="{'ng-dirty ng-invalid' : errors && errors[0]?.field ==='idcategorieservice'} "
+                  name="idcategorieservice"
+                  [options]="categorieservices"
+                  optionLabel="nom"
+                  optionValue="_id"
+                  [showClear]="true"
+                ></p-dropdown>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p
+          *ngIf="errors && errors[0]?.field === 'idcategorieservice'"
+          class="text-danger"
+        >
+          {{errors[0]?.message}}
+        </p>
+        <button pButton label="Créer" type="submit" [loading]="isLoading"></button>
       </form>
     </div>
   </div>

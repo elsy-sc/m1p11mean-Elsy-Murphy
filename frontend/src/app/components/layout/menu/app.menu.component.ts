@@ -17,20 +17,37 @@ export class AppMenuComponent implements OnInit {
             {
                 label: 'Services',
                 icon: 'pi pi-fw pi-briefcase',
+                routerLink: ['/beauty-salon/'],
                 items: [
                     {
                         label: 'Service',
-                        icon: 'pi pi-fw pi-user',
+                        icon: 'pi pi-cog',
                         items: [
                             {
                                 label: 'ajouter',
                                 icon: 'pi pi-fw pi-plus',
-                                routerLink: ['/service/create']
+                                routerLink: ['service/create']
                             },
                             {
                                 label: 'liste',
                                 icon: 'pi pi-fw pi-list',
-                                routerLink: ['/service/liste']
+                                routerLink: ['service/read']
+                            }
+                        ]
+                    },
+                    {
+                        label: 'Catégorie de service',
+                        icon: 'pi pi-list',
+                        items: [
+                            {
+                                label: 'ajouter',
+                                icon: 'pi pi-fw pi-plus',
+                                routerLink: ['categorieservice/create']
+                            },
+                            {
+                                label: 'liste',
+                                icon: 'pi pi-fw pi-list',
+                                routerLink: ['categorieservice/read']
                             }
                         ]
                     }

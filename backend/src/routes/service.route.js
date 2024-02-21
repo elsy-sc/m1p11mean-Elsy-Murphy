@@ -4,8 +4,10 @@ const { createService, readService, updateService, deleteService } = require("..
 const { testToken } = require("../middlewares/tokenobject.middleware");
 const router = express.Router();
 
+router.use(testToken);
+
 router.post("/create", createService);
-router.get("/read", testToken, readService);
+router.post("/read", readService);
 router.put("/update", updateService);
 router.delete("/delete", deleteService);
 

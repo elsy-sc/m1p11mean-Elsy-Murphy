@@ -7,7 +7,7 @@ const router = express.Router();
 router.use(testToken);
 
 router.post("/create", createCategorieservice);
-router.get("/read", readCategorieservice);
+router.post("/read", readCategorieservice);
 router.put("/update", updateCategorieservice);
 router.delete("/delete", deleteCategorieservice);
 

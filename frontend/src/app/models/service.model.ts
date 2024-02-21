@@ -1,14 +1,27 @@
 import { TableObject } from "../beans/tableobject.bean";
 import { Form } from "../interfaces/annotations/components/form.annotation.component";
 import { LabelInput } from "../interfaces/annotations/components/labelinput.annotation.component";
+import { Select } from "../interfaces/annotations/components/select.annotation.component";
 import { Textarea } from "../interfaces/annotations/components/textarea.annotation.component";
 import { List } from "../interfaces/annotations/list.annotation";
 @Form({
-    ngSubmit: 'submit()',
+    ngSubmit: 'submit()'
 })
 export class Service extends TableObject{
+    @Select({
+        label: 'Catégorie du service',
+        name: 'idcategorieservice',
+        labelValues: 'categorieservice',
+        multiple: false,
+    })
+    @List({
+        title: 'Catégorie du service',
+        type: 'simple',
+    })
+    idcategorieservice?: string;
     @LabelInput({
         name: 'nom',
+        label: 'Nom du service',
     })
     @List({
         title: 'Nom du service',
@@ -17,6 +30,7 @@ export class Service extends TableObject{
     nom?: string;
     @Textarea({
         name: 'description',
+        label: 'Description du service',
     })
     @List({
         title: 'Description du service',
@@ -26,6 +40,7 @@ export class Service extends TableObject{
     @LabelInput({
         name: 'duree',
         type: 'number',
+        label: 'Durée du service(en heure)',
     })
     @List({
         title: 'Durée du service(en heure)',
@@ -35,6 +50,7 @@ export class Service extends TableObject{
     @LabelInput({
         name: 'prix',
         type: 'number',
+        label: 'Prix du service(en MGA)',
     })
     @List({
         title: 'Prix du service(en MGA)',
@@ -44,6 +60,7 @@ export class Service extends TableObject{
     @LabelInput({
         name: 'commission',
         type: 'number',
+        label: 'Commission du service(en %)',
     })
     @List({
         title: 'Commission du service(en %)',
@@ -51,13 +68,14 @@ export class Service extends TableObject{
     })
     commission: number;
 
-    constructor(nom?: string, description?: string, duree?: number, prix?: number, commission?: number) {
+    constructor(nom?: string, description?: string, duree?: number, prix?: number, commission?: number, idcategorieservice?: string) {
         super();
         this.nom = nom;
         this.description = description;
         this.duree = duree;
         this.prix = prix;
         this.commission = commission ? commission : 0;
+        this.idcategorieservice = idcategorieservice;
     }
     
 }

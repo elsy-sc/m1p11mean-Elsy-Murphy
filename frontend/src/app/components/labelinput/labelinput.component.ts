@@ -1,11 +1,19 @@
 import { Component, ElementRef, Input, Renderer2 } from '@angular/core';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
   selector: 'LabelInput',
   templateUrl: './labelinput.component.html',
-  styleUrl: './labelinput.component.css'
+  styleUrl: './labelinput.component.css',
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: LabelInput,
+      multi: true
+    }
+  ]
 })
-export class LabelInput {
+export class LabelInput implements ControlValueAccessor{
   @Input() label: string = '';
   @Input() type: string = 'text';
   @Input({ required: true }) name!: string;
@@ -13,6 +21,7 @@ export class LabelInput {
   @Input() iconLeft: string = '';
   @Input() iconRight: string = '';
   @Input() rest!: { [key: string]: any };
+  @Input() model: any;
 
   constructor(private el: ElementRef, private renderer: Renderer2) { }
 
@@ -27,5 +36,17 @@ export class LabelInput {
 
   ngOnInit() {
     this.setRest();
+  }
+
+  onChange: any = () => { };
+  onTouch: any = () => { };
+  writeValue(obj: any): void {
+      
+  }
+  registerOnChange(fn: any): void {
+    this.onChange = fn;
+  }
+  registerOnTouched(fn: any): void {
+    this.onTouch = fn;
   }
 }

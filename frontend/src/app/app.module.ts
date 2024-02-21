@@ -24,6 +24,8 @@ import { InscriptionModule } from './pages/inscription/inscription/inscription.m
 import { CreateUtilisateurModule } from './pages/utilisateur/create-utilisateur/create-utilisateur.module';
 import { ReadServiceModule } from './pages/service/read-service/service.read.module';
 import { CreateServiceModule } from './pages/service/create-service/service.create.module';
+import { CreateCategorieServiceModule } from './pages/categorieservice/create-categorieservice/categorieservice.create.module';
+import { ReadCategorieServiceModule } from './pages/categorieservice/read-categorieservice/categorieservice.read.module';
 
 
 @NgModule({
@@ -50,7 +52,9 @@ import { CreateServiceModule } from './pages/service/create-service/service.crea
     InscriptionModule,
     CreateUtilisateurModule,
     ReadServiceModule,
-    CreateServiceModule
+    CreateServiceModule,
+    CreateCategorieServiceModule,
+    ReadCategorieServiceModule
   ],
   providers: [
     provideHttpClient(withFetch()),

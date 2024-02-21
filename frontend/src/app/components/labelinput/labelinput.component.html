@@ -12,6 +12,9 @@
         [name]="name"
         [type]="type"
         [value]="value"
+        [(ngModel)]="model"
+        (onInput)="onChange()"
+        (blur)="onTouch()"
       />
       <i class="{{ iconRight }}"></i>
     </span>

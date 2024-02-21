@@ -9,6 +9,8 @@ import { ListeUtilisateurComponent } from './pages/utilisateur/liste-utilisateur
 import { AuthGuard } from './services/routegarde/guard.route';
 import { ReadService } from './pages/service/read-service/service.read';
 import { CreateService } from './pages/service/create-service/service.create';
+import { CreateCategorieService } from './pages/categorieservice/create-categorieservice/categorieservice.create';
+import { ReadCategorieService } from './pages/categorieservice/read-categorieservice/categorieservice.read';
 
 const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -18,6 +20,8 @@ const routes: Routes = [
     children: [
       {path:'service/read' , component: ReadService},
       {path:'service/create' , component: CreateService},
+      {path:'categorieservice/read' , component: ReadCategorieService},
+      {path:'categorieservice/create' , component: CreateCategorieService},
       // {path:'' , component: ListeUtilisateurComponent, canActivate: [AuthGuard]},
       // {path:'utilisateur/create' , component: CreateUtilisateurComponent, canActivate: [AuthGuard]},
     ]

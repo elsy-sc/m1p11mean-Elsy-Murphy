@@ -3,6 +3,8 @@ import { HttpResponseApi } from "../../../interfaces/http/HttpResponseApi";
 import { Component, OnInit } from "@angular/core";
 import { Service } from "../../../models/service.model";
 import { ServiceService } from "../../../services/service/service.service";
+import { CategorieService } from "../../../models/categorieservice.model";
+import { CategorieServiceService } from "../../../services/categorieservice/categorieservice.service";
 @Component({
     selector: "read-service",
     templateUrl: "./service.read.page.html",
@@ -24,6 +26,8 @@ export class ReadService implements OnInit {
     showUpdatePopup: boolean = false;
 
     errorsUpdate: any[] | undefined = [];
+
+    categorieservices: CategorieService[] = [];
 
     UpdateService(service: Service) {
 
@@ -72,7 +76,7 @@ export class ReadService implements OnInit {
         this.getServices();
     }
 
-    constructor(private serviceService: ServiceService, private messageService: MessageService) {
+    constructor(private serviceService: ServiceService, private messageService: MessageService, private servicecategorieService: CategorieServiceService) {
 
     }
 
@@ -81,6 +85,14 @@ export class ReadService implements OnInit {
         this.serviceService.readService(this.serviceSearch).subscribe((response: HttpResponseApi) => {
             if (response.data) {
                 this.services = response.data;
+            }
+        });
+    }
+
+    getServiceCategories(){
+        this.servicecategorieService.readCategorieService(new CategorieService()).subscribe((response: HttpResponseApi) => {
+            if (response.data) {
+                this.categorieservices = response.data;
             }
         });
     }

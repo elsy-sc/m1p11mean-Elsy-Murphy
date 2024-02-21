@@ -1,4 +1,5 @@
+import { CategorieService } from "../models/categorieservice.model";
 import { Service } from "../models/service.model";
 
-const service = new Service();
-service.generateCRUD();
+const categorieservice = new CategorieService();
+categorieservice.generateCRUD();
