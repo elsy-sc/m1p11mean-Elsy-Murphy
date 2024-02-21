@@ -1,9 +1,9 @@
 import { MessageService } from "primeng/api";
-import {HttpResponseApi} from "../../interfaces/http/HttpResponseApi";
+import {HttpResponseApi} from "../../../interfaces/http/HttpResponseApi";
 import { Router } from "@angular/router";
 import { Component, OnInit } from "@angular/core";
-import { Employe } from "../../models/employe.model";
-import { EmployeService } from "../../services/employe/employe.service";
+import { Employe } from "../../../models/employe.model";
+import { EmployeService } from "../../../services/employe/employe.service";
 @Component({
     selector: "create-employe",
     templateUrl: "./employe.create.page.html",

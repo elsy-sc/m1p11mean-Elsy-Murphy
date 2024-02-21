@@ -1,10 +1,14 @@
 import { Date } from '../beans/date.bean.util';
 import { Checkbox } from '../interfaces/annotations/components/checkbox.annotation.component';
+import { Form } from '../interfaces/annotations/components/form.annotation.component';
 import { LabelInput } from '../interfaces/annotations/components/labelinput.annotation.component';
 import { Radio } from '../interfaces/annotations/components/radio.annotation.component';
 import { List } from '../interfaces/annotations/list.annotation';
 import { Utilisateur } from './utilisateur.model';
 
+@Form({
+    ngSubmit: 'submit()',
+})
 export class Employe extends Utilisateur {
     @LabelInput({
         label: 'CIN',
