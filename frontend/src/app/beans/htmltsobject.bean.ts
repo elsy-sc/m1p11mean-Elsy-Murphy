@@ -149,7 +149,7 @@ export class HtmlTsObject {
             return result;
         }
 
-        return '<div class="grid"><div class="col-12"><div class="card"><h5>Liste de ' + this.constructor.name + '</h5><p-table [value]="' + this.constructor.name.toLowerCase() + 's" [paginator]="true" [rows]="10">' + getSearch(this) + getList(this) + '</p-table></div></div></div>';
+        return '<div class="grid"><div class="col-12"><div class="card"><h5>Liste de ' + this.constructor.name + '</h5><p-table [value]="' + this.constructor.name.toLowerCase() + 's" [paginator]="true" [rows]="10">' + getSearch(this) + getList(this) + '</p-table></div>' + this.getHtmlDelete() + this.getHtmlUpdate() + '</div></div>';
 
     }
 
@@ -163,8 +163,8 @@ export class HtmlTsObject {
         result = result + 'import { ' + this.constructor.name + 'Service } from "../../services/' + this.constructor.name.toLowerCase() + '/' + this.constructor.name.toLowerCase() + '.service";\n';
         result = result + '@Component({\n';
         result = result + '    selector: "create-' + this.constructor.name.toLowerCase() + '",\n';
-        result = result + '    templateUrl: "./create-' + this.constructor.name.toLowerCase() + '.component.html",\n';
-        result = result + '    styleUrls: ["./create-' + this.constructor.name.toLowerCase() + '.component.css"]\n';
+        result = result + '    templateUrl: "./' + this.constructor.name.toLowerCase() + '.create.page.html",\n';
+        result = result + '    styleUrls: ["./' + this.constructor.name.toLowerCase() + '.create.page.css"]\n';
         result = result + '})\n';
         result = result + 'export class Create' + this.constructor.name.charAt(0).toUpperCase() + this.constructor.name.slice(1) + ' implements OnInit {\n\n';
         
@@ -203,6 +203,72 @@ export class HtmlTsObject {
         return result;
     }
 
+    public getHtmlDelete(): string {
+        let result = '';
+        result = result  + '<generic-popup title="Suppression de ' + this.constructor.name + '" subtitle="Etes-vous sûr de vouloir cette "' + this.constructor.name.toLowerCase() + ' [(show)]="showDeletePopup" (handleclose)="CancelDelete' + this.constructor.name.charAt(0).toUpperCase() + this.constructor.name.slice(1) + '()" (validClick)="ValidDelete' + this.constructor.name.charAt(0).toUpperCase() + this.constructor.name.slice(1) + '()" (cancelClick)="CancelDelete"' + this.constructor.name.charAt(0).toUpperCase() + this.constructor.name.slice(1) + ' >\n';
+        return result;
+    }
+
+    public getHtmlUpdate(): string {
+        let result = '<p-dialog [(visible)]="showUpdatePopup" (onHide)="CancelUpdate' + this.constructor.name.charAt(0).toUpperCase() + this.constructor.name.slice(1) + '" header="Modification de ' + this.constructor.name + '" [modal]="true" [style]="{width: \'450px\'}" class="p-fluid">\n';
+
+        
+        result = result + '<ng-template pTemplate="content">\n';
+
+        const fields = getFields(this);
+
+        for (const field of fields) {
+            const labelInput: LabelInput = Reflect.getMetadata('LabelInput', this, field.name);
+
+            if (labelInput) {
+                labelInput.restString = (labelInput.restString ? labelInput.restString : '') + '[(ngClass)]="{' + '\'ng-dirty ng-invalid\' : errorUpdate && errorsUpdate[0]?.field ===' + field.name + '} " (input)="onInput()"' + '[(ngModel)]="' + this.constructor.name.toLowerCase() + 'Update.' + field.name + '"';
+                result = result + getLabelInputHtml(labelInput) + '\n';
+                result = result + '<p *ngIf="errorUpdate && errorsUpdate[0]?.field ===' + field.name + '" class="text-danger">{{errorsUpdate[0]?.message}}</p>\n';
+            }
+
+            const textarea: Textarea = Reflect.getMetadata('Textarea', this, field.name);
+
+            if (textarea) {
+                textarea.rest = (textarea.rest ? textarea.rest : '') + '[(ngClass)]="{' + '\'ng-dirty ng-invalid\' : errorUpdate && errorsUpdate[0]?.field ===' + field.name + '} " (input)="onInput()"' + '[(ngModel)]="' + this.constructor.name.toLowerCase() + 'Update.' + field.name + '"';
+                result = result + getTextareaHtml(textarea) + '\n';
+                result = result + '<p *ngIf="errorUpdate && errorsUpdate[0]?.field ===' + field.name + '" class="text-danger">{{errorsUpdate[0]?.message}}</p>\n';
+            }
+
+            const checkbox: Checkbox = Reflect.getMetadata('Checkbox', this, field.name);
+
+            if (checkbox) {
+                checkbox.rest = (checkbox.rest ? checkbox.rest : '') + '[(ngClass)]="{' + '\'ng-dirty ng-invalid\' : errorUpdate && errorsUpdate[0]?.field ===' + field.name + '} " (input)="onInput()"' + '[(ngModel)]="' + this.constructor.name.toLowerCase() + 'Update.' + field.name + '"';
+                result = result + getCheckboxHtml(checkbox) + '\n';
+                result = result + '<p *ngIf="errorUpdate && errorsUpdate[0]?.field ===' + field.name + '" class="text-danger">{{errorsUpdate[0]?.message}}</p>\n';
+            }
+
+            const radio: Radio = Reflect.getMetadata('Radio', this, field.name);
+
+            if (radio) {
+                radio.rest = (radio.rest ? radio.rest : '') + '[(ngClass)]="{' + '\'ng-dirty ng-invalid\' : errorUpdate && errorsUpdate[0]?.field ===' + field.name + '} " (input)="onInput()"' + '[(ngModel)]="' + this.constructor.name.toLowerCase() + 'Update.' + field.name + '"';
+                result = result + getRadioHtml(radio) + '\n';
+                result = result + '<p *ngIf="errorUpdate && errorsUpdate[0]?.field ===' + field.name + '" class="text-danger">{{errorsUpdate[0]?.message}}</p>\n';
+            }
+
+            const select: Select = Reflect.getMetadata('Select', this, field.name);
+
+            if (select) {
+                select.rest = (select.rest ? select.rest : '') + '[(ngClass)]="{' + '\'ng-dirty ng-invalid\' : errorUpdate && errorsUpdate[0]?.field ===' + field.name + '} " (input)="onInput()"' + '[(ngModel)]="' + this.constructor.name.toLowerCase() + 'Update.' + field.name + '"';
+                result = result + getSelectHtml(select) + '\n';
+                result = result + '<p *ngIf="errorUpdate && errorsUpdate[0]?.field ===' + field.name + '" class="text-danger">{{errorsUpdate[0]?.message}}</p>\n';
+            }
+            
+        }
+        
+        result = result + '</ng-template>';
+
+
+        result = result + '<ng-template pTemplate="footer">\n';
+        result = result + '<button pButton pRipple label="Annuler" icon="pi pi-times" class="p-button-text" (click)="CancelUpdate' + this.constructor.name.charAt(0).toUpperCase() + this.constructor.name.slice(1) + '()"></button>\n';
+        result = result + '<button pButton pRipple label="Modifier" icon="pi pi-check" class="p-button-text" (click)="ValidUpdate' + this.constructor.name.charAt(0).toUpperCase() + this.constructor.name.slice(1) + '()"></button>\n';
+        return result;
+    }
+
     public getTsRead(): string {
         let result = '';
         result = result + 'import { MessageService } from "primeng/api";\n';
@@ -212,16 +278,57 @@ export class HtmlTsObject {
         result = result + 'import { ' + this.constructor.name + 'Service } from "../../services/' + this.constructor.name.toLowerCase() + '/' + this.constructor.name.toLowerCase() + '.service";\n';
         result = result + '@Component({\n';
         result = result + '    selector: "read-' + this.constructor.name.toLowerCase() + '",\n';
-        result = result + '    templateUrl: "./read-' + this.constructor.name.toLowerCase() + '.component.html",\n';
-        result = result + '    styleUrls: ["./read-' + this.constructor.name.toLowerCase() + '.component.css"]\n';
+        result = result + '    templateUrl: "./' + this.constructor.name.toLowerCase() + '.read.page.html",\n';
+        result = result + '    styleUrls: ["./' + this.constructor.name.toLowerCase() + '.read.page.css"]\n';
         result = result + '})\n';
         result = result + 'export class Read' + this.constructor.name.charAt(0).toUpperCase() + this.constructor.name.slice(1) + ' implements OnInit {\n\n';
 
         result = result + this.constructor.name.toLowerCase() + 'Search: ' + this.constructor.name + ' = new ' + this.constructor.name + '();\n';
         result = result + this.constructor.name.toLowerCase() + 's: ' + this.constructor.name + '[] = [];\n\n';
         result = result + this.constructor.name.toLowerCase() + 'Delete: ' + this.constructor.name + ' = new ' + this.constructor.name + '();\n\n';
+        result = result + this.constructor.name.toLowerCase() + 'Update: ' + this.constructor.name + ' = new ' + this.constructor.name + '();\n\n';
+        result = result + 'loadingButtonUpdate: boolean = true;\n\n';
         result = result + 'showDeletePopup: boolean = false;\n\n';
+        result = result + 'showUpdatePopup: boolean = false;\n\n';
+        result = result + 'errorsUpdate: any[]|undefined = [];\n\n';
 
+        result = result + 'Update' + this.constructor.name.charAt(0).toUpperCase() + this.constructor.name.slice(1) + '(' + this.constructor.name.toLowerCase() + ': ' + this.constructor.name + '){\n\n';
+        result = result + 'this.showUpdatePopup = true;\n';
+        result = result + 'this.' + this.constructor.name.toLowerCase() + 'Update = Object.assign({}, ' + this.constructor.name.toLowerCase() + ');\n';
+        result = result + '}\n\n';
+
+        result = result + 'CancelUpdate' + this.constructor.name.charAt(0).toUpperCase() + this.constructor.name.slice(1) + '(){\n\n';
+        result = result + 'this.showUpdatePopup = false;\n';
+        result = result + 'this.errorsUpdate = [];\n';
+        result = result + '}\n\n';
+
+        result = result + 'ValidUpdate' + this.constructor.name.charAt(0).toUpperCase() + this.constructor.name.slice(1) + '(){\n\n';
+        result = result + 'this.loadingButtonUpdate = true;\n';
+        result = result + 'this.' + this.constructor.name.toLowerCase() + 'Service.update' + this.constructor.name.charAt(0).toUpperCase() + this.constructor.name.slice(1) + '(this.' + this.constructor.name.toLowerCase() + 'Update).subscribe(\n';
+        result = result + '(response:HttpResponseApi) => {\n';
+        result = result + 'if (response.message=="error" && response.status == 422) {\n';
+        result = result + 'this.errorsUpdate = response.data;\n';
+        result = result + 'this.loadingButtonUpdate = false;\n';
+        result = result + '} else if (response.status == 200) {\n';
+        result = result + 'this.get' + this.constructor.name.charAt(0).toUpperCase() + this.constructor.name.slice(1) + 's();\n';
+        result = result + 'this.showUpdatePopup = false;\n';
+        result = result + 'this.loadingButtonUpdate = false;\n';
+        result = result + 'this.messageService.add({severity:"success", summary:"Succès", detail:"Modification effectuée avec succès"});\n';
+        result = result + '} else {\n';
+        result = result + 'this.loadingButtonUpdate = false;\n';
+        result = result + 'this.messageService.add({severity:"error",summary:"Erreur",detail: response.message});\n';
+        result = result + '}\n';
+        result = result + '},\n';
+        result = result + '(error) => {\n';
+        result = result + 'this.loadingButtonUpdate = false;\n';
+        result = result + 'console.error(error);\n';
+        result = result + '}\n';
+        result = result + ')\n';
+        result = result + '}\n\n';
+
+        result = result + 'onInput(){\n\n';
+        result = result + 'this.errorsUpdate = [];\n';
+        result = result + '}\n\n';
 
         result = result + 'ngOnInit(): void {\n\n';
         result = result + " this.get" + this.constructor.name.charAt(0).toUpperCase() + this.constructor.name.slice(1) + "s();\n";
@@ -263,7 +370,7 @@ export class HtmlTsObject {
     }
 
     getTsReadService(): string {
-        let result = 'read' + this.constructor.name.toLowerCase() + '(' + this.constructor.name.toLowerCase() + 'Search: ' + this.constructor.name + '): Observable<HttpResponseApi> {\n';
+        let result = 'read' + this.constructor.name + '(' + this.constructor.name.toLowerCase() + 'Search: ' + this.constructor.name + '): Observable<HttpResponseApi> {\n';
         result = result + 'let url = BASE_URL + "/' + this.constructor.name.toLowerCase() + '/read";\n';
         result = result + 'let token = this.getToken();\n';
         result = result + 'const httpOptions = {\n';
@@ -274,11 +381,12 @@ export class HtmlTsObject {
         result = result + '};\n';
         result = result + 'let body = JSON.stringify(' + this.constructor.name.toLowerCase() + 'Search);\n';
         result = result + 'return this.http.post<HttpResponseApi>(url, body, httpOptions);\n';
+        result = result + '}';
         return result;
     }
 
     getTsCreateService(): string {
-        let result = 'create' + this.constructor.name.toLowerCase() + '(' + this.constructor.name.toLowerCase() + ': ' + this.constructor.name + '): Observable<HttpResponseApi> {\n';
+        let result = 'create' + this.constructor.name + '(' + this.constructor.name.toLowerCase() + ': ' + this.constructor.name + '): Observable<HttpResponseApi> {\n';
         result = result + 'let url = BASE_URL + "/' + this.constructor.name.toLowerCase() + '/create";\n';
         result = result + 'const httpOptions = {\n';
         result = result + 'headers: new HttpHeaders({\n';
@@ -292,7 +400,7 @@ export class HtmlTsObject {
     }
 
     getTsUpdateService(): string {
-        let result = 'update' + this.constructor.name.toLowerCase() + '(' + this.constructor.name.toLowerCase() + ': ' + this.constructor.name + '): Observable<HttpResponseApi> {\n';
+        let result = 'update' + this.constructor.name + '(' + this.constructor.name.toLowerCase() + ': ' + this.constructor.name + '): Observable<HttpResponseApi> {\n';
         result = result + 'let url = BASE_URL + "/' + this.constructor.name.toLowerCase() + '/update";\n';
         result = result + 'const httpOptions = {\n';
         result = result + 'headers: new HttpHeaders({\n';
@@ -307,7 +415,7 @@ export class HtmlTsObject {
 
     getTsDeleteService(): string {
         let result = '';
-        result = result + 'delete' + this.constructor.name.toLowerCase() + '(' + this.constructor.name.toLowerCase() + ': ' + this.constructor.name + '): Observable<HttpResponseApi> {\n';
+        result = result + 'delete' + this.constructor.name + '(' + this.constructor.name.toLowerCase() + ': ' + this.constructor.name + '): Observable<HttpResponseApi> {\n';
         result = result + 'let url = BASE_URL + "/' + this.constructor.name.toLowerCase() + '/delete";\n';
         result = result + 'let token = this.getToken();\n';
         result = result + 'const httpOptions = {\n';
@@ -324,20 +432,54 @@ export class HtmlTsObject {
 
     public getTsService(): string {
         let result = 'import { Injectable } from "@angular/core";\n';
+        result = result + 'import { ' + this.constructor.name + ' } from "../../models/' + this.constructor.name.toLowerCase() + '.model";\n';
         result = result + 'import { HttpClient, HttpHeaders } from "@angular/common/http";\n';
         result = result + 'import { Observable } from "rxjs";\n';
-        result = result + 'import { HttpResponseApi } from "../../models/httpresponseapi.model";\n';
+        result = result + 'import { HttpResponseApi } from "../../interfaces/http/HttpResponseApi";\n';
         result = result + 'import { BASE_URL } from "../../utils/constante.util";\n';
         result = result + '@Injectable({\n';
         result = result + 'providedIn: "root"\n';
         result = result + '})\n';
         result = result + 'export class ' + this.constructor.name.charAt(0).toUpperCase() + this.constructor.name.slice(1) + 'Service {\n\n';
         result = result + 'constructor(private http: HttpClient) {}\n\n';
+        result = result + 'getUserConnecte(): string | null {\n';
+        result = result + 'if (typeof window !== "undefined") {\n';
+        result = result + 'return localStorage.getItem("user");\n';
+        result = result + '}\n';
+        result = result + 'return null;\n';
+        result = result + '}\n\n';
+        result = result + 'getToken() {\n';
+        result = result + 'let userConnecte = this.getUserConnecte();\n';
+        result = result + 'if (userConnecte) {\n';
+        result = result + 'let token = JSON.parse(userConnecte).tokenValue;\n';
+        result = result + 'return token;\n';
+        result = result + '}\n';
+        result = result + 'return "";\n';
+        result = result + '}\n\n';
         result = result + this.getTsCreateService() + '\n\n';
         result = result + this.getTsReadService() + '\n\n';
         result = result + this.getTsUpdateService() + '\n\n';
         result = result + this.getTsDeleteService() + '\n\n';
         result = result + '}';
+        return result;
+    }
+
+    public getTsModule(): string {
+        let result = '';
+        result = result + 'import { NgModule } from "@angular/core";\n';
+        result = result + 'import { CommonModule } from "@angular/common";\n';
+        result = result + 'import { ' + this.constructor.name + 'Service } from "../../services/' + this.constructor.name.toLowerCase() + '/' + this.constructor.name.toLowerCase() + '.service";\n';
+        result = result + 'import { ' + this.constructor.name + ' } from "../../models/' + this.constructor.name.toLowerCase() + '.model";\n';
+        result = result + '@NgModule({\n';
+        result = result + 'declarations: [],\n';
+        result = result + 'imports: [\n';
+        result = result + 'CommonModule\n';
+        result = result + '],\n';
+        result = result + 'providers: [\n';
+        result = result + this.constructor.name + 'Service\n';
+        result = result + ']\n';
+        result = result + '})\n';
+        result = result + 'export class ' + this.constructor.name + 'Module { }\n';
         return result;
     }
 
@@ -353,6 +495,15 @@ export class HtmlTsObject {
 
     public setHtml(){
         writeToFile(process.cwd() + PAGE_PATH + this.constructor.name.toLowerCase() + '/' + this.constructor.name.toLowerCase() + '.create.page.html', this.getCreateHtml());
+        writeToFile(process.cwd() + PAGE_PATH + this.constructor.name.toLowerCase() + '/' + this.constructor.name.toLowerCase() + '.create.page.css', "");
         writeToFile(process.cwd() + PAGE_PATH + this.constructor.name.toLowerCase() + '/' + this.constructor.name.toLowerCase() + '.read.page.html', this.getReadHtml());
+        writeToFile(process.cwd() + PAGE_PATH + this.constructor.name.toLowerCase() + '/' + this.constructor.name.toLowerCase() + '.read.page.css', "");
     }
+
+    public generateCRUD(){
+        this.setTs();
+        this.setHtml();
+        this.setTsService();
+    }
+
 }

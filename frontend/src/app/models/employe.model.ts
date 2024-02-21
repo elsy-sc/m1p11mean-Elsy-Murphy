@@ -16,16 +16,6 @@ export class Employe extends Utilisateur {
         type: 'simple'
     })
     cin: string|undefined;
-    @Radio({
-        label: 'Avez-vous un numero de carte bancaire ?',
-        name: 'numeroCarteBancaire',
-        labelValues: {1: 'oui', 2: 'non'},
-        ngModel: 'numeroCarteBancaire',
-    })
-    @List({
-        title: 'numeroCarteBancaire',
-        type: 'simple'
-    })
     numerocartebancaire: string|undefined;
 
     constructor(nom?: string, prenom?: string, email?: string, datenaissance?: Date, numerotelephone?: string, motdepasse?: string, role?: number, cin?: string, numerocartebancaire?: string ) {

@@ -12,7 +12,7 @@ export class Utilisateur extends TokenObject {
         type: 'text',
     })
     @List({
-        title: 'nom',
+        title: 'Nom',
         type: 'simple'
     })
     nom: string|undefined;
@@ -21,7 +21,7 @@ export class Utilisateur extends TokenObject {
         name: 'prenom',
     })
     @List({
-        title: 'prenom',
+        title: 'Prénom',
         type: 'simple'
     })
     prenom: string|undefined;
@@ -40,6 +40,10 @@ export class Utilisateur extends TokenObject {
         name: 'datenaissance',
         type: 'date',
     })
+    @List({
+        title: 'Date de naissance',
+        type: 'simple'
+    })
     datenaissance: Date|undefined;
     numerotelephone: string|undefined;
     motdepasse: string|undefined;
@@ -49,6 +53,10 @@ export class Utilisateur extends TokenObject {
         labelValues: "[{label:  'Employe',value: { id:  1, name: 'Employe' }},{label: 'Manager',value: { id:  2, name: 'Manager' }},{label: 'Client',value: { id:  2, name: 'Client' }},]",
         multiple: true,
         multipleLabelSearch: 'name'
+    })
+    @List({
+        title: 'Role',
+        type: 'simple'
     })
     role: number|undefined;
 
