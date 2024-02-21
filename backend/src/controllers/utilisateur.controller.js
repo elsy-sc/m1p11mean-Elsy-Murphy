@@ -59,6 +59,7 @@ async function loginUtilisateur(req, res) {
         
         utilisateur.motdepasse = null;
         await utilisateur.read(db).then((result) => {
+            console.log("resultat ==",result);
             if (result.length === 0) {
                 httpUtil.sendJson(res, null, 404, "votre compte n'existe pas !!");
             }
@@ -106,6 +107,8 @@ async function inscriptionUtilisateur(req, res) {
 
 async function updateUtilisateur(req, res) {
     const db = await getMongoDBDatabase();
+    let errorsUpdate = [];
+
     try {
         var utilisateurWhere = new Utilisateur();
         utilisateurWhere._id = req.body?._id;
@@ -120,11 +123,24 @@ async function updateUtilisateur(req, res) {
         await utilisateurSet.setRole(req.body.role);
 
         await utilisateurWhere.update(db, utilisateurSet).then(() => {
-            httpUtil.sendJson(res, null, 201, "OK");
+            httpUtil.sendJson(res, null, 200, "OK");
         });
 
     } catch (error) {
-        httpUtil.sendJson(res, null, error.status || error.statusCode || 500, error.message);
+        if (error.field && error.message) {
+            errorsUpdate.push(error);
+        } 
+        else if (error.code) {
+            let field  = error.keyPattern ? Object.keys(error.keyPattern)[0] : null;
+            if (field) {
+                let error = {
+                    field: field,
+                    message: field+" déjà utilisée. Veuillez choisir une autre "+field
+                }
+                errorsUpdate.push(error);
+            }
+        }
+        httpUtil.sendJson(res, errorsUpdate, 422, "error");
     }
 }
 

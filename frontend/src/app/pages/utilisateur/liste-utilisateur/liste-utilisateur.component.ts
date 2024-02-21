@@ -32,15 +32,21 @@ export class ListeUtilisateurComponent implements OnInit {
 
 
   utilisateurSearch: Utilisateur = new Utilisateur();
+  
   utilisateurDelete: Utilisateur = new Utilisateur();
+  
+  utilisateurUpdate: Utilisateur = new Utilisateur();
+  
   utilisateurs: Utilisateur[] = [];
+  
   loading: boolean = true;
-
-  expanded: boolean = false;
-
-  types: SelectItem[] = [];
+  loadingButtonUpdate: boolean = true;
 
   showPopUp: boolean = false;
+  
+  showPopUpUpdate: boolean = false;
+
+  errorsUpdate: any[]|undefined = [];
 
   constructor (private utilisateurService :UtilisateurService, private messageService: MessageService) {
 
@@ -99,6 +105,46 @@ export class ListeUtilisateurComponent implements OnInit {
         console.error(error);
       }
     )
+  }
+
+  UpdateUtilisateur(utilisateur: Utilisateur) {
+    this.showPopUpUpdate = true;
+    this.utilisateurUpdate = Object.assign({}, utilisateur);
+  }
+
+  CancelUpdateUtilisateur () {
+    this.showPopUpUpdate = false;
+    this.errorsUpdate = [];
+  }
+
+  ValidUpdateUtilisateur () {
+    this.loadingButtonUpdate = true;
+    console.log("utilisateurUpdate ==",this.utilisateurUpdate);
+    this.utilisateurService.update(this.utilisateurUpdate).subscribe(
+      (response: HttpResponseApi) => {
+        if (response.message=="error" && response.status == 422) {
+          this.errorsUpdate = response.data;
+          this.loadingButtonUpdate = false;
+        } else if (response.status == 200 && response.message == "OK") {
+          this.getListUtilisateur();
+          this.loadingButtonUpdate = false;
+          this.showPopUpUpdate = false;
+          this.messageService.add({severity:'success',summary:'Success',detail: "L'utilisateur a été modifié avec succès."});
+        }
+        else {
+          this.loadingButtonUpdate = false;
+          this.messageService.add({severity:'error',summary:'Erreur',detail: response.message});
+        }
+      },
+      (error) => {
+        this.loadingButtonUpdate = false;
+        console.error(error);
+      }
+    )
+  }
+
+  onInput () {
+    this.errorsUpdate = [];
   }
 
 }

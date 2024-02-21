@@ -115,4 +115,18 @@ export class UtilisateurService {
     return this.http.post<HttpResponseApi>(url,body,httpOptions);
   }
 
+  update (utilisateur: Utilisateur) : Observable<HttpResponseApi> {
+    let url = BASE_URL + "/utilisateur/update";
+    let token = this.getToken();
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      }),
+    };
+    let body = JSON.stringify(utilisateur);
+
+    return this.http.put<HttpResponseApi>(url, body , httpOptions);
+  }
+
 }
