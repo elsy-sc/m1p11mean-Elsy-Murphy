@@ -38,10 +38,14 @@ export class LabelInput implements ControlValueAccessor{
     this.setRest();
   }
 
-  onChange: any = () => { };
+  onChange: any = (event: any) => { 
+    const inputValue = (event.target as HTMLInputElement).value;
+    this.model = inputValue;
+    this.onChange();
+  };
   onTouch: any = () => { };
   writeValue(obj: any): void {
-      
+      this.model = obj;
   }
   registerOnChange(fn: any): void {
     this.onChange = fn;

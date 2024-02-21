@@ -4,6 +4,7 @@ const httpUtil = require("../utils/http.util");
 
 async function createService(req, res) {
     const db = await getMongoDBDatabase();
+    let errors = [];
     try {
         const service = new Service(null, null, req.body?.description, null, null, req.body?.commission);
         service.setIdcategorieservice(req.body?.idcategorieservice);
@@ -11,10 +12,23 @@ async function createService(req, res) {
         service.setPrix(req.body?.prix);
         service.setDuree(req.body?.duree);
         await service.create(db).then(() => {
-            httpUtil.sendJson(res, null, 201, "OK");        
+            httpUtil.sendJson(res, [service], 201, "OK");        
         });
     } catch (error) {
-        httpUtil.sendJson(res, null, 201, error.message);
+        if (error.field && error.message) {
+            errors.push(error);
+        }
+        else if (error.code) {
+            let field  = error.keyPattern ? Object.keys(error.keyPattern)[0] : null;
+            if (field) {
+                let error = {
+                    field: field,
+                    message: field + " existant."
+                }
+                errors.push(error);
+            }
+        }
+        httpUtil.sendJson(res, errors, 422, "error");
     }
 }
 

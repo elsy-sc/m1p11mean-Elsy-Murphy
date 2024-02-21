@@ -11,9 +11,8 @@
         pInputText
         [name]="name"
         [type]="type"
-        [value]="value"
         [(ngModel)]="model"
-        (onInput)="onChange()"
+        (ngModelChange)="onChange($event)"
         (blur)="onTouch()"
       />
       <i class="{{ iconRight }}"></i>

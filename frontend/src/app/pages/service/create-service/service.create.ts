@@ -24,11 +24,12 @@ export class CreateService implements OnInit {
         this.isLoading = true;
         this.serviceService.createService(this.service).subscribe(
             (response: HttpResponseApi) => {
+                console.log(response);
                 if (response.message == "error" && response.status == 422) {
                     this.errors = response.data;
                     this.isLoading = false;
                 } else if (response.status == 201) {
-                    this.router.navigate(["/firstpage"]);
+                    this.router.navigate(["beauty-salon/service/read"]);
                 } else {
                     this.isLoading = false;
                     this.messageService.add({ severity: "error", summary: "Erreur", detail: response.message });

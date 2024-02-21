@@ -66,7 +66,7 @@ export class Service extends TableObject{
         title: 'Commission du service(en %)',
         type: 'simple',
     })
-    commission: number;
+    commission?: number;
 
     constructor(nom?: string, description?: string, duree?: number, prix?: number, commission?: number, idcategorieservice?: string) {
         super();
@@ -74,7 +74,7 @@ export class Service extends TableObject{
         this.description = description;
         this.duree = duree;
         this.prix = prix;
-        this.commission = commission ? commission : 0;
+        this.commission = commission;
         this.idcategorieservice = idcategorieservice;
     }
     
