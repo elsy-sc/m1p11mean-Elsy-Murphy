@@ -206,6 +206,7 @@ export class HtmlTsObject {
     public getHtmlDelete(): string {
         let result = '';
         result = result  + '<generic-popup title="Suppression de ' + this.constructor.name + '" subtitle="Etes-vous sûr de vouloir cette "' + this.constructor.name.toLowerCase() + ' [(show)]="showDeletePopup" (handleclose)="CancelDelete' + this.constructor.name.charAt(0).toUpperCase() + this.constructor.name.slice(1) + '()" (validClick)="ValidDelete' + this.constructor.name.charAt(0).toUpperCase() + this.constructor.name.slice(1) + '()" (cancelClick)="CancelDelete"' + this.constructor.name.charAt(0).toUpperCase() + this.constructor.name.slice(1) + ' >\n';
+        result = result + '</generic-popup>\n'
         return result;
     }
 
@@ -266,6 +267,8 @@ export class HtmlTsObject {
         result = result + '<ng-template pTemplate="footer">\n';
         result = result + '<button pButton pRipple label="Annuler" icon="pi pi-times" class="p-button-text" (click)="CancelUpdate' + this.constructor.name.charAt(0).toUpperCase() + this.constructor.name.slice(1) + '()"></button>\n';
         result = result + '<button pButton pRipple label="Modifier" icon="pi pi-check" class="p-button-text" (click)="ValidUpdate' + this.constructor.name.charAt(0).toUpperCase() + this.constructor.name.slice(1) + '()"></button>\n';
+        result = result + '</ng-template>';
+        result = result + '</p-dialog>';
         return result;
     }
 
