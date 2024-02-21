@@ -471,11 +471,11 @@ export class HtmlTsObject {
 
     public getTsService(): string {
         let result = 'import { Injectable } from "@angular/core";\n';
-        result = result + 'import { ' + this.constructor.name + ' } from "../../../models/' + this.constructor.name.toLowerCase() + '.model";\n';
+        result = result + 'import { ' + this.constructor.name + ' } from "../../models/' + this.constructor.name.toLowerCase() + '.model";\n';
         result = result + 'import { HttpClient, HttpHeaders } from "@angular/common/http";\n';
         result = result + 'import { Observable } from "rxjs";\n';
-        result = result + 'import { HttpResponseApi } from "../../../interfaces/http/HttpResponseApi";\n';
-        result = result + 'import { BASE_URL } from "../../../utils/constante.util";\n';
+        result = result + 'import { HttpResponseApi } from "../../interfaces/http/HttpResponseApi";\n';
+        result = result + 'import { BASE_URL } from "../../utils/constante.util";\n';
         result = result + '@Injectable({\n';
         result = result + 'providedIn: "root"\n';
         result = result + '})\n';
