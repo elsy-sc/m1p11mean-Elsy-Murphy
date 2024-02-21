@@ -13,23 +13,23 @@ import { AppLayoutModule } from "../../../components/layout/app.layout.module";
 import { PasswordModule } from "primeng/password";
 import { ToastModule } from "primeng/toast";
 @NgModule({
-declarations: [
-CreateService
-],
-imports: [
-CommonModule,
-FormsModule,
-ReactiveFormsModule,
-AppLayoutModule,
-InputTextModule,
-ButtonModule,
-InputTextareaModule,
-DropdownModule,
-RadioButtonModule,
-CheckboxModule,
-MultiSelectModule,
-PasswordModule,
-ToastModule,
-]
+    declarations: [
+        CreateService
+    ],
+    imports: [
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        AppLayoutModule,
+        InputTextModule,
+        ButtonModule,
+        InputTextareaModule,
+        DropdownModule,
+        RadioButtonModule,
+        CheckboxModule,
+        MultiSelectModule,
+        PasswordModule,
+        ToastModule,
+    ]
 })
 export class CreateServiceModule { }

@@ -7,6 +7,8 @@ import { LoginComponent } from './pages/login/login.component';
 import { CreateUtilisateurComponent } from './pages/utilisateur/create-utilisateur/create-utilisateur.component';
 import { ListeUtilisateurComponent } from './pages/utilisateur/liste-utilisateur/liste-utilisateur.component';
 import { AuthGuard } from './services/routegarde/guard.route';
+import { ReadService } from './pages/service/read-service/service.read';
+import { CreateService } from './pages/service/create-service/service.create';
 
 const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -14,8 +16,8 @@ const routes: Routes = [
   {
     path: '/beauty-salon' , component: AppLayoutComponent,
     children: [
-      {path:'service/liste' , component: ListeUtilisateurComponent, canActivate: [AuthGuard]},
-      {path:'service/create' , component: CreateUtilisateurComponent, canActivate: [AuthGuard]},
+      {path:'service/liste' , component: ReadService},
+      {path:'service/create' , component: CreateService},
       // {path:'' , component: ListeUtilisateurComponent, canActivate: [AuthGuard]},
       // {path:'utilisateur/create' , component: CreateUtilisateurComponent, canActivate: [AuthGuard]},
     ]

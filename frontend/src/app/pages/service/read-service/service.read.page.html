@@ -98,8 +98,6 @@
       <ng-template pTemplate="content">
         <LabelInput
           name="nom"
-          [(ngModel)]="serviceSearch.nom"
-          (input)="rechercher()"
           [ngClass]="{'ng-dirty ng-invalid' : errorsUpdate && errorsUpdate[0]?.field ==='nom'} "
           (input)="onInput()"
           [(ngModel)]="serviceUpdate.nom"
@@ -119,8 +117,6 @@
                 cols="30"
                 pInputTextarea
                 name="description"
-                [(ngModel)]="serviceSearch.description"
-                (input)="rechercher()"
                 [ngClass]="{'ng-dirty ng-invalid' : errorsUpdate && errorsUpdate[0]?.field ==='description'} "
                 (input)="onInput()"
                 [(ngModel)]="serviceUpdate.description"
@@ -137,8 +133,6 @@
         <LabelInput
           type="number"
           name="duree"
-          [(ngModel)]="serviceSearch.duree"
-          (input)="rechercher()"
           [ngClass]="{'ng-dirty ng-invalid' : errorsUpdate && errorsUpdate[0]?.field ==='duree'} "
           (input)="onInput()"
           [(ngModel)]="serviceUpdate.duree"
@@ -152,8 +146,6 @@
         <LabelInput
           type="number"
           name="prix"
-          [(ngModel)]="serviceSearch.prix"
-          (input)="rechercher()"
           [ngClass]="{'ng-dirty ng-invalid' : errorsUpdate && errorsUpdate[0]?.field ==='prix'} "
           (input)="onInput()"
           [(ngModel)]="serviceUpdate.prix"
@@ -167,8 +159,6 @@
         <LabelInput
           type="number"
           name="commission"
-          [(ngModel)]="serviceSearch.commission"
-          (input)="rechercher()"
           [ngClass]="{'ng-dirty ng-invalid' : errorsUpdate && errorsUpdate[0]?.field ==='commission'} "
           (input)="onInput()"
           [(ngModel)]="serviceUpdate.commission"

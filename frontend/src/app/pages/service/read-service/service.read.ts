@@ -1,5 +1,5 @@
 import { MessageService } from "primeng/api";
-import {HttpResponseApi} from "../../../interfaces/http/HttpResponseApi";
+import { HttpResponseApi } from "../../../interfaces/http/HttpResponseApi";
 import { Component, OnInit } from "@angular/core";
 import { Service } from "../../../models/service.model";
 import { ServiceService } from "../../../services/service/service.service";
@@ -10,106 +10,106 @@ import { ServiceService } from "../../../services/service/service.service";
 })
 export class ReadService implements OnInit {
 
-serviceSearch: Service = new Service();
-services: Service[] = [];
+    serviceSearch: Service = new Service();
+    services: Service[] = [];
 
-serviceDelete: Service = new Service();
+    serviceDelete: Service = new Service();
 
-serviceUpdate: Service = new Service();
+    serviceUpdate: Service = new Service();
 
-loadingButtonUpdate: boolean = true;
+    loadingButtonUpdate: boolean = true;
 
-showDeletePopup: boolean = false;
+    showDeletePopup: boolean = false;
 
-showUpdatePopup: boolean = false;
+    showUpdatePopup: boolean = false;
 
-errorsUpdate: any[]|undefined = [];
+    errorsUpdate: any[] | undefined = [];
 
-UpdateService(service: Service){
+    UpdateService(service: Service) {
 
-this.showUpdatePopup = true;
-this.serviceUpdate = Object.assign({}, service);
-}
+        this.showUpdatePopup = true;
+        this.serviceUpdate = Object.assign({}, service);
+    }
 
-CancelUpdateService(){
+    CancelUpdateService() {
 
-this.showUpdatePopup = false;
-this.errorsUpdate = [];
-}
+        this.showUpdatePopup = false;
+        this.errorsUpdate = [];
+    }
 
-ValidUpdateService(){
+    ValidUpdateService() {
 
-this.loadingButtonUpdate = true;
-this.serviceService.updateService(this.serviceUpdate).subscribe(
-(response:HttpResponseApi) => {
-if (response.message=="error" && response.status == 422) {
-this.errorsUpdate = response.data;
-this.loadingButtonUpdate = false;
-} else if (response.status == 200) {
-this.getServices();
-this.showUpdatePopup = false;
-this.loadingButtonUpdate = false;
-this.messageService.add({severity:"success", summary:"Succès", detail:"Modification effectuée avec succès"});
-} else {
-this.loadingButtonUpdate = false;
-this.messageService.add({severity:"error",summary:"Erreur",detail: response.message});
-}
-},
-(error) => {
-this.loadingButtonUpdate = false;
-console.error(error);
-}
-)
-}
+        this.loadingButtonUpdate = true;
+        this.serviceService.updateService(this.serviceUpdate).subscribe(
+            (response: HttpResponseApi) => {
+                if (response.message == "error" && response.status == 422) {
+                    this.errorsUpdate = response.data;
+                    this.loadingButtonUpdate = false;
+                } else if (response.status == 200) {
+                    this.getServices();
+                    this.showUpdatePopup = false;
+                    this.loadingButtonUpdate = false;
+                    this.messageService.add({ severity: "success", summary: "Succès", detail: "Modification effectuée avec succès" });
+                } else {
+                    this.loadingButtonUpdate = false;
+                    this.messageService.add({ severity: "error", summary: "Erreur", detail: response.message });
+                }
+            },
+            (error) => {
+                this.loadingButtonUpdate = false;
+                console.error(error);
+            }
+        )
+    }
 
-onInput(){
+    onInput() {
 
-this.errorsUpdate = [];
-}
+        this.errorsUpdate = [];
+    }
 
-ngOnInit(): void {
+    ngOnInit(): void {
 
- this.getServices();
-}
+        this.getServices();
+    }
 
-constructor (private serviceService: ServiceService, private messageService: MessageService) {
+    constructor(private serviceService: ServiceService, private messageService: MessageService) {
 
-}
+    }
 
-getServices() {
+    getServices() {
 
-this.serviceService.readService(this.serviceSearch).subscribe((response: HttpResponseApi) => {
-if (response.data) {
-this.services = response.data;
-}
-});
-}
+        this.serviceService.readService(this.serviceSearch).subscribe((response: HttpResponseApi) => {
+            if (response.data) {
+                this.services = response.data;
+            }
+        });
+    }
 
-rechercher() {
+    rechercher() {
 
-this.getServices();
-}
+        this.getServices();
+    }
 
-CancelDeleteService(){
+    CancelDeleteService() {
 
-this.showDeletePopup = false;
-}
+        this.showDeletePopup = false;
+    }
 
-DeleteService(service: Service){
+    DeleteService(service: Service) {
 
-this.showDeletePopup = true;
-this.serviceDelete = service;
-}
+        this.showDeletePopup = true;
+        this.serviceDelete = service;
+    }
 
-ValidDeleteService(){
+    ValidDeleteService() {
 
-this.showDeletePopup = false;
-this.serviceService.deleteService(this.serviceDelete).subscribe((response: HttpResponseApi) => {
-if (response.status == 200) {
-this.getServices();
-this.messageService.add({severity:"success", summary:"Succès", detail:"Suppression effectuée avec succès"});
-}
-});
-}
+        this.showDeletePopup = false;
+        this.serviceService.deleteService(this.serviceDelete).subscribe((response: HttpResponseApi) => {
+            if (response.status == 200) {
+                this.getServices();
+                this.messageService.add({ severity: "success", summary: "Succès", detail: "Suppression effectuée avec succès" });
+            }
+        });
+    }
 
 }
