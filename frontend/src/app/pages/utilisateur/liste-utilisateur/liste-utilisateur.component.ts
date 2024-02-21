@@ -5,6 +5,7 @@ import { Table } from 'primeng/table';
 import { MessageService, SelectItem } from 'primeng/api';
 import { UtilisateurService } from '../../../services/utilisateur/utilisateur.service';
 import { HttpResponseApi } from '../../../interfaces/http/HttpResponseApi';
+import { Employe } from '../../../models/employe.model';
 
 
 @Component({
@@ -13,6 +14,22 @@ import { HttpResponseApi } from '../../../interfaces/http/HttpResponseApi';
   styleUrl: './liste-utilisateur.component.css'
 })
 export class ListeUtilisateurComponent implements OnInit {
+
+
+
+  isLoading: boolean = false;
+  utilisateur!: Utilisateur;
+  emailError: string | undefined;
+  motdepasseError: string | undefined;
+  numeroCarteBancaire: string | undefined;    
+  employeListe: Employe[] = [];
+  employeSearch: Employe = new Employe();
+
+  rechercher() {
+
+  }
+
+
 
   utilisateurSearch: Utilisateur = new Utilisateur();
   utilisateurDelete: Utilisateur = new Utilisateur();

@@ -1,0 +1,75 @@
+<div class="grid">
+  <div class="col-12">
+    <div class="card">
+      <h5>Liste de Utilisateur</h5>
+      <p-table [value]="utilisateurs" [paginator]="true" [rows]="10"
+        ><ng-template pTemplate="caption"
+          ><p-accordion
+            ><p-accordionTab
+              header="Recherche"
+              [selected]="false"
+              class="line-height-3 m-0"
+              ><LabelInput
+                label="Nom"
+                type="text"
+                name="nom"
+                [(ngModel)]="utilisateurSearch.nom"
+                (input)="rechercher()" />
+              <div class="flex flex-column gap-2 container">
+                <div class="labelContainer">
+                  <label for="textarea" class="label">Prénom</label>
+                </div>
+                <div class="inputContainer">
+                  <span class="p-input-icon-left p-input-icon-right">
+                    <textarea
+                      id="textarea"
+                      rows="5"
+                      cols="30"
+                      pInputTextarea
+                      name="prenom"
+                      [(ngModel)]="utilisateurSearch.prenom"
+                      (input)="rechercher()"
+                    ></textarea>
+                  </span>
+                </div>
+              </div>
+              <LabelInput
+                label="Email"
+                type="email"
+                name="email"
+                [(ngModel)]="utilisateurSearch.email"
+                (input)="rechercher()" /></p-accordionTab></p-accordion></ng-template
+        ><ng-template pTemplate="header"
+          ><tr>
+            <th style="min-width: 12rem">nom</th>
+            <th style="min-width: 12rem">prenom</th>
+            <th style="min-width: 12rem">email</th>
+            <th>Actions</th>
+          </tr></ng-template
+        ><ng-template pTemplate="body" let-utilisateur
+          ><tr>
+            <td>{{utilisateur.nom}}</td>
+            <td>{{utilisateur.prenom}}</td>
+            <td>{{utilisateur.email}}</td>
+            <td>
+              <div class="flex">
+                <button
+                  pButton
+                  pRipple
+                  icon="pi pi-pencil"
+                  class="p-button-rounded p-button-success mr-2"
+                  label="Modifier"
+                ></button
+                ><button
+                  pButton
+                  pRipple
+                  icon="pi pi-trash"
+                  class="p-button-rounded p-button-danger"
+                  label="Supprimer"
+                ></button>
+              </div>
+            </td></tr></ng-template
+      ></p-table>
+    </div>
+  </div>
+</div>

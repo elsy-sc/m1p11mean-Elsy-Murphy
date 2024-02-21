@@ -8,6 +8,7 @@ export interface LabelInput {
     iconLeft?: string;
     iconRight?: string;
     rest?: string; // { [key: string]: any }
+    restString?: string;
 }
 
 export function LabelInput(options: LabelInput): PropertyDecorator {
@@ -44,6 +45,13 @@ function getValueKeyValueString( labelInput: LabelInput ) {
     return '';
 }
 
+function getRestStringKeyValueString( labelInput: LabelInput ) {
+    if(labelInput.restString) {
+        return ` ${labelInput.restString}`;
+    }
+    return '';
+}
+
 function getIconLeftKeyValueString( labelInput: LabelInput ) {
     if(labelInput.iconLeft) {
         return ` iconLeft="${labelInput.iconLeft}"`;
@@ -74,6 +82,7 @@ export function getLabelInputHtml(labelInput: LabelInput) {
     result = result + getIconLeftKeyValueString(labelInput);
     result = result + getIconRightKeyValueString(labelInput);
     result = result + getRestKeyValueString(labelInput);
+    result = result + getRestStringKeyValueString(labelInput);
     result = result + "/>";
     return result;
 }

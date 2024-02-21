@@ -4,6 +4,7 @@ import { Utilisateur } from '../../models/utilisateur.model';
 import { LayoutService } from '../../services/layout/app.layout.service';
 import { UtilisateurService } from '../../services/utilisateur/utilisateur.service';
 import { Router } from '@angular/router';
+import { Employe } from '../../models/employe.model';
 
 
 @Component({
@@ -24,6 +25,15 @@ export class LoginComponent implements OnInit {
     utilisateur!: Utilisateur;
     emailError: string | undefined;
     motdepasseError: string | undefined;
+    employe: Employe = new Employe();
+    employeSearch: Employe = new Employe();
+    numeroCarteBancaire: string | undefined;    
+    employeListe: Employe[] = [];
+
+    rechercher() {
+
+    }
+
 
 
     constructor(public layoutService: LayoutService, private utilisateurService: UtilisateurService, private router: Router) { }

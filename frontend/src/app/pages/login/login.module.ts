@@ -7,6 +7,9 @@ import { FormsModule } from '@angular/forms';
 import { PasswordModule } from 'primeng/password';
 import { InputTextModule } from 'primeng/inputtext';
 import { RouterModule } from '@angular/router';
+import { AccordionModule } from 'primeng/accordion';
+import { TableModule } from 'primeng/table';
+
 
 @NgModule({
     imports: [
@@ -16,7 +19,9 @@ import { RouterModule } from '@angular/router';
         InputTextModule,
         FormsModule,
         PasswordModule,
-        RouterModule
+        RouterModule,
+        AccordionModule,
+        TableModule
     ],
     declarations: [LoginComponent]
 })

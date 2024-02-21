@@ -3,6 +3,7 @@ import { TokenObject } from "../beans/tokenobject.bean";
 import { LabelInput } from "../interfaces/annotations/components/labelinput.annotation.component";
 import { Select } from "../interfaces/annotations/components/select.annotation.component";
 import { Textarea } from "../interfaces/annotations/components/textarea.annotation.component";
+import { List } from "../interfaces/annotations/list.annotation";
 
 export class Utilisateur extends TokenObject {
     @LabelInput({
@@ -10,16 +11,28 @@ export class Utilisateur extends TokenObject {
         name: 'nom',
         type: 'text',
     })
+    @List({
+        title: 'nom',
+        type: 'simple'
+    })
     nom: string|undefined;
     @Textarea({
         label: 'Prénom',
         name: 'prenom',
+    })
+    @List({
+        title: 'prenom',
+        type: 'simple'
     })
     prenom: string|undefined;
     @LabelInput({
         label: 'Email',
         name: 'email',
         type: 'email',
+    })
+    @List({
+        title: 'email',
+        type: 'simple'
     })
     email: string|undefined;
     @LabelInput({

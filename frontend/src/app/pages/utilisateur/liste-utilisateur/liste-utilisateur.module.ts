@@ -10,6 +10,8 @@ import { DropdownModule } from 'primeng/dropdown';
 import { ToastModule } from 'primeng/toast';
 import { GenericPopupModule } from '../../../components/generic-popup/generic-popup.module';
 import { FormsModule } from '@angular/forms';
+import { LabelInputModule } from '../../../components/labelinput/labelinput.module';
+import { InputTextareaModule } from 'primeng/inputtextarea';
 
 
 @NgModule({
@@ -26,7 +28,10 @@ import { FormsModule } from '@angular/forms';
     AccordionModule,
     DropdownModule,
     ToastModule,
-    GenericPopupModule
+    GenericPopupModule,
+    LabelInputModule,
+    InputTextareaModule
+    
   ]
 })
 export class ListeUtilisateurModule { }

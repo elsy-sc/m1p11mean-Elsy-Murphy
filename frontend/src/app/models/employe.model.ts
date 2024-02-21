@@ -2,6 +2,7 @@ import { Date } from '../beans/date.bean.util';
 import { Checkbox } from '../interfaces/annotations/components/checkbox.annotation.component';
 import { LabelInput } from '../interfaces/annotations/components/labelinput.annotation.component';
 import { Radio } from '../interfaces/annotations/components/radio.annotation.component';
+import { List } from '../interfaces/annotations/list.annotation';
 import { Utilisateur } from './utilisateur.model';
 
 export class Employe extends Utilisateur {
@@ -10,12 +11,20 @@ export class Employe extends Utilisateur {
         name: 'cin',
         type: 'text',
     })
+    @List({
+        title: 'cin',
+        type: 'simple'
+    })
     cin: string|undefined;
     @Radio({
         label: 'Avez-vous un numero de carte bancaire ?',
         name: 'numeroCarteBancaire',
         labelValues: {1: 'oui', 2: 'non'},
         ngModel: 'numeroCarteBancaire',
+    })
+    @List({
+        title: 'numeroCarteBancaire',
+        type: 'simple'
     })
     numerocartebancaire: string|undefined;
 

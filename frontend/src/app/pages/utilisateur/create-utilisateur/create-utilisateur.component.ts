@@ -32,6 +32,7 @@ export class CreateUtilisateurComponent{
         } else if (response.status == 201) {
           this.router.navigate(['/firstpage']);
         } else {
+          this.isLoading = false;
           this.messageService.add({severity:'error',summary:'Erreur',detail: response.message});
         }
       },
