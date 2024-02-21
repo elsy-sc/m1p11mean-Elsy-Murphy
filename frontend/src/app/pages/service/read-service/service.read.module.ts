@@ -1,3 +1,4 @@
+import { LabelInputModule } from "../../../components/labelinput/labelinput.module";
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { TableModule } from "primeng/table";
@@ -29,6 +30,7 @@ import { DialogModule } from "primeng/dialog";
         GenericPopupModule,
         InputTextareaModule,
         DialogModule,
+        LabelInputModule
     ]
 })
 export class ReadServiceModule { }

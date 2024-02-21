@@ -22,6 +22,8 @@ import { HttpClientModule, provideHttpClient, withFetch } from '@angular/common/
 import { InscriptionComponent } from './pages/inscription/inscription/inscription.component';
 import { InscriptionModule } from './pages/inscription/inscription/inscription.module';
 import { CreateUtilisateurModule } from './pages/utilisateur/create-utilisateur/create-utilisateur.module';
+import { ReadServiceModule } from './pages/service/read-service/service.read.module';
+import { CreateServiceModule } from './pages/service/create-service/service.create.module';
 
 
 @NgModule({
@@ -46,7 +48,9 @@ import { CreateUtilisateurModule } from './pages/utilisateur/create-utilisateur/
     LoginModule,
     HttpClientModule,
     InscriptionModule,
-    CreateUtilisateurModule
+    CreateUtilisateurModule,
+    ReadServiceModule,
+    CreateServiceModule
   ],
   providers: [
     provideHttpClient(withFetch()),

@@ -1,3 +1,4 @@
+import { LabelInputModule } from "../../../components/labelinput/labelinput.module";
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { CreateService } from "./service.create";
@@ -30,6 +31,7 @@ import { ToastModule } from "primeng/toast";
         MultiSelectModule,
         PasswordModule,
         ToastModule,
+        LabelInputModule
     ]
 })
 export class CreateServiceModule { }

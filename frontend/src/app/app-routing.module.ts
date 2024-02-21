@@ -14,9 +14,9 @@ const routes: Routes = [
   { path: '', component: LoginComponent },
   { path: 'inscription', component: InscriptionComponent },
   {
-    path: '/beauty-salon' , component: AppLayoutComponent,
+    path: 'beauty-salon' , component: AppLayoutComponent,
     children: [
-      {path:'service/liste' , component: ReadService},
+      {path:'service/read' , component: ReadService},
       {path:'service/create' , component: CreateService},
       // {path:'' , component: ListeUtilisateurComponent, canActivate: [AuthGuard]},
       // {path:'utilisateur/create' , component: CreateUtilisateurComponent, canActivate: [AuthGuard]},

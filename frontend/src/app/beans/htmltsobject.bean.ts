@@ -520,6 +520,7 @@ export class HtmlTsObject {
 
     public getCreateTsModule(): string {
         let result = '';
+        result = result + 'import { LabelInputModule } from "../../../components/labelinput/labelinput.module";\n';
         result = result + 'import { NgModule } from "@angular/core";\n';
         result = result + 'import { CommonModule } from "@angular/common";\n';
         result = result + 'import { Create' + this.constructor.name + ' } from "./' + this.constructor.name.toLowerCase() + '.create";\n';
@@ -552,6 +553,7 @@ export class HtmlTsObject {
         result = result + 'MultiSelectModule,\n';
         result = result + 'PasswordModule,\n';
         result = result + 'ToastModule,\n';
+        result = result + 'LabelInputModule\n';
         result = result + ']\n';
         result = result + '})\n';
         result = result + 'export class Create' + this.constructor.name + 'Module { }\n';
@@ -561,6 +563,7 @@ export class HtmlTsObject {
 
     public getReadTsModule(): string { 
         let result = '';
+        result = result + 'import { LabelInputModule } from "../../../components/labelinput/labelinput.module";\n';
         result = result + 'import { NgModule } from "@angular/core";\n';
         result = result + 'import { CommonModule } from "@angular/common";\n';
         result = result + 'import { TableModule } from "primeng/table";\n';
@@ -592,6 +595,7 @@ export class HtmlTsObject {
         result = result + 'GenericPopupModule,\n';
         result = result + 'InputTextareaModule,\n';
         result = result + 'DialogModule,\n';
+        result = result + 'LabelInputModule\n';
         result = result + ']\n';
         result = result + '})\n';
         result = result + 'export class Read' + this.constructor.name + 'Module { }\n';
@@ -638,8 +642,7 @@ export class HtmlTsObject {
 
     public generateCRUD(){
         this.setTs();
-        this.setCreateHtml();
-        // this.setHtml();
+        this.setHtml();
         this.setTsService();
         this.setModule();
     }
