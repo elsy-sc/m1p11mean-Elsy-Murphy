@@ -77,10 +77,46 @@ export class HtmlTsObject {
 
     public getCreateHtml(): string {
         const form = Reflect.getMetadata('Form', this.constructor);
+        let result = '';
         if (form) {
-            return '<div class="grid"><div class="col-8 md:col-6"><div class="card p-fluid">' + getOpenFormHtml(form) + '<h5>Création de ' + this.constructor.name + '</h5>' + this.getElementsHtml() + '<button pButton label="Submit"></button>' + getCloseFormHtml() + '</div></div></div>';
+            result = result + '<div class="grid"><div class="col-8 md:col-6"><div class="card p-fluid">' + getOpenFormHtml(form) + '<h5>Création de ' + this.constructor.name + '</h5>';
+            
+            for(const field of getFields(this)) {
+                const labelInput: LabelInput = Reflect.getMetadata('LabelInput', this, field.name);
+                if (labelInput) {
+                    labelInput.restString = (labelInput.restString ? labelInput.restString : '') + '[(ngModel)]="' + this.constructor.name.toLowerCase() + '.' + field.name + '" (input)="onInput()"' + '[(ngClass)]="{' + '\'ng-dirty ng-invalid\' : error && errors[0]?.field ===' + field.name + '} "';
+                    result = result + getLabelInputHtml(labelInput);
+                    result = result + '<p *ngIf="error && errors[0]?.field === \'' + field.name + '" class="text-danger">{{errors[0]?.message}}</p>';
+                }
+                const textarea: Textarea = Reflect.getMetadata('Textarea', this, field.name);
+                if (textarea) {
+                    textarea.rest = (textarea.rest ? textarea.rest : '') + '[(ngModel)]="' + this.constructor.name.toLowerCase() + '.' + field.name + '" (input)="onInput()"' + '[(ngClass)]="{' + '\'ng-dirty ng-invalid\' : error && errors[0]?.field ===' + field.name + '} "';
+                    result = result + getTextareaHtml(textarea);
+                    result = result + '<p *ngIf="error && errors[0]?.field === \'' + field.name + '" class="text-danger">{{errors[0]?.message}}</p>';
+                }
+                const checkbox: Checkbox = Reflect.getMetadata('Checkbox', this, field.name);
+                if (checkbox) {
+                    checkbox.rest = (checkbox.rest ? checkbox.rest : '') + '[(ngModel)]="' + this.constructor.name.toLowerCase() + '.' + field.name + '" (input)="onInput()"' + '[(ngClass)]="{' + '\'ng-dirty ng-invalid\' : error && errors[0]?.field ===' + field.name + '} "';
+                    result = result + getCheckboxHtml(checkbox);
+                    result = result + '<p *ngIf="error && errors[0]?.field === \'' + field.name + '" class="text-danger">{{errors[0]?.message}}</p>';
+                }
+                const radio: Radio = Reflect.getMetadata('Radio', this, field.name);
+                if (radio) {
+                    radio.rest = (radio.rest ? radio.rest : '') + '[(ngModel)]="' + this.constructor.name.toLowerCase() + '.' + field.name + '" (input)="onInput()"' + '[(ngClass)]="{' + '\'ng-dirty ng-invalid\' : error && errors[0]?.field ===' + field.name + '} "';
+                    result = result + getRadioHtml(radio);
+                    result = result + '<p *ngIf="error && errors[0]?.field === \'' + field.name + '" class="text-danger">{{errors[0]?.message}}</p>';
+                }
+                const select: Select = Reflect.getMetadata('Select', this, field.name);
+                if (select) {
+                    select.rest = (select.rest ? select.rest : '') + '[(ngModel)]="' + this.constructor.name.toLowerCase() + '.' + field.name + '" (input)="onInput()"' + '[(ngClass)]="{' + '\'ng-dirty ng-invalid\' : error && errors[0]?.field ===' + field.name + '} "';
+                    result = result + getSelectHtml(select);
+                    result = result + '<p *ngIf="error && errors[0]?.field === \'' + field.name + '" class="text-danger">{{errors[0]?.message}}</p>';
+                }
+                
+            }
+            result = result + '<button pButton label="Submit" [loading]="isLoading"></button>' + getCloseFormHtml() + '</div></div></div>';
         }
-        return '';
+        return result;
     }
 
     public getReadHtml(): string {
