@@ -342,19 +342,17 @@ export class HtmlTsObject {
     }
 
 
-
-
     public setTsService(){
         writeToFile(process.cwd() + SERVICE_PATH + this.constructor.name.toLowerCase() + '/' + this.constructor.name.toLowerCase() + '.service.ts', this.getTsService());
     }
 
     public setTs(){
-        writeToFile(process.cwd() + PAGE_PATH + this.constructor.name.toLowerCase() + '/' + this.constructor.name + '.create.ts', this.getTsCreate());
-        writeToFile(process.cwd() + PAGE_PATH + this.constructor.name.toLowerCase() + '/' + this.constructor.name + '.read.ts', this.getTsRead());
+        writeToFile(process.cwd() + PAGE_PATH + this.constructor.name.toLowerCase() + '/' + this.constructor.name.toLowerCase() + '.create.ts', this.getTsCreate());
+        writeToFile(process.cwd() + PAGE_PATH + this.constructor.name.toLowerCase() + '/' + this.constructor.name.toLowerCase() + '.read.ts', this.getTsRead());
     }
 
     public setHtml(){
-        writeToFile(process.cwd() + PAGE_PATH + this.constructor.name.toLowerCase() + '/' + this.constructor.name + '.create.page.html', this.getCreateHtml());
-        writeToFile(process.cwd() + PAGE_PATH + this.constructor.name.toLowerCase() + '/' + this.constructor.name + '.read.page.html', this.getReadHtml());
+        writeToFile(process.cwd() + PAGE_PATH + this.constructor.name.toLowerCase() + '/' + this.constructor.name.toLowerCase() + '.create.page.html', this.getCreateHtml());
+        writeToFile(process.cwd() + PAGE_PATH + this.constructor.name.toLowerCase() + '/' + this.constructor.name.toLowerCase() + '.read.page.html', this.getReadHtml());
     }
 }
