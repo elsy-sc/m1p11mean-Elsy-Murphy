@@ -1,4 +1,5 @@
-import { Employe } from "../models/employe.model";
+import { Service } from "../models/service.model";
 
-const employe = new Employe();
-employe.generateCRUD();
+const service = new Service();
+// service.generateCRUD();
+service.setReadHtml();

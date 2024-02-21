@@ -15,33 +15,55 @@ export class AppMenuComponent implements OnInit {
     ngOnInit() {
         this.model = [
             {
-                label: 'Home',
-                items: [
-                    { label: 'Dashboard', icon: 'pi pi-fw pi-home', routerLink: ['/'] }
-                ]
-            },
-            {
-                label: 'Menu',
+                label: 'Services',
                 icon: 'pi pi-fw pi-briefcase',
                 items: [
                     {
-                        label: 'Utilisateur',
+                        label: 'Service',
                         icon: 'pi pi-fw pi-user',
                         items: [
                             {
                                 label: 'ajouter',
                                 icon: 'pi pi-fw pi-plus',
-                                routerLink: ['/firstpage/utilisateur/create']
+                                routerLink: ['/service/create']
                             },
                             {
                                 label: 'liste',
                                 icon: 'pi pi-fw pi-list',
-                                routerLink: ['/firstpage']
+                                routerLink: ['/service/liste']
                             }
                         ]
                     }
                 ]
-            },
+            }
+            // {
+            //     label: 'Home',
+            //     items: [
+            //         { label: 'Dashboard', icon: 'pi pi-fw pi-home', routerLink: ['/'] }
+            //     ]
+            // },
+            // {
+            //     label: 'Menu',
+            //     icon: 'pi pi-fw pi-briefcase',
+            //     items: [
+            //         {
+            //             label: 'Utilisateur',
+            //             icon: 'pi pi-fw pi-user',
+            //             items: [
+            //                 {
+            //                     label: 'ajouter',
+            //                     icon: 'pi pi-fw pi-plus',
+            //                     routerLink: ['/firstpage/utilisateur/create']
+            //                 },
+            //                 {
+            //                     label: 'liste',
+            //                     icon: 'pi pi-fw pi-list',
+            //                     routerLink: ['/firstpage']
+            //                 }
+            //             ]
+            //         }
+            //     ]
+            // },
             // {
             //     label: 'Hierarchy',
             //     items: [

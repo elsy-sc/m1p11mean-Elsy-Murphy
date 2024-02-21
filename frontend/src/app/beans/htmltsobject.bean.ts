@@ -84,33 +84,33 @@ export class HtmlTsObject {
             for(const field of getFields(this)) {
                 const labelInput: LabelInput = Reflect.getMetadata('LabelInput', this, field.name);
                 if (labelInput) {
-                    labelInput.restString = (labelInput.restString ? labelInput.restString : '') + '[(ngModel)]="' + this.constructor.name.toLowerCase() + '.' + field.name + '" (input)="onInput()"' + '[ngClass]="{' + '\'ng-dirty ng-invalid\' : error && errors[0]?.field ===\'' + field.name + '\'} "';
+                    labelInput.restString = (labelInput.restString ? labelInput.restString : '') + '[(ngModel)]="' + this.constructor.name.toLowerCase() + '.' + field.name + '" (input)="onInput()"' + '[ngClass]="{' + '\'ng-dirty ng-invalid\' : errors && errors[0]?.field ===\'' + field.name + '\'} "';
                     result = result + getLabelInputHtml(labelInput);
-                    result = result + '<p *ngIf="error && errors[0]?.field === \'' + field.name + '\'" class="text-danger">{{errors[0]?.message}}</p>';
+                    result = result + '<p *ngIf="errors && errors[0]?.field === \'' + field.name + '\'" class="text-danger">{{errors[0]?.message}}</p>';
                 }
                 const textarea: Textarea = Reflect.getMetadata('Textarea', this, field.name);
                 if (textarea) {
-                    textarea.rest = (textarea.rest ? textarea.rest : '') + '[(ngModel)]="' + this.constructor.name.toLowerCase() + '.' + field.name + '" (input)="onInput()"' + '[ngClass]="{' + '\'ng-dirty ng-invalid\' : error && errors[0]?.field ===\'' + field.name + '\'} "';
+                    textarea.rest = (textarea.rest ? textarea.rest : '') + '[(ngModel)]="' + this.constructor.name.toLowerCase() + '.' + field.name + '" (input)="onInput()"' + '[ngClass]="{' + '\'ng-dirty ng-invalid\' : errors && errors[0]?.field ===\'' + field.name + '\'} "';
                     result = result + getTextareaHtml(textarea);
-                    result = result + '<p *ngIf="error && errors[0]?.field === \'' + field.name + '\'" class="text-danger">{{errors[0]?.message}}</p>';
+                    result = result + '<p *ngIf="errors && errors[0]?.field === \'' + field.name + '\'" class="text-danger">{{errors[0]?.message}}</p>';
                 }
                 const checkbox: Checkbox = Reflect.getMetadata('Checkbox', this, field.name);
                 if (checkbox) {
-                    checkbox.rest = (checkbox.rest ? checkbox.rest : '') + '[(ngModel)]="' + this.constructor.name.toLowerCase() + '.' + field.name + '\'" (input)="onInput()"' + '[ngClass]="{\'' + '\'ng-dirty ng-invalid\' : error && errors[0]?.field ===\'' + field.name + '\'} "';
+                    checkbox.rest = (checkbox.rest ? checkbox.rest : '') + '[(ngModel)]="' + this.constructor.name.toLowerCase() + '.' + field.name + '\'" (input)="onInput()"' + '[ngClass]="{\'' + '\'ng-dirty ng-invalid\' : errors && errors[0]?.field ===\'' + field.name + '\'} "';
                     result = result + getCheckboxHtml(checkbox);
-                    result = result + '<p *ngIf="error && errors[0]?.field === \'' + field.name + '\'" class="text-danger">{{errors[0]?.message}}</p>';
+                    result = result + '<p *ngIf="errors && errors[0]?.field === \'' + field.name + '\'" class="text-danger">{{errors[0]?.message}}</p>';
                 }
                 const radio: Radio = Reflect.getMetadata('Radio', this, field.name);
                 if (radio) {
-                    radio.rest = (radio.rest ? radio.rest : '') + '[(ngModel)]="' + this.constructor.name.toLowerCase() + '.' + field.name + '" (input)="onInput()"' + '[ngClass]="{' + '\'ng-dirty ng-invalid\' : error && errors[0]?.field ===\'' + field.name + '\'} "';
+                    radio.rest = (radio.rest ? radio.rest : '') + '[(ngModel)]="' + this.constructor.name.toLowerCase() + '.' + field.name + '" (input)="onInput()"' + '[ngClass]="{' + '\'ng-dirty ng-invalid\' : errors && errors[0]?.field ===\'' + field.name + '\'} "';
                     result = result + getRadioHtml(radio);
-                    result = result + '<p *ngIf="error && errors[0]?.field === \'' + field.name + '\'" class="text-danger">{{errors[0]?.message}}</p>';
+                    result = result + '<p *ngIf="errors && errors[0]?.field === \'' + field.name + '\'" class="text-danger">{{errors[0]?.message}}</p>';
                 }
                 const select: Select = Reflect.getMetadata('Select', this, field.name);
                 if (select) {
-                    select.rest = (select.rest ? select.rest : '') + '[(ngModel)]="' + this.constructor.name.toLowerCase() + '.' + field.name + '" (input)="onInput()"' + '[ngClass]="{' + '\'ng-dirty ng-invalid\' : error && errors[0]?.field ===\'' + field.name + '\'} "';
+                    select.rest = (select.rest ? select.rest : '') + '[(ngModel)]="' + this.constructor.name.toLowerCase() + '.' + field.name + '" (input)="onInput()"' + '[ngClass]="{' + '\'ng-dirty ng-invalid\' : errors && errors[0]?.field ===\'' + field.name + '\'} "';
                     result = result + getSelectHtml(select);
-                    result = result + '<p *ngIf="error && errors[0]?.field === \'' + field.name + '\'" class="text-danger">{{errors[0]?.message}}</p>';
+                    result = result + '<p *ngIf="errors && errors[0]?.field === \'' + field.name + '\'" class="text-danger">{{errors[0]?.message}}</p>';
                 }
                 
             }
@@ -241,7 +241,7 @@ export class HtmlTsObject {
 
     public getHtmlDelete(): string {
         let result = '';
-        result = result  + '<generic-popup title="Suppression de ' + this.constructor.name + '" subtitle="Etes-vous sûr de vouloir cette "' + this.constructor.name.toLowerCase() + ' [show]="showDeletePopup" (handleclose)="CancelDelete' + this.constructor.name.charAt(0).toUpperCase() + this.constructor.name.slice(1) + '()" (validClick)="ValidDelete' + this.constructor.name.charAt(0).toUpperCase() + this.constructor.name.slice(1) + '()" (cancelClick)="CancelDelete"' + this.constructor.name.charAt(0).toUpperCase() + this.constructor.name.slice(1) + ' >\n';
+        result = result  + '<generic-popup title="Suppression de ' + this.constructor.name + '" subtitle="Etes-vous sûr de vouloir cette "' + this.constructor.name.toLowerCase() + ' [show]="showDeletePopup" (handleclose)="CancelDelete' + this.constructor.name.charAt(0).toUpperCase() + this.constructor.name.slice(1) + '()" (validClick)="ValidDelete' + this.constructor.name.charAt(0).toUpperCase() + this.constructor.name.slice(1) + '()" (cancelClick)="CancelDelete' + this.constructor.name.charAt(0).toUpperCase() + this.constructor.name.slice(1) + '()" >\n';
         result = result + '</generic-popup>\n'
         return result;
     }
@@ -258,41 +258,41 @@ export class HtmlTsObject {
             const labelInput: LabelInput = Reflect.getMetadata('LabelInput', this, field.name);
 
             if (labelInput) {
-                labelInput.restString = (labelInput.restString ? labelInput.restString : '') + '[ngClass]="{' + '\'ng-dirty ng-invalid\' : errorUpdate && errorsUpdate[0]?.field ===\'' + field.name + '\'} " (input)="onInput()"' + '[(ngModel)]="' + this.constructor.name.toLowerCase() + 'Update.' + field.name + '"';
+                labelInput.restString = (labelInput.restString ? labelInput.restString : '') + '[ngClass]="{' + '\'ng-dirty ng-invalid\' : errorsUpdate && errorsUpdate[0]?.field ===\'' + field.name + '\'} " (input)="onInput()"' + '[(ngModel)]="' + this.constructor.name.toLowerCase() + 'Update.' + field.name + '"';
                 result = result + getLabelInputHtml(labelInput) + '\n';
-                result = result + '<p *ngIf="errorUpdate && errorsUpdate[0]?.field ===\'' + field.name + '\'" class="text-danger">{{errorsUpdate[0]?.message}}</p>\n';
+                result = result + '<p *ngIf="errorsUpdate && errorsUpdate[0]?.field ===\'' + field.name + '\'" class="text-danger">{{errorsUpdate[0]?.message}}</p>\n';
             }
 
             const textarea: Textarea = Reflect.getMetadata('Textarea', this, field.name);
 
             if (textarea) {
-                textarea.rest = (textarea.rest ? textarea.rest : '') + '[ngClass]="{' + '\'ng-dirty ng-invalid\' : errorUpdate && errorsUpdate[0]?.field ===\'' + field.name + '\'} " (input)="onInput()"' + '[(ngModel)]="' + this.constructor.name.toLowerCase() + 'Update.' + field.name + '"';
+                textarea.rest = (textarea.rest ? textarea.rest : '') + '[ngClass]="{' + '\'ng-dirty ng-invalid\' : errorsUpdate && errorsUpdate[0]?.field ===\'' + field.name + '\'} " (input)="onInput()"' + '[(ngModel)]="' + this.constructor.name.toLowerCase() + 'Update.' + field.name + '"';
                 result = result + getTextareaHtml(textarea) + '\n';
-                result = result + '<p *ngIf="errorUpdate && errorsUpdate[0]?.field ===\'' + field.name + '\'" class="text-danger">{{errorsUpdate[0]?.message}}</p>\n';
+                result = result + '<p *ngIf="errorsUpdate && errorsUpdate[0]?.field ===\'' + field.name + '\'" class="text-danger">{{errorsUpdate[0]?.message}}</p>\n';
             }
 
             const checkbox: Checkbox = Reflect.getMetadata('Checkbox', this, field.name);
 
             if (checkbox) {
-                checkbox.rest = (checkbox.rest ? checkbox.rest : '') + '[ngClass]="{' + '\'ng-dirty ng-invalid\' : errorUpdate && errorsUpdate[0]?.field ===\'' + field.name + '\'} " (input)="onInput()"' + '[(ngModel)]="' + this.constructor.name.toLowerCase() + 'Update.' + field.name + '"';
+                checkbox.rest = (checkbox.rest ? checkbox.rest : '') + '[ngClass]="{' + '\'ng-dirty ng-invalid\' : errorsUpdate && errorsUpdate[0]?.field ===\'' + field.name + '\'} " (input)="onInput()"' + '[(ngModel)]="' + this.constructor.name.toLowerCase() + 'Update.' + field.name + '"';
                 result = result + getCheckboxHtml(checkbox) + '\n';
-                result = result + '<p *ngIf="errorUpdate && errorsUpdate[0]?.field ===\'' + field.name + '\'" class="text-danger">{{errorsUpdate[0]?.message}}</p>\n';
+                result = result + '<p *ngIf="errorsUpdate && errorsUpdate[0]?.field ===\'' + field.name + '\'" class="text-danger">{{errorsUpdate[0]?.message}}</p>\n';
             }
 
             const radio: Radio = Reflect.getMetadata('Radio', this, field.name);
 
             if (radio) {
-                radio.rest = (radio.rest ? radio.rest : '') + '[ngClass]="{' + '\'ng-dirty ng-invalid\' : errorUpdate && errorsUpdate[0]?.field ===\'' + field.name + '\'} " (input)="onInput()"' + '[(ngModel)]="' + this.constructor.name.toLowerCase() + 'Update.' + field.name + '"';
+                radio.rest = (radio.rest ? radio.rest : '') + '[ngClass]="{' + '\'ng-dirty ng-invalid\' : errorsUpdate && errorsUpdate[0]?.field ===\'' + field.name + '\'} " (input)="onInput()"' + '[(ngModel)]="' + this.constructor.name.toLowerCase() + 'Update.' + field.name + '"';
                 result = result + getRadioHtml(radio) + '\n';
-                result = result + '<p *ngIf="errorUpdate && errorsUpdate[0]?.field ===\'' + field.name + '\'" class="text-danger">{{errorsUpdate[0]?.message}}</p>\n';
+                result = result + '<p *ngIf="errorsUpdate && errorsUpdate[0]?.field ===\'' + field.name + '\'" class="text-danger">{{errorsUpdate[0]?.message}}</p>\n';
             }
 
             const select: Select = Reflect.getMetadata('Select', this, field.name);
 
             if (select) {
-                select.rest = (select.rest ? select.rest : '') + '[ngClass]="{' + '\'ng-dirty ng-invalid\' : errorUpdate && errorsUpdate[0]?.field ===\'' + field.name + '\'} " (input)="onInput()"' + '[(ngModel)]="' + this.constructor.name.toLowerCase() + 'Update.' + field.name + '"';
+                select.rest = (select.rest ? select.rest : '') + '[ngClass]="{' + '\'ng-dirty ng-invalid\' : errorsUpdate && errorsUpdate[0]?.field ===\'' + field.name + '\'} " (input)="onInput()"' + '[(ngModel)]="' + this.constructor.name.toLowerCase() + 'Update.' + field.name + '"';
                 result = result + getSelectHtml(select) + '\n';
-                result = result + '<p *ngIf="errorUpdate && errorsUpdate[0]?.field ===\'' + field.name + '\'" class="text-danger">{{errorsUpdate[0]?.message}}</p>\n';
+                result = result + '<p *ngIf="errorsUpdate && errorsUpdate[0]?.field ===\'' + field.name + '\'" class="text-danger">{{errorsUpdate[0]?.message}}</p>\n';
             }
             
         }
@@ -595,9 +595,25 @@ export class HtmlTsObject {
 
     public setHtml(){
         writeToFile(process.cwd() + PAGE_PATH + this.constructor.name.toLowerCase() + '/create-' + this.constructor.name.toLowerCase() + '/' + this.constructor.name.toLowerCase() + '.create.page.html', this.getCreateHtml());
+
         writeToFile(process.cwd() + PAGE_PATH + this.constructor.name.toLowerCase() + '/create-' + this.constructor.name.toLowerCase() + '/' + this.constructor.name.toLowerCase() + '.create.page.css', "");
+
         writeToFile(process.cwd() + PAGE_PATH + this.constructor.name.toLowerCase() + '/read-' + this.constructor.name.toLowerCase() + '/' + this.constructor.name.toLowerCase() + '.read.page.html', this.getReadHtml());
+
         writeToFile(process.cwd() + PAGE_PATH + this.constructor.name.toLowerCase() + '/read-' + this.constructor.name.toLowerCase() + '/' + this.constructor.name.toLowerCase() + '.read.page.css', "");
+    }
+
+    public setReadHtml(){
+        writeToFile(process.cwd() + PAGE_PATH + this.constructor.name.toLowerCase() + '/read-' + this.constructor.name.toLowerCase() + '/' + this.constructor.name.toLowerCase() + '.read.page.html', this.getReadHtml());
+
+        writeToFile(process.cwd() + PAGE_PATH + this.constructor.name.toLowerCase() + '/read-' + this.constructor.name.toLowerCase() + '/' + this.constructor.name.toLowerCase() + '.read.page.css', "");
+    }
+
+    public setCreateHtml(){
+        writeToFile(process.cwd() + PAGE_PATH + this.constructor.name.toLowerCase() + '/create-' + this.constructor.name.toLowerCase() + '/' + this.constructor.name.toLowerCase() + '.create.page.html', this.getCreateHtml());
+
+        writeToFile(process.cwd() + PAGE_PATH + this.constructor.name.toLowerCase() + '/create-' + this.constructor.name.toLowerCase() + '/' + this.constructor.name.toLowerCase() + '.create.page.css', "");
+
     }
 
     public setModule(){
@@ -607,7 +623,8 @@ export class HtmlTsObject {
 
     public generateCRUD(){
         this.setTs();
-        this.setHtml();
+        this.setCreateHtml();
+        // this.setHtml();
         this.setTsService();
         this.setModule();
     }

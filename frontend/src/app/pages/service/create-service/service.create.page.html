@@ -1,0 +1,74 @@
+<div class="grid">
+  <div class="col-8 md:col-6">
+    <div class="card p-fluid">
+      <form (ngSubmit)="submit()">
+        <h5>Création de Service</h5>
+        <LabelInput
+          name="nom"
+          [(ngModel)]="service.nom"
+          (input)="onInput()"
+          [ngClass]="{'ng-dirty ng-invalid' : errors && errors[0]?.field ==='nom'} "
+        />
+        <p *ngIf="errors && errors[0]?.field === 'nom'" class="text-danger">
+          {{errors[0]?.message}}
+        </p>
+        <div class="flex flex-column gap-2 container">
+          <div class="inputContainer">
+            <span class="p-input-icon-left p-input-icon-right">
+              <textarea
+                id="textarea"
+                rows="5"
+                cols="30"
+                pInputTextarea
+                name="description"
+                [(ngModel)]="service.description"
+                (input)="onInput()"
+                [ngClass]="{'ng-dirty ng-invalid' : errors && errors[0]?.field ==='description'} "
+              ></textarea>
+            </span>
+          </div>
+        </div>
+        <p
+          *ngIf="errors && errors[0]?.field === 'description'"
+          class="text-danger"
+        >
+          {{errors[0]?.message}}
+        </p>
+        <LabelInput
+          type="number"
+          name="duree"
+          [(ngModel)]="service.duree"
+          (input)="onInput()"
+          [ngClass]="{'ng-dirty ng-invalid' : errors && errors[0]?.field ==='duree'} "
+        />
+        <p *ngIf="errors && errors[0]?.field === 'duree'" class="text-danger">
+          {{errors[0]?.message}}
+        </p>
+        <LabelInput
+          type="number"
+          name="prix"
+          [(ngModel)]="service.prix"
+          (input)="onInput()"
+          [ngClass]="{'ng-dirty ng-invalid' : errors && errors[0]?.field ==='prix'} "
+        />
+        <p *ngIf="errors && errors[0]?.field === 'prix'" class="text-danger">
+          {{errors[0]?.message}}
+        </p>
+        <LabelInput
+          type="number"
+          name="commission"
+          [(ngModel)]="service.commission"
+          (input)="onInput()"
+          [ngClass]="{'ng-dirty ng-invalid' : errors && errors[0]?.field ==='commission'} "
+        />
+        <p
+          *ngIf="errors && errors[0]?.field === 'commission'"
+          class="text-danger"
+        >
+          {{errors[0]?.message}}
+        </p>
+        <button pButton label="Submit" [loading]="isLoading"></button>
+      </form>
+    </div>
+  </div>
+</div>

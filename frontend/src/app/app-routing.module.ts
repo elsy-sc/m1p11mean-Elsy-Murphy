@@ -12,10 +12,12 @@ const routes: Routes = [
   { path: '', component: LoginComponent },
   { path: 'inscription', component: InscriptionComponent },
   {
-    path: 'firstpage' , component: AppLayoutComponent,
+    path: '/beauty-salon' , component: AppLayoutComponent,
     children: [
-      {path:'' , component: ListeUtilisateurComponent, canActivate: [AuthGuard]},
-      {path:'utilisateur/create' , component: CreateUtilisateurComponent, canActivate: [AuthGuard]},
+      {path:'service/liste' , component: ListeUtilisateurComponent, canActivate: [AuthGuard]},
+      {path:'service/create' , component: CreateUtilisateurComponent, canActivate: [AuthGuard]},
+      // {path:'' , component: ListeUtilisateurComponent, canActivate: [AuthGuard]},
+      // {path:'utilisateur/create' , component: CreateUtilisateurComponent, canActivate: [AuthGuard]},
     ]
   }
 ];
