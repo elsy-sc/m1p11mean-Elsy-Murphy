@@ -5,6 +5,8 @@ import { Depense } from "../../../models/depense.model";
 import { DepenseService } from "../../../services/depense/depense.service";
 import { TypeDepense } from "../../../models/typedepense.model";
 import { TypeDepenseService } from "../../../services/typedepense/typedepense.service";
+import { DatePipe } from "@angular/common";
+import { Date } from "../../../beans/date.bean.util";
 @Component({
     selector: "read-depense",
     templateUrl: "./depense.read.page.html",
@@ -29,7 +31,6 @@ export class ReadDepense implements OnInit {
     errorsUpdate: any[] | undefined = [];
 
     UpdateDepense(depense: Depense) {
-
         this.showUpdatePopup = true;
         this.depenseUpdate = Object.assign({}, depense);
     }
@@ -66,7 +67,6 @@ export class ReadDepense implements OnInit {
     }
 
     onInput() {
-
         this.errorsUpdate = [];
     }
 
@@ -89,7 +89,6 @@ export class ReadDepense implements OnInit {
     }
 
     rechercher() {
-
         this.getDepenses();
     }
 
@@ -115,7 +114,7 @@ export class ReadDepense implements OnInit {
         });
     }
 
-    getTypeDepenses () {
+    getTypeDepenses() {
         this.typeDepenseService.readTypeDepense(new TypeDepense()).subscribe(
             (response) => {
                 if (response.data) {
@@ -124,7 +123,7 @@ export class ReadDepense implements OnInit {
             },
             (error) => {
                 console.error(error);
-            } 
+            }
         )
     }
 

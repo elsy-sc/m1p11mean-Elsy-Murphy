@@ -5,9 +5,9 @@ class Depense extends TableObject {
     constructor (idtypedepense,montant,description,datedepense) {
         super();
         this.idtypedepense = idtypedepense;
-        this.montant = montant;
-        this.description = description;
-        this.datedepense = datedepense;
+        this.montant = (montant != undefined &&  montant != null && montant.toString().trim() != "")  ? montant : undefined;
+        this.description = (description != undefined &&  description != null && description.toString().trim() != "")  ? description : undefined;
+        this.datedepense = (datedepense != undefined &&  datedepense != null)  ? datedepense : undefined;;
         this.linkedTableId = [
             {
                 tableName: "typedepense",
@@ -50,9 +50,9 @@ class Depense extends TableObject {
 
     setDateDepense(datedepense) {
         if (datedepense == null || datedepense == undefined || datedepense.trim() == "") {
-            this.datedepense = new Date().date;
+            this.datedepense = new Date().date.split(" ")[0];
         }
-        else {  
+        else { 
             this.datedepense = datedepense;
         }
     }    

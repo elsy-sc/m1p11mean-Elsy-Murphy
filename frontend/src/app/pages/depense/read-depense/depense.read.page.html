@@ -13,8 +13,9 @@
                                     <div class="grid formgrid">
                                         <div class="inputContainer">
                                             <p-dropdown [(ngModel)]="depenseSearch.idtypedepense"
-                                                (change)="rechercher()" name="idtypedepense" [options]="typedepense"
-                                                [showClear]="true"></p-dropdown>
+                                                placeholder="Choisir type" (ngModelChange)="rechercher()"
+                                                name="idtypedepense" [options]="typedepense" [showClear]="true"
+                                                optionLabel="nom" optionValue="_id"></p-dropdown>
                                         </div>
                                     </div>
                                 </div>
@@ -51,9 +52,10 @@
                         <td>{{depense.datedepense}}</td>
                         <td>
                             <div class="flex"><button pButton pRipple icon="pi pi-pencil"
-                                    class="p-button-rounded p-button-success mr-2" label="Modifier" (click)="UpdateDepense(depense)" ></button><button
-                                    pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger"
-                                    label="Supprimer" (click)="DeleteDepense(depense)" ></button></div>
+                                    class="p-button-rounded p-button-success mr-2" label="Modifier"
+                                    (click)="UpdateDepense(depense)"></button><button pButton pRipple icon="pi pi-trash"
+                                    class="p-button-rounded p-button-danger" label="Supprimer"
+                                    (click)="DeleteDepense(depense)"></button></div>
                         </td>
                     </tr>
                 </ng-template>
@@ -71,11 +73,11 @@
                     <div class="inputContainer">
                         <div class="grid formgrid">
                             <div class="inputContainer">
-                                <p-dropdown
+                                <p-dropdown placeholder="Choisir type"
                                     [ngClass]="{'ng-dirty ng-invalid' : errorsUpdate && errorsUpdate[0]?.field ==='idtypedepense'} "
                                     (input)="onInput()" [(ngModel)]="depenseUpdate.idtypedepense" name="idtypedepense"
-                                    [options]="typedepense" [showClear]="true" optionLabel="nom"
-                                    optionValue="_id"  ></p-dropdown>
+                                    [options]="typedepense" [showClear]="true" optionLabel="nom" optionValue="_id">
+                                </p-dropdown>
                             </div>
                         </div>
                     </div>

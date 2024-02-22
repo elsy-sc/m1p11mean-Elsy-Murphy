@@ -9,10 +9,11 @@
                     <div class="inputContainer">
                         <div class="grid formgrid">
                             <div class="inputContainer">
-                                <p-dropdown [(ngModel)]="depense.idtypedepense" placeholder="Choisir type" (input)="onInput()"
+                                <p-dropdown [(ngModel)]="depense.idtypedepense" placeholder="Choisir type"
+                                    (input)="onInput()"
                                     [ngClass]="{'ng-dirty ng-invalid' : errors && errors[0]?.field ==='idtypedepense'} "
                                     name="idtypedepense" [options]="typedepense" [showClear]="true" optionLabel="nom"
-                                    optionValue="_id" ></p-dropdown>
+                                    optionValue="_id"></p-dropdown>
                             </div>
                         </div>
                     </div>
