@@ -14,6 +14,7 @@ export class ReadService implements OnInit {
 
     serviceSearch: Service = new Service();
     services: Service[] = [];
+    categorieservices: CategorieService[] = [];
 
     serviceDelete: Service = new Service();
 
@@ -27,7 +28,6 @@ export class ReadService implements OnInit {
 
     errorsUpdate: any[] | undefined = [];
 
-    categorieservices: CategorieService[] = [];
 
     UpdateService(service: Service) {
 
