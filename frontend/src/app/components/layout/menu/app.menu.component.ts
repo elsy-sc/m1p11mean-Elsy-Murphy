@@ -15,6 +15,28 @@ export class AppMenuComponent implements OnInit {
     ngOnInit() {
         this.model = [
             {
+                label: 'Personnel',
+                routerLink: ['/beauty-salon/'],
+                items: [
+                    {
+                        label: 'Employe',
+                        icon: 'pi pi-fw pi-user',
+                        items: [
+                            {
+                                label: 'ajouter',
+                                icon: 'pi pi-fw pi-plus',
+                                routerLink: ['employe/create']
+                            },
+                            {
+                                label: 'liste',
+                                icon: 'pi pi-fw pi-list',
+                                routerLink: ['employe/read']
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
                 label: 'Services',
                 icon: 'pi pi-fw pi-briefcase',
                 routerLink: ['/beauty-salon/'],
@@ -48,6 +70,44 @@ export class AppMenuComponent implements OnInit {
                                 label: 'liste',
                                 icon: 'pi pi-fw pi-list',
                                 routerLink: ['categorieservice/read']
+                            }
+                        ]
+                    },
+                ]
+            },
+            {
+                label: 'Depense',
+                routerLink: ['/beauty-salon/'],
+                items: [
+                    {
+                        label: 'Type de depense',
+                        icon: 'pi pi-list',
+                        items: [
+                            {
+                                label: 'ajouter',
+                                icon: 'pi pi-fw pi-plus',
+                                routerLink: ['typedepense/create']
+                            },
+                            {
+                                label: 'liste',
+                                icon: 'pi pi-fw pi-list',
+                                routerLink: ['typedepense/read']
+                            }
+                        ]
+                    },
+                    {
+                        label: 'Depense',
+                        icon: 'pi pi-list',
+                        items: [
+                            {
+                                label: 'ajouter',
+                                icon: 'pi pi-fw pi-plus',
+                                routerLink: ['depense/create']
+                            },
+                            {
+                                label: 'liste',
+                                icon: 'pi pi-fw pi-list',
+                                routerLink: ['depense/read']
                             }
                         ]
                     }

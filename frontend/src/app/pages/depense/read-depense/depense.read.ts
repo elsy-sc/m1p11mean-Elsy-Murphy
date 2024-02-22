@@ -1,22 +1,24 @@
 import { MessageService } from "primeng/api";
 import { HttpResponseApi } from "../../../interfaces/http/HttpResponseApi";
 import { Component, OnInit } from "@angular/core";
-import { Employe } from "../../../models/employe.model";
-import { EmployeService } from "../../../services/employe/employe.service";
-import { Router } from "@angular/router";
+import { Depense } from "../../../models/depense.model";
+import { DepenseService } from "../../../services/depense/depense.service";
+import { TypeDepense } from "../../../models/typedepense.model";
+import { TypeDepenseService } from "../../../services/typedepense/typedepense.service";
 @Component({
-    selector: "read-employe",
-    templateUrl: "./employe.read.page.html",
-    styleUrls: ["./employe.read.page.css"]
+    selector: "read-depense",
+    templateUrl: "./depense.read.page.html",
+    styleUrls: ["./depense.read.page.css"]
 })
-export class ReadEmploye implements OnInit {
+export class ReadDepense implements OnInit {
 
-    employeSearch: Employe = new Employe();
-    employes: Employe[] = [];
+    depenseSearch: Depense = new Depense();
+    depenses: Depense[] = [];
+    typedepense: TypeDepense[] = [];
 
-    employeDelete: Employe = new Employe();
+    depenseDelete: Depense = new Depense();
 
-    employeUpdate: Employe = new Employe();
+    depenseUpdate: Depense = new Depense();
 
     loadingButtonUpdate: boolean = true;
 
@@ -26,28 +28,28 @@ export class ReadEmploye implements OnInit {
 
     errorsUpdate: any[] | undefined = [];
 
-    UpdateEmploye(employe: Employe) {
+    UpdateDepense(depense: Depense) {
 
         this.showUpdatePopup = true;
-        this.employeUpdate = Object.assign({}, employe);
+        this.depenseUpdate = Object.assign({}, depense);
     }
 
-    CancelUpdateEmploye() {
+    CancelUpdateDepense() {
 
         this.showUpdatePopup = false;
         this.errorsUpdate = [];
     }
 
-    ValidUpdateEmploye() {
+    ValidUpdateDepense() {
 
         this.loadingButtonUpdate = true;
-        this.employeService.updateEmploye(this.employeUpdate).subscribe(
+        this.depenseService.updateDepense(this.depenseUpdate).subscribe(
             (response: HttpResponseApi) => {
                 if (response.message == "error" && response.status == 422) {
                     this.errorsUpdate = response.data;
                     this.loadingButtonUpdate = false;
                 } else if (response.status == 200) {
-                    this.getEmployes();
+                    this.getDepenses();
                     this.showUpdatePopup = false;
                     this.loadingButtonUpdate = false;
                     this.messageService.add({ severity: "success", summary: "Succès", detail: "Modification effectuée avec succès" });
@@ -69,49 +71,61 @@ export class ReadEmploye implements OnInit {
     }
 
     ngOnInit(): void {
+        this.getTypeDepenses();
+        this.getDepenses();
+    }
 
-        this.getEmployes();
+    constructor(private depenseService: DepenseService, private messageService: MessageService, private typeDepenseService: TypeDepenseService) {
 
     }
 
-    constructor(private employeService: EmployeService, private messageService: MessageService, private router: Router) {
+    getDepenses() {
 
-    }
-
-    getEmployes() {
-
-        this.employeService.readEmploye(this.employeSearch).subscribe((response: HttpResponseApi) => {
+        this.depenseService.readDepense(this.depenseSearch).subscribe((response: HttpResponseApi) => {
             if (response.data) {
-                this.employes = response.data;
+                this.depenses = response.data;
             }
         });
     }
 
     rechercher() {
 
-        this.getEmployes();
+        this.getDepenses();
     }
 
-    CancelDeleteEmploye() {
+    CancelDeleteDepense() {
 
         this.showDeletePopup = false;
     }
 
-    DeleteEmploye(employe: Employe) {
+    DeleteDepense(depense: Depense) {
 
         this.showDeletePopup = true;
-        this.employeDelete = employe;
+        this.depenseDelete = depense;
     }
 
-    ValidDeleteEmploye() {
+    ValidDeleteDepense() {
 
         this.showDeletePopup = false;
-        this.employeService.deleteEmploye(this.employeDelete).subscribe((response: HttpResponseApi) => {
+        this.depenseService.deleteDepense(this.depenseDelete).subscribe((response: HttpResponseApi) => {
             if (response.status == 200) {
-                this.getEmployes();
+                this.getDepenses();
                 this.messageService.add({ severity: "success", summary: "Succès", detail: "Suppression effectuée avec succès" });
             }
         });
+    }
+
+    getTypeDepenses () {
+        this.typeDepenseService.readTypeDepense(new TypeDepense()).subscribe(
+            (response) => {
+                if (response.data) {
+                    this.typedepense = response.data;
+                }
+            },
+            (error) => {
+                console.error(error);
+            } 
+        )
     }
 
 }

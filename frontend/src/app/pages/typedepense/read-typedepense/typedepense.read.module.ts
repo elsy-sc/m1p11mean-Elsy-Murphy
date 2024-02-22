@@ -2,7 +2,7 @@ import { LabelInputModule } from "../../../components/labelinput/labelinput.modu
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { TableModule } from "primeng/table";
-import { ReadEmploye } from "./employe.read";
+import { ReadTypeDepense } from "./typedepense.read";
 import { ButtonModule } from "primeng/button";
 import { RippleModule } from "primeng/ripple";
 import { InputTextModule } from "primeng/inputtext";
@@ -15,7 +15,7 @@ import { InputTextareaModule } from "primeng/inputtextarea";
 import { DialogModule } from "primeng/dialog";
 @NgModule({
     declarations: [
-        ReadEmploye
+        ReadTypeDepense
     ],
     imports: [
         CommonModule,
@@ -33,4 +33,4 @@ import { DialogModule } from "primeng/dialog";
         LabelInputModule
     ]
 })
-export class ReadEmployeModule { }
+export class ReadTypeDepenseModule { }

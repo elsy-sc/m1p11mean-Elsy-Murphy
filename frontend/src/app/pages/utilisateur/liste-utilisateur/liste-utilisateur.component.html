@@ -3,58 +3,27 @@
   <div class="col-12">
     <div class="card">
       <h5>Employée</h5>
-      <p-table
-        #dt1
-        [value]="utilisateurs"
-        [paginator]="true"
-        [rowHover]="true"
-        [loading]="loading"
-        dataKey="_id"
-        [rows]="3"
-        [globalFilterFields]="['nom', 'prenom', 'email']"
-        styleClass="p-datatable-gridlines"
-      >
+      <p-table #dt1 [value]="utilisateurs" [paginator]="true" [rowHover]="true" [loading]="loading" dataKey="_id"
+        [rows]="3" [globalFilterFields]="['nom', 'prenom', 'email']" styleClass="p-datatable-gridlines">
         <ng-template pTemplate="caption">
           <p-accordion>
-            <p-accordionTab
-              header="Recherche"
-              [selected]="false"
-              class="line-height-3 m-0"
-            >
+            <p-accordionTab header="Recherche" [selected]="false" class="line-height-3 m-0">
               <!-- <span class="p-input-icon-left mb-2">
                                 <i class="pi pi-search"></i>
                                 <input pInputText type="text" #filter (input)="onGlobalFilter(dt1, $event)"
                                     placeholder="Cherche..." class="w-full" />
                             </span> -->
               <span class="p-input space-between">
-                <input
-                  pInputText
-                  id="nom"
-                  [(ngModel)]="utilisateurSearch.nom"
-                  (input)="recherche()"
-                  placeholder="nom"
-                  type="text"
-                />
+                <input pInputText id="nom" [(ngModel)]="utilisateurSearch.nom" (input)="recherche()" placeholder="nom"
+                  type="text" />
               </span>
               <span class="p-input space-between">
-                <input
-                  pInputText
-                  id="prenom"
-                  [(ngModel)]="utilisateurSearch.prenom"
-                  (input)="recherche()"
-                  placeholder="prenom"
-                  type="text"
-                />
+                <input pInputText id="prenom" [(ngModel)]="utilisateurSearch.prenom" (input)="recherche()"
+                  placeholder="prenom" type="text" />
               </span>
               <span class="p-input space-between">
-                <input
-                  pInputText
-                  id="email"
-                  [(ngModel)]="utilisateurSearch.email"
-                  (input)="recherche()"
-                  placeholder="email"
-                  type="text"
-                />
+                <input pInputText id="email" [(ngModel)]="utilisateurSearch.email" (input)="recherche()"
+                  placeholder="email" type="text" />
               </span>
               <!-- <button pButton label="Recherche" class="p-button mb-2 space-between" (click)="recherche()" ></button> -->
             </p-accordionTab>
@@ -79,22 +48,10 @@
             <td>{{ utilisateur.numerotelephone }}</td>
             <td>
               <div class="flex">
-                <button
-                  pButton
-                  pRipple
-                  icon="pi pi-pencil"
-                  class="p-button-rounded p-button-success mr-2"
-                  label="Modifier"
-                  (click)="UpdateUtilisateur(utilisateur)"
-                ></button>
-                <button
-                  pButton
-                  pRipple
-                  icon="pi pi-trash"
-                  class="p-button-rounded p-button-danger"
-                  label="Supprimer"
-                  (click)="DeleteUtilisateur(utilisateur)"
-                ></button>
+                <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2"
+                  label="Modifier" (click)="UpdateUtilisateur(utilisateur)"></button>
+                <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger" label="Supprimer"
+                  (click)="DeleteUtilisateur(utilisateur)"></button>
               </div>
             </td>
           </tr>
@@ -113,25 +70,14 @@
         </ng-template>
       </p-table>
     </div>
-    <generic-popup
-      title="Supprimer Utilisateur"
-      subtitle="Etes-vous sûr de vouloir supprimer cette utilisateur ?"
-      [show]="showPopUp"
-      (handleClose)="handleClose()"
-      (validClick)="ValidDeleteUtilisateur()"
-      (cancelClick)="CancelDeleteUtilisateur()"
-    >
+    <generic-popup title="Supprimer Utilisateur" subtitle="Etes-vous sûr de vouloir supprimer cette utilisateur ?"
+      [show]="showPopUp" (handleClose)="handleClose()" (validClick)="ValidDeleteUtilisateur()"
+      (cancelClick)="CancelDeleteUtilisateur()">
     </generic-popup>
 
     <!-- update modal -->
-    <p-dialog
-      [(visible)]="showPopUpUpdate"
-      (onHide)="CancelUpdateUtilisateur()"
-      [style]="{ width: '450px' }"
-      header="Modifier Utilisateur"
-      [modal]="true"
-      class="p-fluid"
-    >
+    <p-dialog [(visible)]="showPopUpUpdate" (onHide)="CancelUpdateUtilisateur()" [style]="{ width: '450px' }"
+      header="Modifier Utilisateur" [modal]="true" class="p-fluid">
       <ng-template pTemplate="content">
         <!-- <div class="field mb-5">
                     <label for="nom">Nom</label>
@@ -140,127 +86,63 @@
                 </div> -->
         <div class="field mb-5">
           <label htmlFor="name1">Nom</label>
-          <input
-            pInputText
-            name="nom"
-            [(ngModel)]="utilisateurUpdate.nom"
-            placeholder="nom"
-            type="text"
-            [ngClass]="{
+          <input pInputText name="nom" [(ngModel)]="utilisateurUpdate.nom" placeholder="nom" type="text" [ngClass]="{
               'ng-dirty ng-invalid':
                 errorsUpdate && errorsUpdate[0]?.field === 'nom'
-            }"
-            (input)="onInput()"
-            (input)="onInput()"
-          />
-          <p
-            *ngIf="errorsUpdate && errorsUpdate[0]?.field === 'nom'"
-            style="color: red"
-          >
+            }" (input)="onInput()" (input)="onInput()" />
+          <p *ngIf="errorsUpdate && errorsUpdate[0]?.field === 'nom'" style="color: red">
             {{ errorsUpdate[0]?.message }}
           </p>
         </div>
         <div class="field mb-5">
           <label htmlFor="name1">Prenom</label>
-          <input
-            pInputText
-            name="prenom"
-            [(ngModel)]="utilisateurUpdate.prenom"
-            placeholder="prenom"
-            type="text"
+          <input pInputText name="prenom" [(ngModel)]="utilisateurUpdate.prenom" placeholder="prenom" type="text"
             [ngClass]="{
               'ng-dirty ng-invalid':
                 errorsUpdate && errorsUpdate[0]?.field === 'prenom'
-            }"
-            (input)="onInput()"
-          />
-          <p
-            *ngIf="errorsUpdate && errorsUpdate[0]?.field === 'prenom'"
-            style="color: red"
-          >
+            }" (input)="onInput()" />
+          <p *ngIf="errorsUpdate && errorsUpdate[0]?.field === 'prenom'" style="color: red">
             {{ errorsUpdate[0]?.message }}
           </p>
         </div>
         <div class="field mb-5">
           <label htmlFor="email1">Email</label>
-          <input
-            pInputText
-            name="email"
-            [(ngModel)]="utilisateurUpdate.email"
-            placeholder="adresse email"
-            type="email"
+          <input pInputText name="email" [(ngModel)]="utilisateurUpdate.email" placeholder="adresse email" type="email"
             [ngClass]="{
               'ng-dirty ng-invalid':
                 errorsUpdate && errorsUpdate[0]?.field === 'email'
-            }"
-            (input)="onInput()"
-          />
-          <p
-            *ngIf="errorsUpdate && errorsUpdate[0]?.field === 'email'"
-            style="color: red"
-          >
+            }" (input)="onInput()" />
+          <p *ngIf="errorsUpdate && errorsUpdate[0]?.field === 'email'" style="color: red">
             {{ errorsUpdate[0]?.message }}
           </p>
         </div>
         <div class="field mb-5">
           <label htmlFor="email1">Date de naissance</label>
-          <input
-            pInputText
-            name="datenaissance"
-            [(ngModel)]="utilisateurUpdate.datenaissance"
-            type="date"
-            [ngClass]="{
+          <input pInputText name="datenaissance" [(ngModel)]="utilisateurUpdate.datenaissance" type="date" [ngClass]="{
               'ng-dirty ng-invalid':
                 errorsUpdate && errorsUpdate[0]?.field === 'datenaissance'
-            }"
-            (input)="onInput()"
-          />
-          <p
-            *ngIf="errorsUpdate && errorsUpdate[0]?.field === 'datenaissance'"
-            style="color: red"
-          >
+            }" (input)="onInput()" />
+          <p *ngIf="errorsUpdate && errorsUpdate[0]?.field === 'datenaissance'" style="color: red">
             {{ errorsUpdate[0]?.message }}
           </p>
         </div>
         <div class="field mb-5">
           <label htmlFor="email1">Numero de telephone</label>
-          <input
-            pInputText
-            name="numerotelephone"
-            [(ngModel)]="utilisateurUpdate.numerotelephone"
-            placeholder="numero de telephone"
-            type="email"
-            [ngClass]="{
+          <input pInputText name="numerotelephone" [(ngModel)]="utilisateurUpdate.numerotelephone"
+            placeholder="numero de telephone" type="email" [ngClass]="{
               'ng-dirty ng-invalid':
                 errorsUpdate && errorsUpdate[0]?.field === 'numerotelephone'
-            }"
-            (input)="onInput()"
-          />
-          <p
-            *ngIf="errorsUpdate && errorsUpdate[0]?.field === 'numerotelephone'"
-            style="color: red"
-          >
+            }" (input)="onInput()" />
+          <p *ngIf="errorsUpdate && errorsUpdate[0]?.field === 'numerotelephone'" style="color: red">
             {{ errorsUpdate[0]?.message }}
           </p>
         </div>
       </ng-template>
       <ng-template pTemplate="footer">
-        <button
-          pButton
-          pRipple
-          label="Annuler"
-          icon="pi pi-times"
-          class="p-button-text"
-          (click)="CancelUpdateUtilisateur()"
-        ></button>
-        <button
-          pButton
-          pRipple
-          label="Valider"
-          icon="pi pi-check"
-          class="p-button-text"
-          (click)="ValidUpdateUtilisateur()"
-        ></button>
+        <button pButton pRipple label="Annuler" icon="pi pi-times" class="p-button-text"
+          (click)="CancelUpdateUtilisateur()"></button>
+        <button pButton pRipple label="Valider" icon="pi pi-check" class="p-button-text"
+          (click)="ValidUpdateUtilisateur()"></button>
       </ng-template>
     </p-dialog>
   </div>

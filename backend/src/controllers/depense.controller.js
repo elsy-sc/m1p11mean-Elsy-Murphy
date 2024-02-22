@@ -4,17 +4,33 @@ const httpUtil = require("../utils/http.util");
 
 async function createDepense(req, res) {
     const db = await getMongoDBDatabase();
+    let errors = [];
+
     try {
         const depense = new Depense(null,null,null);
         depense.setIdTypeDepense(req.body?.idtypedepense);
         depense.setMontant(req.body?.montant);
+        depense.setDescription(req.body?.description);
         depense.setDateDepense(req.body?.datedepense);
 
         await depense.create(db).then(() => {
             httpUtil.sendJson(res, null, 201, "OK");        
         });
     } catch (error) {
-        httpUtil.sendJson(res, null, error.status || error.statusCode || 500, error.message);
+        if (error.field && error.message) {
+            errors.push(error);
+        }
+        else if (error.code) {
+            let field = error.keyPattern ? Object.keys(error.keyPattern)[0] : null;
+            if (field) {
+                let error = {
+                    field: field,
+                    message: field + " déjà utilisée. Veuillez choisir une autre " + field
+                }
+                errors.push(error);
+            }
+        }
+        httpUtil.sendJson(res, errors, 422, "error");
     }
 }
 
@@ -55,7 +71,7 @@ async function deleteDepense(req, res) {
         depense._id = req.body?._id;
 
         await depense.delete(db).then(() => {
-            httpUtil.sendJson(res, null, 201, "OK");        
+            httpUtil.sendJson(res, null, 200, "OK");        
         });
     } catch (error) {
         httpUtil.sendJson(res, null, error.status || error.statusCode || 500, error.message);

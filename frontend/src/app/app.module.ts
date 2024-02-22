@@ -26,6 +26,12 @@ import { ReadServiceModule } from './pages/service/read-service/service.read.mod
 import { CreateServiceModule } from './pages/service/create-service/service.create.module';
 import { CreateCategorieServiceModule } from './pages/categorieservice/create-categorieservice/categorieservice.create.module';
 import { ReadCategorieServiceModule } from './pages/categorieservice/read-categorieservice/categorieservice.read.module';
+import { ReadEmployeModule } from './pages/employe/read-employe/employe.read.module';
+import { CreateEmployeModule } from './pages/employe/create-employe/employe.create.module';
+import { ReadTypeDepenseModule } from './pages/typedepense/read-typedepense/typedepense.read.module';
+import { CreateTypeDepenseModule } from './pages/typedepense/create-typedepense/typedepense.create.module';
+import { ReadDepenseModule } from './pages/depense/read-depense/depense.read.module';
+import { CreateDepenseModule } from './pages/depense/create-depense/depense.create.module';
 
 
 @NgModule({
@@ -51,10 +57,17 @@ import { ReadCategorieServiceModule } from './pages/categorieservice/read-catego
     HttpClientModule,
     InscriptionModule,
     CreateUtilisateurModule,
+    ListeUtilisateurModule,
+    ReadEmployeModule,
+    CreateEmployeModule,
     ReadServiceModule,
     CreateServiceModule,
     CreateCategorieServiceModule,
-    ReadCategorieServiceModule
+    ReadCategorieServiceModule,
+    ReadTypeDepenseModule,
+    CreateTypeDepenseModule,
+    ReadDepenseModule,
+    CreateDepenseModule
   ],
   providers: [
     provideHttpClient(withFetch()),

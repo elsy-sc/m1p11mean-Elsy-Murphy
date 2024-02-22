@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Employe } from "../../models/employe.model";
+import { TypeDepense } from "../../models/typedepense.model";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { HttpResponseApi } from "../../interfaces/http/HttpResponseApi";
@@ -7,7 +7,7 @@ import { BASE_URL } from "../../utils/constante.util";
 @Injectable({
     providedIn: "root"
 })
-export class EmployeService {
+export class TypeDepenseService {
 
     constructor(private http: HttpClient) { }
 
@@ -27,8 +27,8 @@ export class EmployeService {
         return "";
     }
 
-    createEmploye(employe: Employe): Observable<HttpResponseApi> {
-        let url = BASE_URL + "/employe/create";
+    createTypeDepense(typedepense: TypeDepense): Observable<HttpResponseApi> {
+        let url = BASE_URL + "/typedepense/create";
         let token = this.getToken();
         const httpOptions = {
             headers: new HttpHeaders({
@@ -36,12 +36,12 @@ export class EmployeService {
                 'Authorization': `Bearer ${token}`
             })
         };
-        let body = JSON.stringify(employe);
+        let body = JSON.stringify(typedepense);
         return this.http.post<HttpResponseApi>(url, body, httpOptions);
     }
 
-    readEmploye(employeSearch: Employe): Observable<HttpResponseApi> {
-        let url = BASE_URL + "/employe/read";
+    readTypeDepense(typedepenseSearch: TypeDepense): Observable<HttpResponseApi> {
+        let url = BASE_URL + "/typedepense/read";
         let token = this.getToken();
         const httpOptions = {
             headers: new HttpHeaders({
@@ -49,12 +49,12 @@ export class EmployeService {
                 'Authorization': `Bearer ${token}`
             })
         };
-        let body = JSON.stringify(employeSearch);
+        let body = JSON.stringify(typedepenseSearch);
         return this.http.post<HttpResponseApi>(url, body, httpOptions);
     }
 
-    updateEmploye(employe: Employe): Observable<HttpResponseApi> {
-        let url = BASE_URL + "/employe/update";
+    updateTypeDepense(typedepense: TypeDepense): Observable<HttpResponseApi> {
+        let url = BASE_URL + "/typedepense/update";
         let token = this.getToken();
         const httpOptions = {
             headers: new HttpHeaders({
@@ -62,19 +62,19 @@ export class EmployeService {
                 'Authorization': `Bearer ${token}`
             })
         };
-        let body = JSON.stringify(employe);
+        let body = JSON.stringify(typedepense);
         return this.http.put<HttpResponseApi>(url, body, httpOptions);
     }
 
-    deleteEmploye(employe: Employe): Observable<HttpResponseApi> {
-        let url = BASE_URL + "/employe/delete";
+    deleteTypeDepense(typedepense: TypeDepense): Observable<HttpResponseApi> {
+        let url = BASE_URL + "/typedepense/delete";
         let token = this.getToken();
         const httpOptions = {
             headers: new HttpHeaders({
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`
             }),
-            body: { _id: employe._id }
+            body: { _id: typedepense._id }
         };
         return this.http.delete<HttpResponseApi>(url, httpOptions);
     }

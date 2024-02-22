@@ -40,7 +40,7 @@ async function createUtilisateur(req, res) {
 async function readUtilisateur(req, res) {
     const db = await getMongoDBDatabase();
     try {
-        var utilisateur = new Utilisateur(req.body?.nom ? { $regex: new RegExp(req.body?.nom, 'i')} : null, req.body?.prenom ? { $regex: new RegExp(req.body?.prenom, 'i')} : null, req.body?.email? { $regex: new RegExp(req.body?.email, 'i')} : null, req.body?.datenaissance, req.body?.numerotelephone, req.body?.motdepasse, req.body?.role);
+        var utilisateur = new Utilisateur(req.body?.nom ? { $regex: new RegExp(req.body?.nom, 'i')} : null, req.body?.prenom ? { $regex: new RegExp(req.body?.prenom, 'i')} : null, req.body?.email ? { $regex: new RegExp(req.body?.email, 'i')} : null, req.body?.datenaissance, req.body?.numerotelephone ? { $regex: new RegExp(req.body?.numerotelephone, 'i')} : null, req.body?.motdepasse, req.body?.role);
         await utilisateur.read(db).then((result) => {
             httpUtil.sendJson(res, result, 200);
         });

@@ -45,7 +45,21 @@ export class Utilisateur extends TokenObject {
         type: 'simple'
     })
     datenaissance: Date|undefined;
+    @LabelInput({
+        label: 'Numero de telephone',
+        name: 'numerotelephone',
+        type: 'tel',
+    })
+    @List({
+        title: 'Numero de telephone',
+        type: 'simple'
+    })
     numerotelephone: string|undefined;
+    @LabelInput({
+        label: 'Mot de passe',
+        name: 'motdepasse',
+        type: 'password',
+    })
     motdepasse: string|undefined;
     @Select({
         label: 'Role',

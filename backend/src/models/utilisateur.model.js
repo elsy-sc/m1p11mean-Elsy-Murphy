@@ -6,9 +6,9 @@ class Utilisateur extends TokenObject {
         super();        
         this.nom = (nom != undefined && nom != null && nom.toString().trim() != "")  ? nom : undefined;
         this.prenom = (prenom != undefined &&  prenom != null && prenom.toString().trim() != "")  ? prenom : undefined;
-        this.email = (email != undefined && email != null && email.toString().trim() != "")  ? email : undefined;;
-        this.datenaissance = datenaissance;
-        this.numerotelephone = numerotelephone;
+        this.email = (email != undefined && email != null && email.toString().trim() != "")  ? email : undefined;
+        this.datenaissance = (datenaissance != undefined && datenaissance != null)  ? datenaissance : undefined;
+        this.numerotelephone = (numerotelephone != undefined && numerotelephone != null && numerotelephone.toString().trim() != "")  ? numerotelephone : undefined;
         this.motdepasse = motdepasse;
         this.role = role;
     }

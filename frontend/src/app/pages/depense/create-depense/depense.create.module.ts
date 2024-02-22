@@ -1,7 +1,7 @@
 import { LabelInputModule } from "../../../components/labelinput/labelinput.module";
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { CreateEmploye } from "./employe.create";
+import { CreateDepense } from "./depense.create";
 import { RadioButtonModule } from "primeng/radiobutton";
 import { InputTextModule } from "primeng/inputtext";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
@@ -15,7 +15,7 @@ import { PasswordModule } from "primeng/password";
 import { ToastModule } from "primeng/toast";
 @NgModule({
     declarations: [
-        CreateEmploye
+        CreateDepense
     ],
     imports: [
         CommonModule,
@@ -34,4 +34,4 @@ import { ToastModule } from "primeng/toast";
         LabelInputModule
     ]
 })
-export class CreateEmployeModule { }
+export class CreateDepenseModule { }

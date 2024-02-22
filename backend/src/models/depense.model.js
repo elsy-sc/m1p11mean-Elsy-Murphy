@@ -2,10 +2,11 @@ const { Date } = require("../beans/date.bean.util");
 const { TableObject } = require("../beans/tableobject.bean");
 
 class Depense extends TableObject {
-    constructor (idtypedepense,montant,datedepense) {
+    constructor (idtypedepense,montant,description,datedepense) {
         super();
         this.idtypedepense = idtypedepense;
         this.montant = montant;
+        this.description = description;
         this.datedepense = datedepense;
         this.linkedTableId = [
             {
@@ -19,16 +20,32 @@ class Depense extends TableObject {
 
     setIdTypeDepense (idtypedepense) {
         if (idtypedepense == null || idtypedepense == undefined || idtypedepense.trim() == "") {
-            throw new Error("L'id du type de depense est obligatoire");
+            throw {
+                field:"idtypedepense",
+                message: "Le type de depense est obligatoire"
+            }
         }
         this.idtypedepense = idtypedepense;   
     }
 
     setMontant (montant) {
         if (montant == null || montant == undefined || montant <= 0) {
-            throw new Error("La valeur du montant est obligatoire et doit être superieur à 0");
+            throw {
+                field:"montant",
+                message: "La valeur du montant est obligatoire et doit être superieur à 0"
+            }
         }
         this.montant = montant;
+    }
+
+    setDescription (description) {
+        if (description == null || description == undefined || description.trim() == '') {
+            throw {
+                field:"description",
+                message: "Le champ description est obligatoire. veuillez entrer une description"
+            }
+        }
+        this.description = description;
     }
 
     setDateDepense(datedepense) {

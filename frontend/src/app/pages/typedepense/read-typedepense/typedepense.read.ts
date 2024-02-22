@@ -1,22 +1,21 @@
 import { MessageService } from "primeng/api";
 import { HttpResponseApi } from "../../../interfaces/http/HttpResponseApi";
 import { Component, OnInit } from "@angular/core";
-import { Employe } from "../../../models/employe.model";
-import { EmployeService } from "../../../services/employe/employe.service";
-import { Router } from "@angular/router";
+import { TypeDepense } from "../../../models/typedepense.model";
+import { TypeDepenseService } from "../../../services/typedepense/typedepense.service";
 @Component({
-    selector: "read-employe",
-    templateUrl: "./employe.read.page.html",
-    styleUrls: ["./employe.read.page.css"]
+    selector: "read-typedepense",
+    templateUrl: "./typedepense.read.page.html",
+    styleUrls: ["./typedepense.read.page.css"]
 })
-export class ReadEmploye implements OnInit {
+export class ReadTypeDepense implements OnInit {
 
-    employeSearch: Employe = new Employe();
-    employes: Employe[] = [];
+    typedepenseSearch: TypeDepense = new TypeDepense();
+    typedepenses: TypeDepense[] = [];
 
-    employeDelete: Employe = new Employe();
+    typedepenseDelete: TypeDepense = new TypeDepense();
 
-    employeUpdate: Employe = new Employe();
+    typedepenseUpdate: TypeDepense = new TypeDepense();
 
     loadingButtonUpdate: boolean = true;
 
@@ -26,28 +25,28 @@ export class ReadEmploye implements OnInit {
 
     errorsUpdate: any[] | undefined = [];
 
-    UpdateEmploye(employe: Employe) {
+    UpdateTypeDepense(typedepense: TypeDepense) {
 
         this.showUpdatePopup = true;
-        this.employeUpdate = Object.assign({}, employe);
+        this.typedepenseUpdate = Object.assign({}, typedepense);
     }
 
-    CancelUpdateEmploye() {
+    CancelUpdateTypeDepense() {
 
         this.showUpdatePopup = false;
         this.errorsUpdate = [];
     }
 
-    ValidUpdateEmploye() {
+    ValidUpdateTypeDepense() {
 
         this.loadingButtonUpdate = true;
-        this.employeService.updateEmploye(this.employeUpdate).subscribe(
+        this.typedepenseService.updateTypeDepense(this.typedepenseUpdate).subscribe(
             (response: HttpResponseApi) => {
                 if (response.message == "error" && response.status == 422) {
                     this.errorsUpdate = response.data;
                     this.loadingButtonUpdate = false;
                 } else if (response.status == 200) {
-                    this.getEmployes();
+                    this.getTypeDepenses();
                     this.showUpdatePopup = false;
                     this.loadingButtonUpdate = false;
                     this.messageService.add({ severity: "success", summary: "Succès", detail: "Modification effectuée avec succès" });
@@ -70,45 +69,44 @@ export class ReadEmploye implements OnInit {
 
     ngOnInit(): void {
 
-        this.getEmployes();
+        this.getTypeDepenses();
+    }
+
+    constructor(private typedepenseService: TypeDepenseService, private messageService: MessageService) {
 
     }
 
-    constructor(private employeService: EmployeService, private messageService: MessageService, private router: Router) {
+    getTypeDepenses() {
 
-    }
-
-    getEmployes() {
-
-        this.employeService.readEmploye(this.employeSearch).subscribe((response: HttpResponseApi) => {
+        this.typedepenseService.readTypeDepense(this.typedepenseSearch).subscribe((response: HttpResponseApi) => {
             if (response.data) {
-                this.employes = response.data;
+                this.typedepenses = response.data;
             }
         });
     }
 
     rechercher() {
 
-        this.getEmployes();
+        this.getTypeDepenses();
     }
 
-    CancelDeleteEmploye() {
+    CancelDeleteTypeDepense() {
 
         this.showDeletePopup = false;
     }
 
-    DeleteEmploye(employe: Employe) {
+    DeleteTypeDepense(typedepense: TypeDepense) {
 
         this.showDeletePopup = true;
-        this.employeDelete = employe;
+        this.typedepenseDelete = typedepense;
     }
 
-    ValidDeleteEmploye() {
+    ValidDeleteTypeDepense() {
 
         this.showDeletePopup = false;
-        this.employeService.deleteEmploye(this.employeDelete).subscribe((response: HttpResponseApi) => {
+        this.typedepenseService.deleteTypeDepense(this.typedepenseDelete).subscribe((response: HttpResponseApi) => {
             if (response.status == 200) {
-                this.getEmployes();
+                this.getTypeDepenses();
                 this.messageService.add({ severity: "success", summary: "Succès", detail: "Suppression effectuée avec succès" });
             }
         });

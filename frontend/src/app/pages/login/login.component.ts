@@ -56,7 +56,7 @@ export class LoginComponent implements OnInit {
                         let utilisateurLogin = Object.assign(new Utilisateur(), response.data[0]);
                         this.utilisateurService.setUserConnecte(utilisateurLogin);
                         this.isLoading = false;
-                        this.router.navigate(['/firstpage']);
+                        this.router.navigate(['/beauty-salon']);
                     }
                 } else {
                     this.isLoading = false;
