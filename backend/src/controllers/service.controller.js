@@ -38,15 +38,16 @@ async function readService(req, res) {
         const service = new Service(req.body?.idcategorieservice, req.body?.nom ? { $regex: new RegExp(req.body?.nom, 'i')} : null, req.body?.description ? { $regex: new RegExp(req.body?.description, 'i')} : null, req.body?.duree, req.body?.prix, req.body?.commission);
         service._id = req.body?._id;
         await service.read(db).then((result) => {
-            httpUtil.sendJson(res, result, 201, "OK");
+            httpUtil.sendJson(res, result, 200, "OK");
         });
     } catch (error) {
-        httpUtil.sendJson(res, null, 201, error.message);
+        httpUtil.sendJson(res, null, error.status || error.statusCode || 500, error.message);
     }
 }
 
 async function updateService(req, res) {
     const db = await getMongoDBDatabase();
+    let errorsUpdate = [];
     try {
         const serviceWhere = new Service();
         serviceWhere._id = req.body?._id;
@@ -58,10 +59,23 @@ async function updateService(req, res) {
         serviceSet.setDuree(req.body?.duree);
 
         await serviceWhere.update(db, serviceSet).then(() => {
-            httpUtil.sendJson(res, null, 201, "OK");        
+            httpUtil.sendJson(res, null, 200, "OK");        
         });
     } catch (error) {
-        httpUtil.sendJson(res, null, 201, error.message);
+        if (error.field && error.message) {
+            errorsUpdate.push(error);
+        } 
+        else if (error.code) {
+            let field  = error.keyPattern ? Object.keys(error.keyPattern)[0] : null;
+            if (field) {
+                let error = {
+                    field: field,
+                    message: field + " existant."
+                }
+                errorsUpdate.push(error);
+            }
+        }
+        httpUtil.sendJson(res, errorsUpdate, 422, "error");
     }
 }
 
@@ -72,10 +86,10 @@ async function deleteService(req, res) {
         service._id = req.body?._id;
 
         await service.delete(db).then(() => {
-            httpUtil.sendJson(res, null, 201, "OK");        
+            httpUtil.sendJson(res, null, 200, "OK");        
         });
     } catch (error) {
-        httpUtil.sendJson(res, null, 201, error.message);
+        httpUtil.sendJson(res, null, error.status || error.statusCode || 500, error.message);
     }
 }
 

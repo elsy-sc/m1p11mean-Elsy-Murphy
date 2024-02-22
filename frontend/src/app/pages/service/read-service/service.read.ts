@@ -90,7 +90,7 @@ export class ReadService implements OnInit {
     }
 
     getServiceCategories(){
-        this.servicecategorieService.readCategorieService(new CategorieService()).subscribe((response: HttpResponseApi) => {
+      this.servicecategorieService.readCategorieService(new CategorieService()).subscribe((response: HttpResponseApi) => {
             if (response.data) {
                 this.categorieservices = response.data;
             }

@@ -93,6 +93,7 @@
                   icon="pi pi-pencil"
                   class="p-button-rounded p-button-success mr-2"
                   label="Modifier"
+                  (click)="UpdateService(service)"
                 ></button
                 ><button
                   pButton
@@ -100,6 +101,7 @@
                   icon="pi pi-trash"
                   class="p-button-rounded p-button-danger"
                   label="Supprimer"
+                  (click)="DeleteService(service)"
                 ></button>
               </div>
             </td></tr></ng-template
@@ -107,8 +109,7 @@
     </div>
     <generic-popup
       title="Suppression de Service"
-      subtitle="Etes-vous sûr de vouloir cette "
-      service
+      subtitle="Etes-vous sûr de vouloir ce service ?"
       [show]="showDeletePopup"
       (handleclose)="CancelDeleteService()"
       (validClick)="ValidDeleteService()"
@@ -200,7 +201,7 @@
         />
         <p
           *ngIf="errorsUpdate && errorsUpdate[0]?.field ==='commission'"
-          class="text-danger"
+          class=""
         >
           {{errorsUpdate[0]?.message}}
         </p>
@@ -214,7 +215,7 @@
                 <p-dropdown
                   [ngClass]="{'ng-dirty ng-invalid' : errorsUpdate && errorsUpdate[0]?.field ==='idcategorieservice'} "
                   (input)="onInput()"
-                  [(ngModel)]="serviceUpdate.idcategorieservice"
+                  [(ngModel)]="serviceUpdate.categorieservice?.nom||serviceUpdate.idcategorieservice"
                   name="idcategorieservice"
                   [options]="categorieservices"
                   [showClear]="true"

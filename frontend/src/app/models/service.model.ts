@@ -4,6 +4,7 @@ import { LabelInput } from "../interfaces/annotations/components/labelinput.anno
 import { Select } from "../interfaces/annotations/components/select.annotation.component";
 import { Textarea } from "../interfaces/annotations/components/textarea.annotation.component";
 import { List } from "../interfaces/annotations/list.annotation";
+import { CategorieService } from "./categorieservice.model";
 @Form({
     ngSubmit: 'submit()'
 })
@@ -67,6 +68,7 @@ export class Service extends TableObject{
         type: 'simple',
     })
     commission?: number;
+    categorieservice?: CategorieService;
 
     constructor(nom?: string, description?: string, duree?: number, prix?: number, commission?: number, idcategorieservice?: string) {
         super();
