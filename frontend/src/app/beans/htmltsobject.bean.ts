@@ -612,6 +612,14 @@ export class HtmlTsObject {
         writeToFile(process.cwd() + PAGE_PATH + this.constructor.name.toLowerCase() + '/read-' + this.constructor.name.toLowerCase() + '/' + this.constructor.name.toLowerCase() + '.read.ts', this.getTsRead());
     }
 
+    public setTsCreate(){
+        writeToFile(process.cwd() + PAGE_PATH + this.constructor.name.toLowerCase() + '/create-' + this.constructor.name.toLowerCase() + '/' + this.constructor.name.toLowerCase() + '.create.ts', this.getTsCreate());
+    }
+
+    public setTsRead(){
+        writeToFile(process.cwd() + PAGE_PATH + this.constructor.name.toLowerCase() + '/read-' + this.constructor.name.toLowerCase() + '/' + this.constructor.name.toLowerCase() + '.read.ts', this.getTsRead());
+    }
+
     public setHtml(){
         writeToFile(process.cwd() + PAGE_PATH + this.constructor.name.toLowerCase() + '/create-' + this.constructor.name.toLowerCase() + '/' + this.constructor.name.toLowerCase() + '.create.page.html', this.getCreateHtml());
 
@@ -640,11 +648,34 @@ export class HtmlTsObject {
         writeToFile(process.cwd() + PAGE_PATH + this.constructor.name.toLowerCase() + '/read-' + this.constructor.name.toLowerCase() + '/' + this.constructor.name.toLowerCase() + '.read.module.ts', this.getReadTsModule());
     }
 
+    public setModuleCreate(){
+        writeToFile(process.cwd() + PAGE_PATH + this.constructor.name.toLowerCase() + '/create-' + this.constructor.name.toLowerCase() + '/' + this.constructor.name.toLowerCase() + '.create.module.ts', this.getCreateTsModule());
+    }
+
+    public setModuleRead(){
+        writeToFile(process.cwd() + PAGE_PATH + this.constructor.name.toLowerCase() + '/read-' + this.constructor.name.toLowerCase() + '/' + this.constructor.name.toLowerCase() + '.read.module.ts', this.getReadTsModule());
+    }
+
     public generateCRUD(){
         this.setTs();
         this.setHtml();
         this.setTsService();
         this.setModule();
     }
+
+    public generateCreate(){
+        this.setTsCreate();
+        this.setCreateHtml();
+        this.setTsService();
+        this.setModuleCreate();
+    }
+
+    public generateRead(){
+        this.setTsRead();
+        this.setReadHtml();
+        this.setTsService();
+        this.setModuleRead();
+    }
+
 
 }

@@ -37,6 +37,29 @@ export class AppMenuComponent implements OnInit {
                 ]
             },
             {
+                label: 'Rendez-vous',
+                icon: 'pi pi-fw pi-calendar',
+                routerLink: ['/beauty-salon/'],
+                items: [
+                    {
+                        label: 'Rendez-vous',
+                        icon: 'pi pi-fw pi-calendar',
+                        items: [
+                            {
+                                label: 'ajouter',
+                                icon: 'pi pi-fw pi-plus',
+                                routerLink: ['rendezvous/create']
+                            },
+                            {
+                                label: 'liste',
+                                icon: 'pi pi-fw pi-list',
+                                routerLink: ['rendezvous/read']
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
                 label: 'Services',
                 icon: 'pi pi-fw pi-briefcase',
                 routerLink: ['/beauty-salon/'],
