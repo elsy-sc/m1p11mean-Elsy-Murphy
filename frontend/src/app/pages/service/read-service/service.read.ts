@@ -72,8 +72,8 @@ export class ReadService implements OnInit {
     }
 
     ngOnInit(): void {
-
         this.getServices();
+        this.getServiceCategories();
     }
 
     constructor(private serviceService: ServiceService, private messageService: MessageService, private servicecategorieService: CategorieServiceService) {
@@ -81,7 +81,7 @@ export class ReadService implements OnInit {
     }
 
     getServices() {
-
+        console.log(this.serviceSearch);
         this.serviceService.readService(this.serviceSearch).subscribe((response: HttpResponseApi) => {
             if (response.data) {
                 this.services = response.data;
@@ -98,23 +98,19 @@ export class ReadService implements OnInit {
     }
 
     rechercher() {
-
         this.getServices();
     }
 
     CancelDeleteService() {
-
         this.showDeletePopup = false;
     }
 
     DeleteService(service: Service) {
-
         this.showDeletePopup = true;
         this.serviceDelete = service;
     }
 
     ValidDeleteService() {
-
         this.showDeletePopup = false;
         this.serviceService.deleteService(this.serviceDelete).subscribe((response: HttpResponseApi) => {
             if (response.status == 200) {

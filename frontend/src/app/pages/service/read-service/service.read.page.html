@@ -62,6 +62,8 @@
                         (change)="rechercher()"
                         name="idcategorieservice"
                         [options]="categorieservices"
+                        optionLabel="nom"
+                        optionValue="_id"
                         [showClear]="true"
                       ></p-dropdown>
                     </div>
@@ -218,6 +220,8 @@
                   [(ngModel)]="serviceUpdate.categorieservice?.nom||serviceUpdate.idcategorieservice"
                   name="idcategorieservice"
                   [options]="categorieservices"
+                  optionLabel="nom"
+                  optionValue="_id"
                   [showClear]="true"
                 ></p-dropdown>
               </div>
