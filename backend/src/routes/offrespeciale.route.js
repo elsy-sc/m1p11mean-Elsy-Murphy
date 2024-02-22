@@ -4,7 +4,7 @@ const { createOffrespeciale , readOffrespeciale , updateOffrespeciale , deleteOf
 const router = express.Router();
 
 router.post("/create", createOffrespeciale);
-router.get("/read", readOffrespeciale);
+router.post("/read", readOffrespeciale);
 router.put("/update", updateOffrespeciale);
 router.delete("/delete", deleteOffrespeciale);
 

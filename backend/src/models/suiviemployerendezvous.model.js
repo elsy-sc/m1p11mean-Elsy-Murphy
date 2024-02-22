@@ -30,7 +30,10 @@ class SuiviEmployeRendezvous extends Rendezvous {
 
     setIdemploye(idemploye) {
         if (idemploye == null || idemploye == undefined || idemploye.trim() == "") {
-            throw new Error("L'id de l'employé est obligatoire");
+            throw {
+                field: 'idemploye',
+                message: 'Le champ idemploye est obligatoire. veuillez entrer le id de l\'employe'
+            }
         }
         this.idemploye = idemploye;
     }

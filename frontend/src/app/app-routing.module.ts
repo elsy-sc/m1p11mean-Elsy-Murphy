@@ -17,6 +17,8 @@ import { ReadTypeDepense } from './pages/typedepense/read-typedepense/typedepens
 import { CreateTypeDepense } from './pages/typedepense/create-typedepense/typedepense.create';
 import { ReadDepense } from './pages/depense/read-depense/depense.read';
 import { CreateDepense } from './pages/depense/create-depense/depense.create';
+import { ReadRendezvous } from './pages/rendezvous/read-rendezvous/rendezvous.read';
+import { CreateRendezvous } from './pages/rendezvous/create-rendezvous/rendezvous.create';
 
 const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -34,6 +36,8 @@ const routes: Routes = [
       {path:'typedepense/create' , component: CreateTypeDepense},
       {path:'depense/read' , component: ReadDepense},
       {path:'depense/create' , component: CreateDepense},
+      {path:'rendezvous/read' , component: ReadRendezvous},
+      {path:'rendezvous/create' , component: CreateRendezvous},
       // {path:'' , component: ListeUtilisateurComponent, canActivate: [AuthGuard]},
       // {path:'utilisateur/create' , component: CreateUtilisateurComponent, canActivate: [AuthGuard]},
     ]

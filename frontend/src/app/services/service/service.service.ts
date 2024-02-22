@@ -55,13 +55,16 @@ export class ServiceService {
 
     updateService(service: Service): Observable<HttpResponseApi> {
         let url = BASE_URL + "/service/update";
+        let token = this.getToken();
+        console.log(token)
         const httpOptions = {
             headers: new HttpHeaders({
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
             })
         };
         let body = JSON.stringify(service);
-        return this.http.post<HttpResponseApi>(url, body, httpOptions);
+        return this.http.put<HttpResponseApi>(url, body, httpOptions);
     }
 
     deleteService(service: Service): Observable<HttpResponseApi> {

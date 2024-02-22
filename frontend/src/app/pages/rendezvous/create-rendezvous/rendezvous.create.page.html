@@ -1,0 +1,71 @@
+<div class="grid">
+  <div class="col-8 md:col-6">
+    <div class="card p-fluid">
+      <form (ngSubmit)="submit()">
+        <h5>Création de Rendezvous</h5>
+        <div class="flex flex-column gap-2 container">
+          <div class="labelContainer"><label class="label">Client</label></div>
+          <div class="inputContainer">
+            <div class="grid formgrid">
+              <div class="inputContainer">
+                <p-dropdown
+                  optionValue="_id"
+                  optionLabel="nom"
+                  [(ngModel)]="rendezvous.idclient"
+                  (input)="onInput()"
+                  [ngClass]="{'ng-dirty ng-invalid' : errors && errors[0]?.field ==='idclient'} "
+                  name="idclient"
+                  [options]="clients"
+                  [showClear]="true"
+                ></p-dropdown>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p *ngIf="errors && errors[0]?.field === 'idclient'" style="color: red">
+          {{errors[0]?.message}}
+        </p>
+        <div class="flex flex-column gap-2 container">
+          <div class="labelContainer"><label class="label">Service</label></div>
+          <div class="inputContainer">
+            <div class="grid formgrid">
+              <div class="inputContainer">
+                <p-dropdown
+                  optionValue="_id"
+                  optionLabel="nom"
+                  [(ngModel)]="rendezvous.idservice"
+                  (input)="onInput()"
+                  [ngClass]="{'ng-dirty ng-invalid' : errors && errors[0]?.field ==='idservice'} "
+                  name="idservice"
+                  [options]="services"
+                  [showClear]="true"
+                ></p-dropdown>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p
+          *ngIf="errors && errors[0]?.field === 'idservice'"
+          style="color: red"
+        >
+          {{errors[0]?.message}}
+        </p>
+        <LabelInput
+          label="Date et heure du rendez-vous"
+          type="datetime-local"
+          name="dateheurerendezvous"
+          [(ngModel)]="rendezvous.dateheurerendezvous"
+          (input)="onInput()"
+          [ngClass]="{'ng-dirty ng-invalid' : errors && errors[0]?.field ==='dateheurerendezvous'} "
+        />
+        <p
+          *ngIf="errors && errors[0]?.field === 'dateheurerendezvous'"
+          style="color: red"
+        >
+          {{errors[0]?.message}}
+        </p>
+        <button pButton label="Créer" [loading]="isLoading"></button>
+      </form>
+    </div>
+  </div>
+</div>

@@ -1,12 +1,13 @@
 const { Date } = require("../beans/date.bean.util");
 const { TableObject } = require("../beans/tableobject.bean");
+const { getNonEmptyObject } = require("../utils/object.util");
 
 class Rendezvous extends TableObject {
     constructor(idclient, idservice, dateheurerendezvous) {
         super();
         this.idclient = idclient;
         this.idservice = idservice;
-        this.dateheurerendezvous = dateheurerendezvous;
+        this.dateheurerendezvous = getNonEmptyObject(dateheurerendezvous);
         this.linkedTableId = [
             {
                 tableName: "utilisateur",
@@ -25,14 +26,20 @@ class Rendezvous extends TableObject {
 
     setIdclient(idclient) {
         if (idclient == null || idclient == undefined || idclient.trim() == "") {
-            throw new Error("L'id du client est obligatoire");
+            throw {
+                field: 'idclient',
+                message: 'Le champ idclient est obligatoire. veuillez entrer le id du client'
+            }
         }
         this.idclient = idclient;
     }
 
     setIdservice(idservice) {
         if (idservice == null || idservice == undefined || idservice.trim() == "") {
-            throw new Error("L'id du service est obligatoire");
+            throw {
+                field: 'idservice',
+                message: 'Le champ idservice est obligatoire. veuillez entrer le id du service'
+            }
         }
         this.idservice = idservice;
     }

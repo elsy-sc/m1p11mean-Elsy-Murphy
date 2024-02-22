@@ -32,6 +32,8 @@ import { ReadTypeDepenseModule } from './pages/typedepense/read-typedepense/type
 import { CreateTypeDepenseModule } from './pages/typedepense/create-typedepense/typedepense.create.module';
 import { ReadDepenseModule } from './pages/depense/read-depense/depense.read.module';
 import { CreateDepenseModule } from './pages/depense/create-depense/depense.create.module';
+import { CreateRendezvousModule } from './pages/rendezvous/create-rendezvous/rendezvous.create.module';
+import { ReadRendezvousModule } from './pages/rendezvous/read-rendezvous/rendezvous.read.module';
 
 
 @NgModule({
@@ -67,7 +69,9 @@ import { CreateDepenseModule } from './pages/depense/create-depense/depense.crea
     ReadTypeDepenseModule,
     CreateTypeDepenseModule,
     ReadDepenseModule,
-    CreateDepenseModule
+    CreateDepenseModule,
+    CreateRendezvousModule,
+    ReadRendezvousModule
   ],
   providers: [
     provideHttpClient(withFetch()),

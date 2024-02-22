@@ -127,7 +127,8 @@ export class HtmlTsObject {
     public getReadHtml(): string {
 
         function getSearch(object: object): string {
-            let result = '<ng-template pTemplate="caption"><p-accordion><p-accordionTab header="Recherche" [selected]="false" class="line-height-3 m-0">';
+            let result = '<p-toast></p-toast>';
+            result = result + '<ng-template pTemplate="caption"><p-accordion><p-accordionTab header="Recherche" [selected]="false" class="line-height-3 m-0">';
             const fields = getFields(object);
             for (const field of fields) {
                 const listAnnotation = Reflect.getMetadata('List', object, field.name);
@@ -141,19 +142,19 @@ export class HtmlTsObject {
                         }
                         else if (Reflect.getMetadata('Select', object, field.name)) {
                             const select: Select = Reflect.getMetadata('Select', object, field.name);
-                            select.rest = (select.rest ? select.rest : '') + '[(ngModel)]="' + object.constructor.name.toLowerCase() + 'Search.' + field.name + '" (change)="rechercher()"';
+                            select.rest = (select.rest ? select.rest : '') + '[(ngModel)]="' + object.constructor.name.toLowerCase() + 'Search.' + field.name + '" (ngModelChange)="rechercher()"';
                             result = result + getSelectHtml(select);
                             select.rest = '';
                         }
                         else if (Reflect.getMetadata('Radio', object, field.name)) {
                             const radio: Radio = Reflect.getMetadata('Radio', object, field.name);
-                            radio.rest = (radio.rest ? radio.rest : '') + '[(ngModel)]="' + object.constructor.name.toLowerCase() + 'Search.' + field.name + '" (change)="rechercher()"';
+                            radio.rest = (radio.rest ? radio.rest : '') + '[(ngModel)]="' + object.constructor.name.toLowerCase() + 'Search.' + field.name + '" (ngModelChange)="rechercher()"';
                             result = result + getRadioHtml(radio);
                             radio.rest = '';
                         }
                         else if (Reflect.getMetadata('Checkbox', object, field.name)) {
                             const checkbox: Checkbox = Reflect.getMetadata('Checkbox', object, field.name);
-                            checkbox.rest = (checkbox.rest ? checkbox.rest : '') + '[(ngModel)]="' + object.constructor.name.toLowerCase() + 'Search.' + field.name + '" (change)="rechercher()"';
+                            checkbox.rest = (checkbox.rest ? checkbox.rest : '') + '[(ngModel)]="' + object.constructor.name.toLowerCase() + 'Search.' + field.name + '" (ngModelChange)="rechercher()"';
                             result = result + getCheckboxHtml(checkbox);
                             checkbox.rest = '';
                         }
@@ -456,13 +457,15 @@ export class HtmlTsObject {
     getTsUpdateService(): string {
         let result = 'update' + this.constructor.name + '(' + this.constructor.name.toLowerCase() + ': ' + this.constructor.name + '): Observable<HttpResponseApi> {\n';
         result = result + 'let url = BASE_URL + "/' + this.constructor.name.toLowerCase() + '/update";\n';
+        result = result + 'let token = this.getToken();\n';
         result = result + 'const httpOptions = {\n';
         result = result + 'headers: new HttpHeaders({\n';
-        result = result + "'Content-Type': 'application/json'\n";
+        result = result + "'Content-Type': 'application/json',\n";
+        result = result + "'Authorization': `Bearer ${token}`\n";        
         result = result + '})\n';
         result = result + '};\n';
         result = result + 'let body = JSON.stringify(' + this.constructor.name.toLowerCase() + ');\n';
-        result = result + 'return this.http.post<HttpResponseApi>(url, body, httpOptions);\n';
+        result = result + 'return this.http.put<HttpResponseApi>(url, body, httpOptions);\n';
         result = result + '}';
         return result;
     }

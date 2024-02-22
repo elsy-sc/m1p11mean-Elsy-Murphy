@@ -4,6 +4,7 @@ const httpUtil = require("../utils/http.util");
 
 async function createRendezvous(req, res) {
     const db = await getMongoDBDatabase();
+    let errors = [];
     try {
         const rendezvous = new Rendezvous(null, null, null);
         rendezvous.setIdclient(req.body?.idclient);
@@ -11,10 +12,23 @@ async function createRendezvous(req, res) {
         rendezvous.setDateheurerendezvous(req.body?.dateheurerendezvous);
 
         await rendezvous.create(db).then(() => {
-            httpUtil.sendJson(res, null, 201, "OK");        
+            httpUtil.sendJson(res, null, 201, "CREATED");        
         });
     } catch (error) {
-        httpUtil.sendJson(res, null, 201, error.message);
+        if (error.field && error.message) {
+            errors.push(error);
+        }
+        else if (error.code) {
+            let field  = error.keyPattern ? Object.keys(error.keyPattern)[0] : null;
+            if (field) {
+                let error = {
+                    field: field,
+                    message: field + " existant."
+                }
+                errors.push(error);
+            }
+        }
+        httpUtil.sendJson(res, errors, 422, "error");
     }
 }
 
@@ -22,15 +36,16 @@ async function readRendezvous(req, res) {
     const db = await getMongoDBDatabase();
     try {
         await new Rendezvous(req.body?.idclient, req.body?.idservice, req.body?.dateheurerendezvous).read(db).then((result) => {
-            httpUtil.sendJson(res, result, 201, "OK");
+            httpUtil.sendJson(res, result, 200);
         });
     } catch (error) {
-        httpUtil.sendJson(res, null, 201, error.message);
+        httpUtil.sendJson(res, null, error.status || error.statusCode || 500, error.message);
     }
 }
 
 async function updateRendezvous(req, res) {
     const db = await getMongoDBDatabase();
+    let errorsUpdate = [];
     try {
         const rendezvousWhere = new Rendezvous();
         rendezvousWhere._id = req.body?._id;
@@ -40,10 +55,23 @@ async function updateRendezvous(req, res) {
         rendezvousSet.setIdservice(req.body?.idservice);
 
         await rendezvousWhere.update(db, rendezvousSet).then(() => {
-            httpUtil.sendJson(res, null, 201, "OK");        
+            httpUtil.sendJson(res, null, 200, "OK");        
         });
     } catch (error) {
-        httpUtil.sendJson(res, null, 201, error.message);
+        if (error.field && error.message) {
+            errorsUpdate.push(error);
+        } 
+        else if (error.code) {
+            let field  = error.keyPattern ? Object.keys(error.keyPattern)[0] : null;
+            if (field) {
+                let error = {
+                    field: field,
+                    message: field+" déjà utilisée. Veuillez choisir une autre "+field
+                }
+                errorsUpdate.push(error);
+            }
+        }
+        httpUtil.sendJson(res, errorsUpdate, 422, "error");
     }
 }
 
@@ -54,10 +82,10 @@ async function deleteRendezvous(req, res) {
         rendezvous._id = req.body?._id;
 
         await rendezvous.delete(db).then(() => {
-            httpUtil.sendJson(res, null, 201, "OK");        
+            httpUtil.sendJson(res, null, 200, "OK");        
         });
     } catch (error) {
-        httpUtil.sendJson(res, null, 201, error.message);
+        httpUtil.sendJson(res, null, error.status || error.statusCode || 500, error.message);
     }
 }
 

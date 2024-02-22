@@ -1,15 +1,39 @@
+<p-toast></p-toast>
 <div class="grid">
   <div class="col-12">
     <div class="card">
       <h5>Liste de Service</h5>
       <p-table [value]="services" [paginator]="true" [rows]="10"
         ><ng-template pTemplate="caption"
-          ><p-accordion
+          >
+          <p-accordion
             ><p-accordionTab
               header="Recherche"
               [selected]="false"
               class="line-height-3 m-0"
-              ><LabelInput
+              >
+              <div class="flex flex-column gap-2 container">
+                <div class="labelContainer">
+                  <label class="label">Catégorie du service</label>
+                </div>
+                <div class="inputContainer">
+                  <div class="grid formgrid">
+                    <div class="inputContainer">
+                      <p-dropdown
+                        [(ngModel)]="serviceSearch.idcategorieservice"
+                        (ngModelChange)="rechercher()"
+                        name="idcategorieservice"
+                        [options]="categorieservices"
+                        optionLabel="nom"
+                        optionValue="_id"
+                        [showClear]="true"
+                      ></p-dropdown>
+                    </div>
+                  </div>
+              </div>
+            </div>
+              
+              <LabelInput
                 label="Nom du service"
                 name="nom"
                 [(ngModel)]="serviceSearch.nom"
@@ -39,36 +63,21 @@
                 type="number"
                 name="duree"
                 [(ngModel)]="serviceSearch.duree"
-                (input)="rechercher()" /><LabelInput
+                (input)="rechercher()" />
+              <LabelInput
                 label="Prix du service(en MGA)"
                 type="number"
                 name="prix"
                 [(ngModel)]="serviceSearch.prix"
-                (input)="rechercher()" /><LabelInput
+                (input)="rechercher()" />
+              <LabelInput
                 label="Commission du service(en %)"
                 type="number"
                 name="commission"
                 [(ngModel)]="serviceSearch.commission"
                 (input)="rechercher()" />
-              <div class="flex flex-column gap-2 container">
-                <div class="labelContainer">
-                  <label class="label">Catégorie du service</label>
-                </div>
-                <div class="inputContainer">
-                  <div class="grid formgrid">
-                    <div class="inputContainer">
-                      <p-dropdown
-                        [(ngModel)]="serviceSearch.idcategorieservice"
-                        (change)="rechercher()"
-                        name="idcategorieservice"
-                        [options]="categorieservices"
-                        optionLabel="nom"
-                        optionValue="_id"
-                        [showClear]="true"
-                      ></p-dropdown>
-                    </div>
-                  </div>
-                </div></div></p-accordionTab></p-accordion></ng-template
+
+          </p-accordionTab></p-accordion></ng-template
         ><ng-template pTemplate="header"
           ><tr>
             <th style="min-width: 12rem">Nom du service</th>
@@ -127,6 +136,33 @@
       class="p-fluid"
     >
       <ng-template pTemplate="content">
+        <div class="flex flex-column gap-2 container">
+          <div class="labelContainer">
+            <label class="label">Catégorie du service</label>
+          </div>
+          <div class="inputContainer">
+            <div class="grid formgrid">
+              <div class="inputContainer">
+                <p-dropdown
+                  [ngClass]="{'ng-dirty ng-invalid' : errorsUpdate && errorsUpdate[0]?.field ==='idcategorieservice'} "
+                  (input)="onInput()"
+                  [(ngModel)]="serviceUpdate.categorieservice?.nom||serviceUpdate.idcategorieservice"
+                  name="idcategorieservice"
+                  [options]="categorieservices"
+                  optionLabel="nom"
+                  optionValue="_id"
+                  [showClear]="true"
+                ></p-dropdown>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p
+          *ngIf="errorsUpdate && errorsUpdate[0]?.field ==='idcategorieservice'"
+          class="text-danger"
+        >
+          {{errorsUpdate[0]?.message}}
+        </p>
         <LabelInput
           label="Nom du service"
           name="nom"
@@ -207,33 +243,7 @@
         >
           {{errorsUpdate[0]?.message}}
         </p>
-        <div class="flex flex-column gap-2 container">
-          <div class="labelContainer">
-            <label class="label">Catégorie du service</label>
-          </div>
-          <div class="inputContainer">
-            <div class="grid formgrid">
-              <div class="inputContainer">
-                <p-dropdown
-                  [ngClass]="{'ng-dirty ng-invalid' : errorsUpdate && errorsUpdate[0]?.field ==='idcategorieservice'} "
-                  (input)="onInput()"
-                  [(ngModel)]="serviceUpdate.categorieservice?.nom||serviceUpdate.idcategorieservice"
-                  name="idcategorieservice"
-                  [options]="categorieservices"
-                  optionLabel="nom"
-                  optionValue="_id"
-                  [showClear]="true"
-                ></p-dropdown>
-              </div>
-            </div>
-          </div>
-        </div>
-        <p
-          *ngIf="errorsUpdate && errorsUpdate[0]?.field ==='idcategorieservice'"
-          class="text-danger"
-        >
-          {{errorsUpdate[0]?.message}}
-        </p> </ng-template
+         </ng-template
       ><ng-template pTemplate="footer">
         <button
           pButton

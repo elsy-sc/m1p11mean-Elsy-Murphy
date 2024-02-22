@@ -10,7 +10,7 @@
           (input)="onInput()"
           [ngClass]="{'ng-dirty ng-invalid' : errors && errors[0]?.field ==='nom'} "
         />
-        <p *ngIf="errors && errors[0]?.field === 'nom'" class="text-danger">
+        <p *ngIf="errors && errors[0]?.field === 'nom'" style="color: red;">
           {{errors[0]?.message}}
         </p>
         <div class="flex flex-column gap-2 container">
@@ -36,7 +36,7 @@
         </div>
         <p
           *ngIf="errors && errors[0]?.field === 'description'"
-          class="text-danger"
+          style="color: red;"
         >
           {{errors[0]?.message}}
         </p>

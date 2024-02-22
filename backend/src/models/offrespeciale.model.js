@@ -12,21 +12,30 @@ class Offrespeciale extends Service {
 
     setDescriptionoffrespeciale(descriptiooffrespeciale) {
         if (descriptiooffrespeciale == null || descriptiooffrespeciale == undefined || descriptiooffrespeciale.trim() == "") {
-            throw new Error("La description de l'offre spéciale est obligatoire");
+            throw {
+                field: 'descriptiooffrespeciale',
+                message: 'La description de l\'offre spéciale est obligatoire. veuillez entrer la description de l\'offre spéciale'
+            }
         }
         this.descriptiooffrespeciale = descriptiooffrespeciale;
     }
 
     setDateheuredebutoffrespeciale(dateheuredebutoffrespeciale) {
         if (dateheuredebutoffrespeciale == null || dateheuredebutoffrespeciale == undefined || dateheuredebutoffrespeciale.trim() == "") {
-            throw new Error("La date de début de l'offre spéciale est obligatoire");
+            throw {
+                field: 'dateheuredebutoffrespeciale',
+                message: 'La date de début de l\'offre spéciale est obligatoire. veuillez entrer la date de début de l\'offre spéciale'
+            }
         }
         this.dateheuredebutoffrespeciale = dateheuredebutoffrespeciale;
     }
 
     setDateheurefinoffrespeciale(dateheurefinoffrespeciale) {
         if (dateheurefinoffrespeciale == null || dateheurefinoffrespeciale == undefined || dateheurefinoffrespeciale.trim() == "") {
-            throw new Error("La date de fin de l'offre spéciale est obligatoire");
+            throw {
+                field: 'dateheurefinoffrespeciale',
+                message: 'La date de fin de l\'offre spéciale est obligatoire. veuillez entrer la date de fin de l\'offre spéciale'
+            }
         }
         this.dateheurefinoffrespeciale = dateheurefinoffrespeciale;
     }

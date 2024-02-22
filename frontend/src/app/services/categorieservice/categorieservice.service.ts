@@ -55,13 +55,15 @@ export class CategorieServiceService {
 
     updateCategorieService(categorieservice: CategorieService): Observable<HttpResponseApi> {
         let url = BASE_URL + "/categorieservice/update";
+        let token = this.getToken();
         const httpOptions = {
             headers: new HttpHeaders({
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
             })
         };
         let body = JSON.stringify(categorieservice);
-        return this.http.post<HttpResponseApi>(url, body, httpOptions);
+        return this.http.put<HttpResponseApi>(url, body, httpOptions);
     }
 
     deleteCategorieService(categorieservice: CategorieService): Observable<HttpResponseApi> {

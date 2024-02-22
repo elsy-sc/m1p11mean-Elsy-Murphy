@@ -25,7 +25,7 @@ export class CreateCategorieService implements OnInit {
                     this.errors = response.data;
                     this.isLoading = false;
                 } else if (response.status == 201) {
-                    this.router.navigate(["/firstpage"]);
+                    this.router.navigate(["/beauty-salon/categorieservice/read"]);
                 } else {
                     this.isLoading = false;
                     this.messageService.add({ severity: "error", summary: "Erreur", detail: response.message });

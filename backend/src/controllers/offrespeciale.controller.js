@@ -4,6 +4,7 @@ const httpUtil = require('../utils/http.util');
 
 async function createOffrespeciale(req, res) {
     const db = await getMongoDBDatabase();
+    let errors = [];
     try {
         const offrespeciale = new Offrespeciale();
         offrespeciale.setDescriptionoffrespeciale(req.body?.descriptionoffrespeciale);
@@ -18,7 +19,20 @@ async function createOffrespeciale(req, res) {
             httpUtil.sendJson(res, null, 201, "OK");        
         });
     } catch (error) {
-        httpUtil.sendJson(res, null, 201, error.message);
+        if (error.field && error.message) {
+            errors.push(error);
+        }
+        else if (error.code) {
+            let field = error.keyPattern ? Object.keys(error.keyPattern)[0] : null;
+            if (field) {
+                let error = {
+                    field: field,
+                    message: field + " déjà utilisée. Veuillez choisir une autre " + field
+                }
+                errors.push(error);
+            }
+        }
+        httpUtil.sendJson(res, errors, 422, "error");
     }
 }
 
@@ -26,15 +40,16 @@ async function readOffrespeciale(req, res) {
     const db = await getMongoDBDatabase();
     try {
         await new Offrespeciale(req.body?.descriptionoffrespeciale ? { $regex: new RegExp(req.body?.descriptionoffrespeciale, 'i')} : null).read(db).then((result) => {
-            httpUtil.sendJson(res, result, 201, "OK");
+            httpUtil.sendJson(res, result, 200, "OK");
         });
     } catch (error) {
-        httpUtil.sendJson(res, null, 201, error.message);
+        httpUtil.sendJson(res, null, error.status || error.statusCode || 500, error.message);
     }
 }
 
 async function updateOffrespeciale(req, res) {
     const db = await getMongoDBDatabase();
+    let errorsUpdate = [];
     try {
         const offrespecialeWhere = new Offrespeciale();
         offrespecialeWhere._id = req.body?._id;
@@ -51,10 +66,23 @@ async function updateOffrespeciale(req, res) {
         offrespecialeSet._state = req.body?._state;
 
         await offrespecialeWhere.update(db, offrespecialeSet).then(() => {
-            httpUtil.sendJson(res, null, 201, "OK");        
+            httpUtil.sendJson(res, null, 200, "OK");        
         });
     } catch (error) {
-        httpUtil.sendJson(res, null, 201, error.message);
+        if (error.field && error.message) {
+            errorsUpdate.push(error);
+        } 
+        else if (error.code) {
+            let field  = error.keyPattern ? Object.keys(error.keyPattern)[0] : null;
+            if (field) {
+                let error = {
+                    field: field,
+                    message: field+" déjà utilisée. Veuillez choisir une autre "+field
+                }
+                errorsUpdate.push(error);
+            }
+        }
+        httpUtil.sendJson(res, errorsUpdate, 422, "error");
     }
 }
 
@@ -65,10 +93,10 @@ async function deleteOffrespeciale(req, res) {
         offrespeciale._id = req.body?._id;
 
         await offrespeciale.delete(db).then(() => {
-            httpUtil.sendJson(res, null, 201, "OK");        
+            httpUtil.sendJson(res, null, 200, "OK");        
         });
     } catch (error) {
-        httpUtil.sendJson(res, null, 201, error.message);
+        httpUtil.sendJson(res, null, error.status || error.statusCode || 500, error.message);
     }
 }
 

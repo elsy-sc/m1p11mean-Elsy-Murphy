@@ -51,6 +51,7 @@
                   icon="pi pi-pencil"
                   class="p-button-rounded p-button-success mr-2"
                   label="Modifier"
+                  (click)="UpdateCategorieService(categorieservice)"
                 ></button
                 ><button
                   pButton
@@ -58,6 +59,7 @@
                   icon="pi pi-trash"
                   class="p-button-rounded p-button-danger"
                   label="Supprimer"
+                  (click)="DeleteCategorieService(categorieservice)"
                 ></button>
               </div>
             </td></tr></ng-template
@@ -91,7 +93,7 @@
         />
         <p
           *ngIf="errorsUpdate && errorsUpdate[0]?.field ==='nom'"
-          class="text-danger"
+          style="color: red;"
         >
           {{errorsUpdate[0]?.message}}
         </p>
@@ -118,7 +120,7 @@
         </div>
         <p
           *ngIf="errorsUpdate && errorsUpdate[0]?.field ==='description'"
-          class="text-danger"
+          style="color: red;"
         >
           {{errorsUpdate[0]?.message}}
         </p> </ng-template

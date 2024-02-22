@@ -46,6 +46,7 @@ export class ReadService implements OnInit {
         this.loadingButtonUpdate = true;
         this.serviceService.updateService(this.serviceUpdate).subscribe(
             (response: HttpResponseApi) => {
+                console.log(response)
                 if (response.message == "error" && response.status == 422) {
                     this.errorsUpdate = response.data;
                     this.loadingButtonUpdate = false;
@@ -81,8 +82,9 @@ export class ReadService implements OnInit {
     }
 
     getServices() {
-        console.log(this.serviceSearch);
+        
         this.serviceService.readService(this.serviceSearch).subscribe((response: HttpResponseApi) => {
+            
             if (response.data) {
                 this.services = response.data;
             }
