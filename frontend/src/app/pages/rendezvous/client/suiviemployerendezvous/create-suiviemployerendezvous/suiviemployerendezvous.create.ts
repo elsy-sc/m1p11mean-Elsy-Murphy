@@ -9,6 +9,8 @@ import { Service } from "../../../../../models/service.model";
 import { Utilisateur } from "../../../../../models/utilisateur.model";
 import { EmployeService } from "../../../../../services/employe/employe.service";
 import { ServiceService } from "../../../../../services/service/service.service";
+import { CategorieService } from "../../../../../models/categorieservice.model";
+import { Offrespeciale } from "../../../../../models/offrespeciale.model";
 @Component({
     selector: "create-suiviemployerendezvous",
     templateUrl: "./suiviemployerendezvous.create.page.html",
@@ -21,10 +23,22 @@ export class CreateSuiviEmployeRendezVous implements OnInit {
     errors: any[] | undefined = [];
 
     employes: Employe[] = [];
-    services: Service[] = [];
+    services: Offrespeciale[] = [];
     clients: Utilisateur[] = [];
 
+    serviceSearch: Offrespeciale = new Offrespeciale();
+    categorieservices: CategorieService[] = [];
+
     constructor(private suiviemployerendezvousService: SuiviEmployeRendezVousService, private messageService: MessageService, private router: Router, private employeService: EmployeService, private serviceService: ServiceService) { }
+
+    showConfirmService: boolean = false;
+    CancelConfirmService() {
+        this.showConfirmService = false;
+    }
+    ValidConfirmService() {
+        this.showConfirmService = false;
+        this.submit();
+    }
 
     submit() {
         this.isLoading = true;
@@ -59,17 +73,28 @@ export class CreateSuiviEmployeRendezVous implements OnInit {
     getEmployes() {
         this.employeService.readEmploye(new Employe()).subscribe((response: HttpResponseApi) => {
             if (response.data) {
-                this.employes = response.data;
+                const employeNull = new Employe();
+                employeNull.nom = "Aucun employe";
+                this.employes = [employeNull, ...response.data];
             }
         });
     }
 
     getServices() {
-        this.serviceService.readService(new Service()).subscribe((response: HttpResponseApi) => {
+        this.serviceService.readService(this.serviceSearch).subscribe((response: HttpResponseApi) => {
             if (response.data) {
                 this.services = response.data;
             }
         });
+    }
+
+    rechercher() {
+        this.getServices();
+    }
+
+    reserver() {
+        this.showConfirmService = true;
+        
     }
 
 }

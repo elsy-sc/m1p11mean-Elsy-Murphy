@@ -13,6 +13,10 @@ import { MultiSelectModule } from "primeng/multiselect";
 import { AppLayoutModule } from "../../../../../components/layout/app.layout.module";
 import { PasswordModule } from "primeng/password";
 import { ToastModule } from "primeng/toast";
+import { AccordionModule } from "primeng/accordion";
+import { TableModule } from "primeng/table";
+import { CalendarModule } from "primeng/calendar";
+import { GenericPopupModule } from "../../../../../components/generic-popup/generic-popup.module";
 @NgModule({
     declarations: [
         CreateSuiviEmployeRendezVous
@@ -31,7 +35,11 @@ import { ToastModule } from "primeng/toast";
         MultiSelectModule,
         PasswordModule,
         ToastModule,
-        LabelInputModule
+        LabelInputModule,
+        AccordionModule,
+        TableModule,
+        CalendarModule,
+        GenericPopupModule
     ]
 })
 export class CreateSuiviEmployeRendezVousModule { }
