@@ -20,6 +20,10 @@ import { CreateDepense } from './pages/depense/create-depense/depense.create';
 import { ReadSuiviEmployeRendezVous } from './pages/rendezvous/client/suiviemployerendezvous/read-suiviemployerendezvous/suiviemployerendezvous.read';
 import { CreateSuiviEmployeRendezVous } from './pages/rendezvous/client/suiviemployerendezvous/create-suiviemployerendezvous/suiviemployerendezvous.create';
 import { ReadSuiviEmployeRendezVousEmploye } from './pages/rendezvous/employe/read-suiviemployerendezvous/suiviemployerendezvous.read';
+import { ProfilModule } from './pages/profil/profil.module';
+import { Profil } from './pages/profil/profil';
+import { CreateHorraireTravail } from './pages/horrairetravail/create-horrairetravail/horrairetravail-create.component';
+import { ReadHorrairetravail } from './pages/horrairetravail/read-horrairetravail/horrairetravail-read.component';
 
 const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -40,7 +44,11 @@ const routes: Routes = [
       {path:'rendezvous/client/read' , component: ReadSuiviEmployeRendezVous},
       {path: 'rendezvous/client/create' , component: CreateSuiviEmployeRendezVous},
       {path: 'rendezvous/employe/read', component: ReadSuiviEmployeRendezVousEmploye},
+      {path:'profil' , component: Profil},
+      {path:'horrairetravail/create' , component: CreateHorraireTravail},
+      {path:'horrairetravail/read' , component: ReadHorrairetravail},
       // {path:'' , component: ListeUtilisateurComponent, canActivate: [AuthGuard]},
+      // {path:'test' , component: ListeUtilisateurComponent, canActivate: [AuthGuard]},
       // {path:'utilisateur/create' , component: CreateUtilisateurComponent, canActivate: [AuthGuard]},
     ]
   }

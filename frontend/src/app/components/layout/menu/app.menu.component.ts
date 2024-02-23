@@ -15,6 +15,33 @@ export class AppMenuComponent implements OnInit {
     ngOnInit() {
         this.model = [
             {
+                label: 'Profil',
+                routerLink: ['/beauty-salon/'],
+                items: [
+                    {
+                        label: 'Profil',
+                        icon: 'pi pi-fw pi-user',
+                        routerLink: ['profil']
+                    },
+                    {
+                        label: 'Horaire de travail',
+                        icon: 'pi pi-fw pi-calendar-times',
+                        items: [
+                            {
+                                label: 'ajouter',
+                                icon: 'pi pi-fw pi-plus',
+                                routerLink: ['horrairetravail/create']
+                            },
+                            {
+                                label: 'liste',
+                                icon: 'pi pi-fw pi-list',
+                                routerLink: ['horrairetravail/read']
+                            }                               
+                        ]
+                    }
+                ]
+            },
+            {
                 label: 'Personnel',
                 routerLink: ['/beauty-salon/'],
                 items: [

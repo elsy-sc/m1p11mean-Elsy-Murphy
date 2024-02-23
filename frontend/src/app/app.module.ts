@@ -28,14 +28,17 @@ import { CreateCategorieServiceModule } from './pages/categorieservice/create-ca
 import { ReadCategorieServiceModule } from './pages/categorieservice/read-categorieservice/categorieservice.read.module';
 import { ReadEmployeModule } from './pages/employe/read-employe/employe.read.module';
 import { CreateEmployeModule } from './pages/employe/create-employe/employe.create.module';
-import { ReadTypeDepenseModule } from './pages/typedepense/read-typedepense/typedepense.read.module';
-import { CreateTypeDepenseModule } from './pages/typedepense/create-typedepense/typedepense.create.module';
 import { ReadDepenseModule } from './pages/depense/read-depense/depense.read.module';
 import { CreateDepenseModule } from './pages/depense/create-depense/depense.create.module';
 import { ReadSuiviEmployeRendezVousModule } from './pages/rendezvous/client/suiviemployerendezvous/read-suiviemployerendezvous/suiviemployerendezvous.read.module';
 import { CreateSuiviEmployeRendezVousModule } from './pages/rendezvous/client/suiviemployerendezvous/create-suiviemployerendezvous/suiviemployerendezvous.create.module';
 import { ReadSuiviEmployeRendezVousEmployeModule } from './pages/rendezvous/employe/read-suiviemployerendezvous/suiviemployerendezvous.read.module';
 
+import { ReadTypeDepenseModule } from './pages/typedepense/read-typedepense/typedepense.read.module';
+import { CreateTypeDepenseModule } from './pages/typedepense/create-typedepense/typedepense.create.module';
+import { ProfilModule } from './pages/profil/profil.module';
+import { CreateHorrairetravailModule } from './pages/horrairetravail/create-horrairetravail/horrairetravail-create.module';
+import { ReadHorrairetravailModule } from './pages/horrairetravail/read-horrairetravail/horrairetravail-read.module';
 
 @NgModule({
   declarations: [
@@ -73,7 +76,10 @@ import { ReadSuiviEmployeRendezVousEmployeModule } from './pages/rendezvous/empl
     CreateDepenseModule,
     ReadSuiviEmployeRendezVousModule,
     CreateSuiviEmployeRendezVousModule,
-    ReadSuiviEmployeRendezVousEmployeModule
+    ReadSuiviEmployeRendezVousEmployeModule,
+    ProfilModule,
+    CreateHorrairetravailModule,
+    ReadHorrairetravailModule
   ],
   providers: [
     provideHttpClient(withFetch()),

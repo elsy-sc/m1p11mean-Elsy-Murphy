@@ -1,14 +1,13 @@
 import { Injectable } from "@angular/core";
-import { Employe } from "../../models/employe.model";
+import { HorraireTravail } from "../../models/horrairetravail.model";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { HttpResponseApi } from "../../interfaces/http/HttpResponseApi";
 import { BASE_URL } from "../../utils/constante.util";
-import { Utilisateur } from "../../models/utilisateur.model";
 @Injectable({
     providedIn: "root"
 })
-export class EmployeService {
+export class HorraireTravailService {
 
     constructor(private http: HttpClient) { }
 
@@ -19,12 +18,6 @@ export class EmployeService {
         return null;
     }
 
-    setUserConnecte(user: Utilisateur): void {
-        if (typeof window !== 'undefined') {
-          localStorage.setItem("user", JSON.stringify(user));
-        }
-      }
-
     getToken() {
         let userConnecte = this.getUserConnecte();
         if (userConnecte) {
@@ -34,8 +27,8 @@ export class EmployeService {
         return "";
     }
 
-    createEmploye(employe: Employe): Observable<HttpResponseApi> {
-        let url = BASE_URL + "/employe/create";
+    createHorraireTravail(horrairetravail: HorraireTravail): Observable<HttpResponseApi> {
+        let url = BASE_URL + "/horairetravail/create";
         let token = this.getToken();
         const httpOptions = {
             headers: new HttpHeaders({
@@ -43,12 +36,12 @@ export class EmployeService {
                 'Authorization': `Bearer ${token}`
             })
         };
-        let body = JSON.stringify(employe);
+        let body = JSON.stringify(horrairetravail);
         return this.http.post<HttpResponseApi>(url, body, httpOptions);
     }
 
-    readEmploye(employeSearch: Employe): Observable<HttpResponseApi> {
-        let url = BASE_URL + "/employe/read";
+    readHorraireTravail(horrairetravailSearch: HorraireTravail): Observable<HttpResponseApi> {
+        let url = BASE_URL + "/horairetravail/read";
         let token = this.getToken();
         const httpOptions = {
             headers: new HttpHeaders({
@@ -56,32 +49,32 @@ export class EmployeService {
                 'Authorization': `Bearer ${token}`
             })
         };
-        let body = JSON.stringify(employeSearch);
+        let body = JSON.stringify(horrairetravailSearch);
         return this.http.post<HttpResponseApi>(url, body, httpOptions);
     }
 
-    updateEmploye(employe: Employe): Observable<HttpResponseApi> {
-        let url = BASE_URL + "/employe/update";
+    updateHorraireTravail(horrairetravail: HorraireTravail): Observable<HttpResponseApi> {
+        let url = BASE_URL + "/horairetravail/update";
         let token = this.getToken();
         const httpOptions = {
             headers: new HttpHeaders({
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
+                'Authorization': `Bearer ${token}`  
             })
         };
-        let body = JSON.stringify(employe);
+        let body = JSON.stringify(horrairetravail);
         return this.http.put<HttpResponseApi>(url, body, httpOptions);
     }
 
-    deleteEmploye(employe: Employe): Observable<HttpResponseApi> {
-        let url = BASE_URL + "/employe/delete";
+    deleteHorraireTravail(horrairetravail: HorraireTravail): Observable<HttpResponseApi> {
+        let url = BASE_URL + "/horairetravail/delete";
         let token = this.getToken();
         const httpOptions = {
             headers: new HttpHeaders({
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`
             }),
-            body: { _id: employe._id }
+            body: { _id: horrairetravail._id }
         };
         return this.http.delete<HttpResponseApi>(url, httpOptions);
     }

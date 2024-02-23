@@ -1,6 +1,7 @@
 import { CategorieService } from "../models/categorieservice.model";
 import { Depense } from "../models/depense.model";
 import { Rendezvous } from "../models/rendezvous.model";
+import { HorraireTravail } from "../models/horrairetravail.model";
 import { Service } from "../models/service.model";
 import { SuiviEmployeRendezVous } from "../models/suiviemployerendezvous.model";
 import { TypeDepense } from "../models/typedepense.model";
@@ -10,3 +11,4 @@ import { TypeDepense } from "../models/typedepense.model";
 
 // const rendezvous = new SuiviEmployeRendezVous();
 // rendezvous.generateCreate();
+const horrairetravail = new HorraireTravail() ;

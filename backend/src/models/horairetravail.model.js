@@ -38,8 +38,8 @@ class HoraireTravail extends TableObject {
         }
     }
 
-    async read(connection, afterWhereString) {
-        this._state = 1;
+    async read(connection, afterWhereString, state = 1) {
+        this._state = state;
         return await super.read(connection, afterWhereString);
     }
 

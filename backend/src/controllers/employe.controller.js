@@ -66,7 +66,6 @@ async function updateEmploye(req, res) {
         await employeSet.setEmail(req.body.email);
         await employeSet.setDateNaissance(req.body.datenaissance);
         await employeSet.setNumeroTelephone(req.body.numerotelephone);
-        await employeSet.setMotDePasse(req.body.motdepasse);
         await employeSet.setCin(req.body.cin);
         await employeSet.setNumeroCarteBancaire(req.body.numerocartebancaire);
 
