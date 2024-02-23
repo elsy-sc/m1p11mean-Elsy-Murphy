@@ -4,7 +4,7 @@ const { createSuiviEmployeRendezvous, readSuiviEmployeRendezvous, updateSuiviEmp
 const router = express.Router();
 
 router.post("/create", createSuiviEmployeRendezvous);
-router.get("/read", readSuiviEmployeRendezvous);
+router.post("/read", readSuiviEmployeRendezvous);
 router.put("/update", updateSuiviEmployeRendezvous);
 router.delete("/delete", deleteSuiviEmployeRendezvous);
 

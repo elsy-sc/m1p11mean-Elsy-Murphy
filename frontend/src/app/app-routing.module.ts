@@ -17,8 +17,9 @@ import { ReadTypeDepense } from './pages/typedepense/read-typedepense/typedepens
 import { CreateTypeDepense } from './pages/typedepense/create-typedepense/typedepense.create';
 import { ReadDepense } from './pages/depense/read-depense/depense.read';
 import { CreateDepense } from './pages/depense/create-depense/depense.create';
-import { ReadRendezvous } from './pages/rendezvous/read-rendezvous/rendezvous.read';
-import { CreateRendezvous } from './pages/rendezvous/create-rendezvous/rendezvous.create';
+import { ReadSuiviEmployeRendezVous } from './pages/rendezvous/client/suiviemployerendezvous/read-suiviemployerendezvous/suiviemployerendezvous.read';
+import { CreateSuiviEmployeRendezVous } from './pages/rendezvous/client/suiviemployerendezvous/create-suiviemployerendezvous/suiviemployerendezvous.create';
+import { ReadSuiviEmployeRendezVousEmploye } from './pages/rendezvous/employe/read-suiviemployerendezvous/suiviemployerendezvous.read';
 
 const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -36,8 +37,9 @@ const routes: Routes = [
       {path:'typedepense/create' , component: CreateTypeDepense},
       {path:'depense/read' , component: ReadDepense},
       {path:'depense/create' , component: CreateDepense},
-      {path:'rendezvous/read' , component: ReadRendezvous},
-      {path:'rendezvous/create' , component: CreateRendezvous},
+      {path:'rendezvous/client/read' , component: ReadSuiviEmployeRendezVous},
+      {path: 'rendezvous/client/create' , component: CreateSuiviEmployeRendezVous},
+      {path: 'rendezvous/employe/read', component: ReadSuiviEmployeRendezVousEmploye},
       // {path:'' , component: ListeUtilisateurComponent, canActivate: [AuthGuard]},
       // {path:'utilisateur/create' , component: CreateUtilisateurComponent, canActivate: [AuthGuard]},
     ]

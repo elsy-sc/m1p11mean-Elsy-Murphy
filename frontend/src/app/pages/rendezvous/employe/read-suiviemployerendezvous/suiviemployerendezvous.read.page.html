@@ -1,0 +1,130 @@
+<p-toast></p-toast>
+<div class="grid">
+  <div class="col-12">
+    <div class="card">
+      <h5>Liste des rendez-vous</h5>
+      <p-table [value]="suiviemployerendezvouss" [paginator]="true" [rows]="10"
+        ><p-toast></p-toast
+        ><ng-template pTemplate="caption"
+          >
+          <p-accordion
+            >
+            <!-- <p-accordionTab
+              header="Recherche"
+              [selected]="false"
+              class="line-height-3 m-0"
+            >
+              <div class="flex flex-column gap-2 container">
+                <div class="labelContainer">
+                  <label class="label">Service</label>
+                </div>
+                <div class="inputContainer">
+                  <div class="grid formgrid">
+                    <div class="inputContainer">
+                      <p-dropdown
+                        [(ngModel)]="suiviemployerendezvousSearch.idservice"
+                        (ngModelChange)="rechercher()"
+                        name="idservice"
+                        [options]="services"
+                        [showClear]="true"
+                        optionLabel="nom"
+                        optionValue="_id"
+                      ></p-dropdown>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="flex flex-column gap-2 container">
+                <div class="labelContainer">
+                  <label class="label">Employe</label>
+                </div>
+                <div class="inputContainer">
+                  <div class="grid formgrid">
+                    <div class="inputContainer">
+                      <p-dropdown
+                        [(ngModel)]="suiviemployerendezvousSearch.idemploye"
+                        (ngModelChange)="rechercher()"
+                        name="idemploye"
+                        [options]="employes"
+                        [showClear]="true"
+                        optionLabel="nom"
+                        optionValue="_id"
+                      ></p-dropdown>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <LabelInput
+                label="Date et heure du rendez-vous"
+                type="datetime-local"
+                name="dateheurerendezvous"
+                [(ngModel)]="suiviemployerendezvousSearch.dateheurerendezvous"
+                (input)="rechercher()"
+              />
+              <LabelInput
+              label="Date et heure de validation"
+              type="datetime-local"
+              name="dateheurevalidation"
+              [(ngModel)]="suiviemployerendezvousSearch.dateheurevalidation"
+              (input)="rechercher()"
+            />
+            </p-accordionTab> -->
+          </p-accordion>
+            
+            </ng-template
+        ><ng-template pTemplate="header"
+          ><tr>
+            <th style="min-width: 12rem">Service du rendez-vous</th>
+            <th style="min-width: 12rem">Client du rendez-vous</th>
+            <th style="min-width: 12rem">Date et heure du rendez-vous</th>
+            <th>Actions</th>
+          </tr></ng-template
+        ><ng-template pTemplate="body" let-suiviemployerendezvous
+          ><tr>
+            <td>{{suiviemployerendezvous.service[0]?.nom}}</td>
+            <td>{{suiviemployerendezvous.client[0]?.nom}}</td>
+            <td>{{suiviemployerendezvous.dateheurerendezvous}}</td>
+            <td>
+              <div class="flex">
+                <button
+                  pButton
+                  pRipple
+                  icon="pi pi-pencil"
+                  class="p-button-rounded p-button-success mr-2"
+                  label="Commencer"
+                  (click)="UpdateSuiviEmployeRendezVous(suiviemployerendezvous)"
+                ></button
+                ><button
+                  pButton
+                  pRipple
+                  icon="pi pi-trash"
+                  class="p-button-rounded p-button-danger"
+                  label="Terminer"
+                  (click)="DeleteSuiviEmployeRendezVous(suiviemployerendezvous)"
+                ></button>
+              </div>
+            </td></tr></ng-template
+      ></p-table>
+    </div>
+    <generic-popup
+      title="Terminer un rendez-vous"
+      subtitle="Etes-vous sûr de terminer ce rendez-vous"
+      [show]="showDeletePopup"
+      (handleclose)="CancelDeleteSuiviEmployeRendezVous()"
+      (validClick)="ValidDeleteSuiviEmployeRendezVous()"
+      (cancelClick)="CancelDeleteSuiviEmployeRendezVous()"
+    >
+    </generic-popup>
+
+    <generic-popup
+      title="Commencer un rendez-vous"
+      subtitle="Etes-vous sûr de commencer ce rendez-vous"
+      [show]="showUpdatePopup"
+      (handleclose)="CancelUpdateSuiviEmployeRendezVous()"
+      (validClick)="ValidUpdateSuiviEmployeRendezVous()"
+      (cancelClick)="CancelUpdateSuiviEmployeRendezVous()"
+    >
+    </generic-popup>
+
+  </div>
+</div>

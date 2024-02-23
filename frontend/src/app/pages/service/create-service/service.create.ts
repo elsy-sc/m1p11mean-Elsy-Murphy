@@ -6,6 +6,8 @@ import { Service } from "../../../models/service.model";
 import { ServiceService } from "../../../services/service/service.service";
 import { CategorieService } from "../../../models/categorieservice.model";
 import { CategorieServiceService } from "../../../services/categorieservice/categorieservice.service";
+import { Offrespeciale } from "../../../models/offrespeciale.model";
+import { OffrespecialeService } from "../../../services/offrespeciale/offrespeciale.service";
 @Component({
     selector: "create-service",
     templateUrl: "./service.create.page.html",
@@ -14,32 +16,57 @@ import { CategorieServiceService } from "../../../services/categorieservice/cate
 export class CreateService implements OnInit {
 
     isLoading: boolean = false;
-    service: Service = new Service();
+    service: Offrespeciale = new Offrespeciale();
     categorieservices: CategorieService[] = [];
     errors: any[] | undefined = [];
+    isSpeciale = false;
 
-    constructor(private serviceService: ServiceService, private messageService: MessageService, private router: Router, private servicecategorieService: CategorieServiceService) { }
+    constructor(private offrespecialeService: OffrespecialeService, private messageService: MessageService, private router: Router, private servicecategorieService: CategorieServiceService, private serviceService: ServiceService) { }
 
     submit() {
         this.isLoading = true;
-        this.serviceService.createService(this.service).subscribe(
-            (response: HttpResponseApi) => {
-                console.log(response);
-                if (response.message == "error" && response.status == 422) {
-                    this.errors = response.data;
+
+        if(this.isSpeciale){  
+            this.offrespecialeService.createOffrespeciale(this.service).subscribe(
+                (response: HttpResponseApi) => {
+                    console.log(response);
+                    if (response.message == "error" && response.status == 422) {
+                        this.errors = response.data;
+                        this.isLoading = false;
+                    } else if (response.status == 201) {
+                        this.router.navigate(["beauty-salon/service/read"]);
+                    } else {
+                        this.isLoading = false;
+                        this.messageService.add({ severity: "error", summary: "Erreur", detail: response.message });
+                    }
+                },
+                (error) => {
                     this.isLoading = false;
-                } else if (response.status == 201) {
-                    this.router.navigate(["beauty-salon/service/read"]);
-                } else {
-                    this.isLoading = false;
-                    this.messageService.add({ severity: "error", summary: "Erreur", detail: response.message });
+                    console.error(error);
                 }
-            },
-            (error) => {
-                this.isLoading = false;
-                console.error(error);
-            }
-        )
+            )
+        }
+        else {
+            this.serviceService.createService(this.service as Service).subscribe(
+                (response: HttpResponseApi) => {
+                    console.log(response);
+                    if (response.message == "error" && response.status == 422) {
+                        this.errors = response.data;
+                        this.isLoading = false;
+                    } else if (response.status == 201) {
+                        this.router.navigate(["beauty-salon/service/read"]);
+                    } else {
+                        this.isLoading = false;
+                        this.messageService.add({ severity: "error", summary: "Erreur", detail: response.message });
+                    }
+                },
+                (error) => {
+                    this.isLoading = false;
+                    console.error(error);
+                }
+            )
+        }
+        
     }
 
     getServiceCategories(){

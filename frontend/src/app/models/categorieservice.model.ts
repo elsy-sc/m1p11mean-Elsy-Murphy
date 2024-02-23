@@ -35,4 +35,5 @@ export class CategorieService extends TableObject{
         this.description = description;
         this.idcategorieservice = idcategorieservice;
     }
+    
 }

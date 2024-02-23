@@ -5,6 +5,8 @@ import { Service } from "../../../models/service.model";
 import { ServiceService } from "../../../services/service/service.service";
 import { CategorieService } from "../../../models/categorieservice.model";
 import { CategorieServiceService } from "../../../services/categorieservice/categorieservice.service";
+import { OffrespecialeService } from "../../../services/offrespeciale/offrespeciale.service";
+import { Offrespeciale } from "../../../models/offrespeciale.model";
 @Component({
     selector: "read-service",
     templateUrl: "./service.read.page.html",
@@ -12,13 +14,13 @@ import { CategorieServiceService } from "../../../services/categorieservice/cate
 })
 export class ReadService implements OnInit {
 
-    serviceSearch: Service = new Service();
-    services: Service[] = [];
+    serviceSearch: Offrespeciale = new Offrespeciale();
+    services: Offrespeciale[] = [];
     categorieservices: CategorieService[] = [];
 
-    serviceDelete: Service = new Service();
+    serviceDelete: Offrespeciale = new Offrespeciale();
 
-    serviceUpdate: Service = new Service();
+    serviceUpdate: Offrespeciale = new Offrespeciale();
 
     loadingButtonUpdate: boolean = true;
 
@@ -27,10 +29,11 @@ export class ReadService implements OnInit {
     showUpdatePopup: boolean = false;
 
     errorsUpdate: any[] | undefined = [];
+    isSpecial: boolean = false;
 
 
-    UpdateService(service: Service) {
-
+    UpdateService(service: Offrespeciale) {
+        this.updateIsSpecial(service);
         this.showUpdatePopup = true;
         this.serviceUpdate = Object.assign({}, service);
     }
@@ -41,30 +44,59 @@ export class ReadService implements OnInit {
         this.errorsUpdate = [];
     }
 
-    ValidUpdateService() {
+    updateIsSpecial(service: Offrespeciale) {
+        this.isSpecial = service.descriptionoffrespeciale != null;
+    }
 
-        this.loadingButtonUpdate = true;
-        this.serviceService.updateService(this.serviceUpdate).subscribe(
-            (response: HttpResponseApi) => {
-                console.log(response)
-                if (response.message == "error" && response.status == 422) {
-                    this.errorsUpdate = response.data;
+    ValidUpdateService() {
+        if (this.isSpecial) {
+            this.loadingButtonUpdate = true;
+            this.offreSpecialService.updateOffrespeciale(this.serviceUpdate).subscribe(
+                (response: HttpResponseApi) => {
+                    console.log(response)
+                    if (response.message == "error" && response.status == 422) {
+                        this.errorsUpdate = response.data;
+                        this.loadingButtonUpdate = false;
+                    } else if (response.status == 200) {
+                        this.getServices();
+                        this.showUpdatePopup = false;
+                        this.loadingButtonUpdate = false;
+                        this.messageService.add({ severity: "success", summary: "Succès", detail: "Modification effectuée avec succès" });
+                    } else {
+                        this.loadingButtonUpdate = false;
+                        this.messageService.add({ severity: "error", summary: "Erreur", detail: response.message });
+                    }
+                },
+                (error) => {
                     this.loadingButtonUpdate = false;
-                } else if (response.status == 200) {
-                    this.getServices();
-                    this.showUpdatePopup = false;
-                    this.loadingButtonUpdate = false;
-                    this.messageService.add({ severity: "success", summary: "Succès", detail: "Modification effectuée avec succès" });
-                } else {
-                    this.loadingButtonUpdate = false;
-                    this.messageService.add({ severity: "error", summary: "Erreur", detail: response.message });
+                    console.error(error);
                 }
-            },
-            (error) => {
-                this.loadingButtonUpdate = false;
-                console.error(error);
-            }
-        )
+            )
+        }
+        else {
+            this.loadingButtonUpdate = true;
+            this.serviceService.updateService(this.serviceUpdate).subscribe(
+                (response: HttpResponseApi) => {
+                    console.log(response)
+                    if (response.message == "error" && response.status == 422) {
+                        this.errorsUpdate = response.data;
+                        this.loadingButtonUpdate = false;
+                    } else if (response.status == 200) {
+                        this.getServices();
+                        this.showUpdatePopup = false;
+                        this.loadingButtonUpdate = false;
+                        this.messageService.add({ severity: "success", summary: "Succès", detail: "Modification effectuée avec succès" });
+                    } else {
+                        this.loadingButtonUpdate = false;
+                        this.messageService.add({ severity: "error", summary: "Erreur", detail: response.message });
+                    }
+                },
+                (error) => {
+                    this.loadingButtonUpdate = false;
+                    console.error(error);
+                }
+            )
+        }
     }
 
     onInput() {
@@ -77,13 +109,13 @@ export class ReadService implements OnInit {
         this.getServiceCategories();
     }
 
-    constructor(private serviceService: ServiceService, private messageService: MessageService, private servicecategorieService: CategorieServiceService) {
+    constructor(private offreSpecialService: OffrespecialeService, private messageService: MessageService, private servicecategorieService: CategorieServiceService, private serviceService: ServiceService) {
 
     }
 
     getServices() {
         
-        this.serviceService.readService(this.serviceSearch).subscribe((response: HttpResponseApi) => {
+        this.offreSpecialService.readOffrespeciale(this.serviceSearch).subscribe((response: HttpResponseApi) => {
             
             if (response.data) {
                 this.services = response.data;
@@ -107,14 +139,14 @@ export class ReadService implements OnInit {
         this.showDeletePopup = false;
     }
 
-    DeleteService(service: Service) {
+    DeleteService(service: Offrespeciale) {
         this.showDeletePopup = true;
         this.serviceDelete = service;
     }
 
     ValidDeleteService() {
         this.showDeletePopup = false;
-        this.serviceService.deleteService(this.serviceDelete).subscribe((response: HttpResponseApi) => {
+        this.offreSpecialService.deleteOffrespeciale(this.serviceDelete).subscribe((response: HttpResponseApi) => {
             if (response.status == 200) {
                 this.getServices();
                 this.messageService.add({ severity: "success", summary: "Succès", detail: "Suppression effectuée avec succès" });

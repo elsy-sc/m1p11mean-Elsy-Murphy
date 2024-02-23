@@ -1,23 +1,25 @@
+const { getNonEmptyObject } = require("../utils/object.util");
+
 const Service = require("./service.model").Service;
 
 class Offrespeciale extends Service {
-    constructor(descriptiooffrespeciale, reductionoffrespeciale, dateheuredebutoffrespeciale, dateheurefinoffrespeciale) {
+    constructor(descriptionoffrespeciale, reductionoffrespeciale, dateheuredebutoffrespeciale, dateheurefinoffrespeciale) {
         super();
         this.tableName = "service";
-        this.descriptiooffrespeciale = descriptiooffrespeciale;
-        this.reductionoffrespeciale = reductionoffrespeciale;
+        this.descriptionoffrespeciale = getNonEmptyObject(descriptionoffrespeciale);
+        this.reductionoffrespeciale = getNonEmptyObject(reductionoffrespeciale);
         this.dateheuredebutoffrespeciale = dateheuredebutoffrespeciale;
         this.dateheurefinoffrespeciale = dateheurefinoffrespeciale;
     }
 
-    setDescriptionoffrespeciale(descriptiooffrespeciale) {
-        if (descriptiooffrespeciale == null || descriptiooffrespeciale == undefined || descriptiooffrespeciale.trim() == "") {
+    setDescriptionoffrespeciale(descriptionoffrespeciale) {
+        if (descriptionoffrespeciale == null || descriptionoffrespeciale == undefined || descriptionoffrespeciale.trim() == "") {
             throw {
-                field: 'descriptiooffrespeciale',
+                field: 'descriptionoffrespeciale',
                 message: 'La description de l\'offre spéciale est obligatoire. veuillez entrer la description de l\'offre spéciale'
             }
         }
-        this.descriptiooffrespeciale = descriptiooffrespeciale;
+        this.descriptionoffrespeciale = descriptionoffrespeciale;
     }
 
     setDateheuredebutoffrespeciale(dateheuredebutoffrespeciale) {

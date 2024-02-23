@@ -32,13 +32,14 @@ import { ReadTypeDepenseModule } from './pages/typedepense/read-typedepense/type
 import { CreateTypeDepenseModule } from './pages/typedepense/create-typedepense/typedepense.create.module';
 import { ReadDepenseModule } from './pages/depense/read-depense/depense.read.module';
 import { CreateDepenseModule } from './pages/depense/create-depense/depense.create.module';
-import { CreateRendezvousModule } from './pages/rendezvous/create-rendezvous/rendezvous.create.module';
-import { ReadRendezvousModule } from './pages/rendezvous/read-rendezvous/rendezvous.read.module';
+import { ReadSuiviEmployeRendezVousModule } from './pages/rendezvous/client/suiviemployerendezvous/read-suiviemployerendezvous/suiviemployerendezvous.read.module';
+import { CreateSuiviEmployeRendezVousModule } from './pages/rendezvous/client/suiviemployerendezvous/create-suiviemployerendezvous/suiviemployerendezvous.create.module';
+import { ReadSuiviEmployeRendezVousEmployeModule } from './pages/rendezvous/employe/read-suiviemployerendezvous/suiviemployerendezvous.read.module';
 
 
 @NgModule({
   declarations: [
-    App
+    App,
   ],
   imports: [
     BrowserModule,
@@ -70,8 +71,9 @@ import { ReadRendezvousModule } from './pages/rendezvous/read-rendezvous/rendezv
     CreateTypeDepenseModule,
     ReadDepenseModule,
     CreateDepenseModule,
-    CreateRendezvousModule,
-    ReadRendezvousModule
+    ReadSuiviEmployeRendezVousModule,
+    CreateSuiviEmployeRendezVousModule,
+    ReadSuiviEmployeRendezVousEmployeModule
   ],
   providers: [
     provideHttpClient(withFetch()),
