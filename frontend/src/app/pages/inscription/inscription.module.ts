@@ -7,7 +7,7 @@ import { PasswordModule } from 'primeng/password';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { ToastModule } from 'primeng/toast';
-
+import { MessagesModule } from 'primeng/messages';
 
 
 @NgModule({
@@ -19,7 +19,8 @@ import { ToastModule } from 'primeng/toast';
     InputTextModule,
     PasswordModule,
     RouterModule,
-    ToastModule
+    ToastModule,
+    MessagesModule
   ]
 })
 export class InscriptionModule { }

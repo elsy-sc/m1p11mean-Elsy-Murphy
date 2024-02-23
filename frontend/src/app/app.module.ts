@@ -19,8 +19,6 @@ import { ListeUtilisateurModule } from './pages/utilisateur/liste-utilisateur/li
 import { LoginModule } from './pages/login/login.module';
 import {MessageService} from 'primeng/api';
 import { HttpClientModule, provideHttpClient, withFetch } from '@angular/common/http';
-import { InscriptionComponent } from './pages/inscription/inscription/inscription.component';
-import { InscriptionModule } from './pages/inscription/inscription/inscription.module';
 import { CreateUtilisateurModule } from './pages/utilisateur/create-utilisateur/create-utilisateur.module';
 import { ReadServiceModule } from './pages/service/read-service/service.read.module';
 import { CreateServiceModule } from './pages/service/create-service/service.create.module';
@@ -39,6 +37,7 @@ import { CreateTypeDepenseModule } from './pages/typedepense/create-typedepense/
 import { ProfilModule } from './pages/profil/profil.module';
 import { CreateHorrairetravailModule } from './pages/horrairetravail/create-horrairetravail/horrairetravail-create.module';
 import { ReadHorrairetravailModule } from './pages/horrairetravail/read-horrairetravail/horrairetravail-read.module';
+import { InscriptionModule } from './pages/inscription/inscription.module';
 
 @NgModule({
   declarations: [

@@ -85,10 +85,10 @@ export class UtilisateurService {
 
     let body = JSON.stringify(utilisateurSearch);
 
-    return this.http.post<HttpResponseApi>(url,body,httpOptions);
+    return this.http.post<HttpResponseApi>(url, body, httpOptions);
   }
 
-  delete (utilisateur: Utilisateur): Observable<HttpResponseApi> {
+  delete(utilisateur: Utilisateur): Observable<HttpResponseApi> {
     let url = BASE_URL + "/utilisateur/delete";
     let token = this.getToken();
     const httpOptions = {
@@ -96,12 +96,25 @@ export class UtilisateurService {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${token}`
       }),
-      body: {_id: utilisateur._id}
+      body: { _id: utilisateur._id }
     };
-    return this.http.delete<HttpResponseApi>(url,httpOptions);
+    return this.http.delete<HttpResponseApi>(url, httpOptions);
   }
 
-  create (utilisateur: Utilisateur): Observable<HttpResponseApi> {
+  remove(utilisateur: Utilisateur): Observable<HttpResponseApi> {
+    let url = BASE_URL + "/utilisateur/remove";
+    let token = this.getToken();
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      }),
+      body: { _id: utilisateur._id }
+    };
+    return this.http.delete<HttpResponseApi>(url, httpOptions);
+  }
+
+  create(utilisateur: Utilisateur): Observable<HttpResponseApi> {
     let url = BASE_URL + "/utilisateur/create";
     let token = this.getToken();
     const httpOptions = {
@@ -112,10 +125,10 @@ export class UtilisateurService {
     };
     let body = JSON.stringify(utilisateur);
 
-    return this.http.post<HttpResponseApi>(url,body,httpOptions);
+    return this.http.post<HttpResponseApi>(url, body, httpOptions);
   }
 
-  update (utilisateur: Utilisateur) : Observable<HttpResponseApi> {
+  update(utilisateur: Utilisateur): Observable<HttpResponseApi> {
     let url = BASE_URL + "/utilisateur/update";
     let token = this.getToken();
     const httpOptions = {
@@ -126,7 +139,19 @@ export class UtilisateurService {
     };
     let body = JSON.stringify(utilisateur);
 
-    return this.http.put<HttpResponseApi>(url, body , httpOptions);
+    return this.http.put<HttpResponseApi>(url, body, httpOptions);
+  }
+
+  sendEmail (receiver: string) : Observable<HttpResponseApi> {
+    let url = BASE_URL + "/mail/send";
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      }),
+    };
+    let body = {receiver: receiver};
+    
+    return this.http.post<HttpResponseApi>(url, body, httpOptions);
   }
 
 }

@@ -9,6 +9,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { RouterModule } from '@angular/router';
 import { AccordionModule } from 'primeng/accordion';
 import { TableModule } from 'primeng/table';
+import { ToastModule } from 'primeng/toast';
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import { TableModule } from 'primeng/table';
         PasswordModule,
         RouterModule,
         AccordionModule,
-        TableModule
+        TableModule,
+        ToastModule
     ],
     declarations: [LoginComponent]
 })

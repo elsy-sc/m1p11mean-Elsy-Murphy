@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { HttpResponseApi } from '../../interfaces/http/HttpResponseApi';
 import { Utilisateur } from '../../models/utilisateur.model';
 import { LayoutService } from '../../services/layout/app.layout.service';
 import { UtilisateurService } from '../../services/utilisateur/utilisateur.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Employe } from '../../models/employe.model';
+import { MessageService } from 'primeng/api';
 
 
 @Component({
@@ -19,7 +20,7 @@ import { Employe } from '../../models/employe.model';
         }
     `]
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit,AfterViewInit {
 
     isLoading: boolean = false;
     utilisateur!: Utilisateur;
@@ -27,7 +28,7 @@ export class LoginComponent implements OnInit {
     motdepasseError: string | undefined;
     employe: Employe = new Employe();
     employeSearch: Employe = new Employe();
-    numeroCarteBancaire: string | undefined;    
+    numeroCarteBancaire: string | undefined;
     employeListe: Employe[] = [];
 
     rechercher() {
@@ -36,10 +37,18 @@ export class LoginComponent implements OnInit {
 
 
 
-    constructor(public layoutService: LayoutService, private utilisateurService: UtilisateurService, private router: Router) { }
+    constructor(public layoutService: LayoutService, private utilisateurService: UtilisateurService, private router: Router, private route: ActivatedRoute, private messageService: MessageService) { }
 
     ngOnInit(): void {
         this.utilisateur = new Utilisateur();
+    }
+
+    ngAfterViewInit(): void {
+        this.route.queryParamMap.subscribe(params => {     
+            if (params.get('message')) {
+                this.messageService.add({severity:"success", summary:"Succès", detail: params.get('message')?.toString()});
+            }
+        });
     }
 
     onInput() {
@@ -62,7 +71,7 @@ export class LoginComponent implements OnInit {
                     this.isLoading = false;
                     if (response.status == 401) {
                         this.motdepasseError = response.message;
-                    } 
+                    }
                     else if (response.status == 422) {
                         if (this.utilisateur.email != undefined && this.utilisateur.email.trim() != '') {
                             this.motdepasseError = response.message;

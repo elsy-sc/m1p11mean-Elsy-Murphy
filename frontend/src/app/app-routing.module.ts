@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LabelInput } from './components/labelinput/labelinput.component';
 import { AppLayoutComponent } from './components/layout/app.layout.component';
-import { InscriptionComponent } from './pages/inscription/inscription/inscription.component';
 import { LoginComponent } from './pages/login/login.component';
 import { CreateUtilisateurComponent } from './pages/utilisateur/create-utilisateur/create-utilisateur.component';
 import { ListeUtilisateurComponent } from './pages/utilisateur/liste-utilisateur/liste-utilisateur.component';
@@ -24,6 +23,7 @@ import { ProfilModule } from './pages/profil/profil.module';
 import { Profil } from './pages/profil/profil';
 import { CreateHorraireTravail } from './pages/horrairetravail/create-horrairetravail/horrairetravail-create.component';
 import { ReadHorrairetravail } from './pages/horrairetravail/read-horrairetravail/horrairetravail-read.component';
+import { InscriptionComponent } from './pages/inscription/inscription.component';
 
 const routes: Routes = [
   { path: '', component: LoginComponent },

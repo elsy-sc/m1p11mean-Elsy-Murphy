@@ -80,8 +80,8 @@ class Utilisateur extends TokenObject {
         this.role = role;
     }
 
-    async read (connection,afterWhereString) {
-        this._state = 1;
+    async read (connection,afterWhereString, state = 1) {
+        this._state = state;
         return await super.read(connection,afterWhereString);
     }
 
@@ -90,6 +90,22 @@ class Utilisateur extends TokenObject {
             throw new Error("_id est obligatoire");      
         }
         super.update(connection,{_state: -1}, afterSetString);
+    }
+
+    async removeInBase (connection,afterSetString) {
+        if (this._id == null || this._id == undefined || this._id.trim() == '') {
+            throw new Error("_id est obligatoire");      
+        }
+        super.delete(connection,afterSetString);
+    }
+
+    async deleteUtilisateurNonValide (connection,afterSetString) {
+        const utilisateurs = await this.read(connection,afterSetString, "2");
+        for (let index = 0; index < utilisateurs.length; index++) {
+            let utilisateur = utilisateurs[index];
+            utilisateur = Object.assign(this,utilisateur);
+            await utilisateur.removeInBase(connection);
+        }
     }
 
 }

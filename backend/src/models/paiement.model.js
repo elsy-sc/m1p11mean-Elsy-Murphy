@@ -19,7 +19,7 @@ class Paiement extends TableObject {
                 tableName: "rendezvous",
                 foreignField: "_id",
                 localField: "idrendezvous",
-                as: "rendez-vous",
+                as: "rendezVous",
             },
         ];
     }

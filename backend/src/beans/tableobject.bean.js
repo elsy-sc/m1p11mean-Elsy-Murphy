@@ -5,7 +5,7 @@ const { sanitizedObject } = require("../utils/tableobject.util");
 class TableObject {
 
     _id = undefined;
-    _state = undefined;
+    _state = 1;
     tableName = this.constructor.name.toLowerCase();
     sequence = {
         name: this.constructor.name.toLowerCase() + "_seq",
@@ -26,7 +26,6 @@ class TableObject {
     async create(connection) {
         await createSeq(connection, this.sequence.name);
         await this.setId(connection);
-        this._state = 1;
         await connection.collection(this.tableName).insertOne(this.getSanitizedObject());
     }
 

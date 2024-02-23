@@ -8,6 +8,9 @@ async function createUtilisateur(req, res) {
     let errors = [];
     try {
         var utilisateur = new Utilisateur();
+        await utilisateur.deleteUtilisateurNonValide(db);
+
+        utilisateur = new Utilisateur();
         await utilisateur.setNom(req.body.nom);
         await utilisateur.setPrenom(req.body.prenom);
         await utilisateur.setEmail(req.body.email);
@@ -15,11 +18,15 @@ async function createUtilisateur(req, res) {
         await utilisateur.setNumeroTelephone(req.body.numerotelephone);
         await utilisateur.setMotDePasse(req.body.motdepasse);
         await utilisateur.setRole(req.body.role);
+        if (req.body?._state) {
+            utilisateur._state = req.body?._state;
+        }
 
         await utilisateur.create(db).then(() => {
             httpUtil.sendJson(res, [utilisateur], 201, "Created");
         })
     } catch (error) {
+        console.error(error);
         if (error.field && error.message) {
             errors.push(error);
         } 
@@ -131,9 +138,24 @@ async function deleteUtilisateur(req, res) {
 }
 
 
+async function removeUtilisateur(req, res) {
+    const db = await getMongoDBDatabase();
+    try {
+        var utilisateur = new Utilisateur();
+        utilisateur._id = req.body?._id;
+
+        await utilisateur.removeInBase(db).then(() => {
+            httpUtil.sendJson(res, null, 200, "OK");
+        });
+    } catch (error) {
+        httpUtil.sendJson(res, null, error.status || error.statusCode || 500, error.message);
+    }
+}
+
 
 exports.createUtilisateur = createUtilisateur;
 exports.readUtilisateur = readUtilisateur;
 exports.loginUtilisateur = loginUtilisateur;
 exports.updateUtilisateur = updateUtilisateur;
 exports.deleteUtilisateur = deleteUtilisateur;
+exports.removeUtilisateur = removeUtilisateur;
