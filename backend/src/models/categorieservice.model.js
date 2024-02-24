@@ -18,7 +18,10 @@ class Categorieservice extends TableObject {
 
     setNom(nom) {
         if (nom == null || nom == undefined || nom.trim() == "") {
-            throw new Error("Le nom de la catégorie de service est obligatoire");
+            throw {
+                field: 'nom',
+                message: 'Le champ nom est obligatoire. veuillez entrer le nom de la catégorie du service'
+            }
         }
         this.nom = nom;
     }

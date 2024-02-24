@@ -1,0 +1,83 @@
+<p-toast></p-toast>
+<div class="grid">
+  <div class="col-12">
+    <div class="card">
+      <h5>Prendre un rendez-vous</h5>
+      <p-table [value]="services" [paginator]="false" [rows]="1"
+        ><ng-template pTemplate="caption">
+          <p-accordion
+            ><p-accordionTab
+              header="Recherche"
+              [selected]="false"
+              class="line-height-3 m-0"
+            >
+
+              <LabelInput
+                label="Nom du service"
+                name="nom"
+                [(ngModel)]="serviceSearch.nom"
+                (input)="rechercher()"
+              />
+
+              </p-accordionTab></p-accordion></ng-template
+        ><ng-template pTemplate="header"
+          ><tr>
+            <th style="min-width: 12rem">Service</th>
+            <th style="min-width: 12rem">Employe</th>
+            <th style="min-width: 12rem">Date de réservation</th>
+            <th style="min-width: 12rem">Action</th>
+          </tr></ng-template
+        ><ng-template pTemplate="body" let-service
+          ><tr>
+            <td>{{service.nom}} <br/><br/> <strong>{{service.prix}} Ar</strong> </td>
+            <td>
+              <p-dropdown
+                [options]="employes"
+                [(ngModel)]="service.employe"
+                optionLabel="nom"
+                optionValue="_id"
+                placeholder="Choisir un employé"
+                [showClear]="true"
+                appendTo="body"
+                [filter]="true"
+              ></p-dropdown>
+            </td>
+            <td>
+              <p-calendar
+                [(ngModel)]="service.date"
+                [showIcon]="true"
+                [showTime]="true"
+                [hourFormat]="'24'"
+                appendTo="body"
+              ></p-calendar>
+            </td>
+            <td>
+              <div class="flex">
+                <button
+                  pButton
+                  pRipple
+                  icon="pi pi-check"
+                  class="p-button-rounded p-button-success mr-2"
+                  label="Réserver"
+                  (click)="reserver()"
+                ></button>
+              </div>
+            </td>
+           </tr>
+          </ng-template
+      ></p-table>
+    </div>
+  </div>
+</div>
+
+
+<generic-popup
+      title="Réservation de service"
+      subtitle="Êtes-vous sûres de réserver ce service ?"
+      [show]="showConfirmService"
+      (handleclose)="CancelConfirmService()"
+      (validClick)="ValidConfirmService()"
+      (cancelClick)="CancelConfirmService()"
+></generic-popup>
+
+

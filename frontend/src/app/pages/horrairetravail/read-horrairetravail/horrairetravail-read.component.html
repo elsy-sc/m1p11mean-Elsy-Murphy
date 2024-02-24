@@ -1,0 +1,106 @@
+<p-toast></p-toast>
+<div class="grid">
+    <div class="col-12">
+        <div class="card">
+            <h5>Horaire de travail</h5>
+            <p-table [value]="horraireTravails" [paginator]="true" [rows]="10">
+                <ng-template pTemplate="caption">
+                    <p-accordion>
+                        <p-accordionTab header="Recherche" [selected]="false" class="line-height-3 m-0">
+                            <div class="flex flex-column gap-2 container">
+                                <div class="labelContainer"><label class="label">Jour</label></div>
+                                <div class="inputContainer">
+                                    <div class="grid formgrid">
+                                        <div class="inputContainer">
+                                            <p-dropdown [(ngModel)]="horraireTravail.jour" placeholder="jour de la semaine" (ngModelChange)="rechercher()"
+                                                name="jour" [options]="joursSemaine" [showClear]="true"
+                                                optionLabel="label" optionValue="value"></p-dropdown>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </p-accordionTab>
+                    </p-accordion>
+                </ng-template>
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th style="min-width: 12rem">Jour</th>
+                        <th style="min-width: 12rem">Heures</th>
+                        <th>Actions</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-horraireTravail>
+                    <tr>
+                        <td>{{getLabelFromValue(horraireTravail.jour)}}</td>
+                        <td>
+                            <strong>Matin : </strong>
+                            <ng-container *ngIf="horraireTravail.heures[0].debut; else noMorningWork">
+                                {{horraireTravail.heures[0].debut+' h - '+horraireTravail.heures[0].fin+' h'}}
+                            </ng-container>
+                            <ng-template #noMorningWork>Ne travaille pas</ng-template><br>
+                            <strong>Apres-midi : </strong>
+                            <ng-container *ngIf="horraireTravail.heures[1].debut; else noAfternoonWork">
+                                {{horraireTravail.heures[1].debut+' h - '+horraireTravail.heures[1].fin+' h'}}
+                            </ng-container>
+                            <ng-template #noAfternoonWork>Ne travaille pas</ng-template>
+                        </td>
+                        <td>
+                            <div class="flex"><button pButton pRipple icon="pi pi-pencil"
+                                    class="p-button-rounded p-button-success mr-2" label="Modifier"
+                                    (click)="UpdateHoraireTravail(horraireTravail)"></button><button pButton pRipple
+                                    icon="pi pi-trash" class="p-button-rounded p-button-danger" label="Supprimer"
+                                    (click)="DeleteHoraireTravail(horraireTravail)"></button></div>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+        <generic-popup title="Suppression horaire de travail"
+            subtitle="Etes-vous sûr de vouloir Supprimer cette horaire de travail" [show]="showDeletePopup"
+            (handleclose)="CancelDeleteHoraireTravail()" (validClick)="ValidDeleteEmploye()"
+            (cancelClick)="CancelDeleteHoraireTravail()">
+        </generic-popup>
+        <p-dialog [(visible)]="showUpdatePopup" (onHide)="CancelUpdateHoraireTravail() "
+            header="Modification de l'horaire de travail" [modal]="true" [style]="{width: '450px'}" class="p-fluid">
+            <ng-template pTemplate="content">
+                <input pInputText readonly type="text" name="fin"
+                    [value]="horairetravailUpdate.jour ? getLabelFromValue(horairetravailUpdate.jour) : ''" />
+                <br><br>
+                <label>Heures Matin</label>
+                <div class="formgroup-inline">
+                    <div class="field">
+                        <input pInputText type="time" (input)="onInput()"
+                            [ngClass]="{'ng-dirty ng-invalid' : errorsUpdate && errorsUpdate[0]?.field ==='heures'} "
+                            name="debut" [(ngModel)]="horrairetravailmatin.debut" />
+                    </div>
+                    <div class="field">
+                        <input pInputText type="time" (input)="onInput()"
+                            [ngClass]="{'ng-dirty ng-invalid' : errorsUpdate && errorsUpdate[0]?.field ==='heures'} "
+                            name="fin" [(ngModel)]="horrairetravailmatin.fin" />
+                    </div>
+                </div>
+                <label>Heures Apres-midi</label>
+                <div class="formgroup-inline">
+                    <div class="field">
+                        <input pInputText type="time" (input)="onInput()"
+                            [ngClass]="{'ng-dirty ng-invalid' : errorsUpdate && errorsUpdate[0]?.field ==='heures'} "
+                            name="debut" [(ngModel)]="horrairetravailapresmidi.debut" />
+                    </div>
+                    <div class="field">
+                        <input pInputText type="time" (input)="onInput()"
+                            [ngClass]="{'ng-dirty ng-invalid' : errorsUpdate && errorsUpdate[0]?.field ==='heures'} "
+                            name="fin" [(ngModel)]="horrairetravailapresmidi.fin" />
+                    </div>
+                </div>
+                <p *ngIf="errorsUpdate && errorsUpdate[0]?.field === 'heures'" style="color: red;">
+                    {{errorsUpdate[0]?.message}}</p>
+            </ng-template>
+            <ng-template pTemplate="footer">
+                <button pButton pRipple label="Annuler" icon="pi pi-times" class="p-button-text"
+                    (click)="CancelUpdateHoraireTravail()"></button>
+                <button pButton pRipple label="Modifier" icon="pi pi-check" class="p-button-text"
+                    (click)="ValidUpdateHoraireTravail()"></button>
+            </ng-template>
+        </p-dialog>
+    </div>
+</div>

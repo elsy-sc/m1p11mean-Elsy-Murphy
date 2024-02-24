@@ -1,0 +1,411 @@
+<p-toast></p-toast>
+<div class="grid">
+  <div class="col-12">
+    <div class="card">
+      <h5>Liste de Service</h5>
+      <p-table [value]="services" [paginator]="true" [rows]="10"
+        ><ng-template pTemplate="caption">
+          <p-accordion
+            ><p-accordionTab
+              header="Recherche"
+              [selected]="false"
+              class="line-height-3 m-0"
+            >
+              <div class="flex flex-column gap-2 container">
+                <div class="labelContainer">
+                  <label class="label">Catégorie du service</label>
+                </div>
+                <div class="inputContainer">
+                  <div class="grid formgrid">
+                    <div class="inputContainer">
+                      <p-dropdown
+                        [(ngModel)]="serviceSearch.idcategorieservice"
+                        (ngModelChange)="rechercher()"
+                        name="idcategorieservice"
+                        [options]="categorieservices"
+                        optionLabel="nom"
+                        optionValue="_id"
+                        [showClear]="true"
+                      ></p-dropdown>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <LabelInput
+                label="Nom du service"
+                name="nom"
+                [(ngModel)]="serviceSearch.nom"
+                (input)="rechercher()"
+              />
+              <div class="flex flex-column gap-2 container">
+                <div class="labelContainer">
+                  <label for="textarea" class="label"
+                    >Description du service</label
+                  >
+                </div>
+                <div class="inputContainer">
+                  <span class="p-input-icon-left p-input-icon-right">
+                    <textarea
+                      id="textarea"
+                      rows="5"
+                      cols="30"
+                      pInputTextarea
+                      name="description"
+                      [(ngModel)]="serviceSearch.description"
+                      (input)="rechercher()"
+                    ></textarea>
+                  </span>
+                </div>
+              </div>
+              <LabelInput
+                label="Durée du service(en heure)"
+                type="number"
+                name="duree"
+                [(ngModel)]="serviceSearch.duree"
+                (input)="rechercher()"
+              />
+              <LabelInput
+                label="Prix du service(en MGA)"
+                type="number"
+                name="prix"
+                [(ngModel)]="serviceSearch.prix"
+                (input)="rechercher()"
+              />
+              <LabelInput
+                label="Commission du service(en %)"
+                type="number"
+                name="commission"
+                [(ngModel)]="serviceSearch.commission"
+                (input)="rechercher()"
+              /> </p-accordionTab></p-accordion></ng-template
+        ><ng-template pTemplate="header"
+          ><tr>
+            <th style="min-width: 12rem">Image</th>
+            <th style="min-width: 12rem">Nom du service</th>
+            <th style="min-width: 12rem">Description du service</th>
+            <th style="min-width: 12rem">Durée du service(en heure)</th>
+            <th style="min-width: 12rem">Prix du service(en MGA)</th>
+            <th style="min-width: 12rem">Commission du service(en %)</th>
+            <th style="min-width: 12rem">Catégorie du service</th>
+            <th style="min-width: 12rem">Est spéciale</th>
+            <th>Actions</th>
+          </tr></ng-template
+        ><ng-template pTemplate="body" let-service
+          ><tr>
+            <td>
+              <img
+                [src]="static_url + service.image"
+                alt="Aucune image"
+                style="width: 100px; height: 100px"
+              />
+            </td>
+            <td>{{service.nom}}</td>
+            <td>{{service.description}}</td>
+            <td>{{service.duree}}</td>
+            <td>{{service.prix}}</td>
+            <td>{{service.commission}}</td>
+            <td>{{service.categorieservice[0].nom}}</td>
+            <td>{{(service.descriptionoffrespeciale != null) ? 'Oui' : 'Non'}}</td>
+            <td>
+              <div class="flex">
+                <button
+                  pButton
+                  pRipple
+                  icon="pi pi-pencil"
+                  class="p-button-rounded p-button-success mr-2"
+                  label="Modifier"
+                  (click)="UpdateService(service)"
+                ></button
+                ><button
+                  pButton
+                  pRipple
+                  icon="pi pi-trash"
+                  class="p-button-rounded p-button-danger"
+                  label="Supprimer"
+                  (click)="DeleteService(service)"
+                ></button>
+              </div>
+            </td></tr></ng-template
+      ></p-table>
+    </div>
+    <generic-popup
+      title="Suppression de Service"
+      subtitle="Etes-vous sûr de vouloir ce service ?"
+      [show]="showDeletePopup"
+      (handleclose)="CancelDeleteService()"
+      (validClick)="ValidDeleteService()"
+      (cancelClick)="CancelDeleteService()"
+    >
+    </generic-popup>
+    <p-dialog
+      [(visible)]="showUpdatePopup"
+      (onHide)="CancelUpdateService() "
+      header="Modification de Service"
+      [modal]="true"
+      [style]="{width: '800px'}"
+      class="p-fluid"
+    >
+      <ng-template pTemplate="content">
+        <div class="grid">
+          <div
+            [ngClass]="'col-6 md:col-6'"
+          >
+            <div class="card p-fluid">
+              <div class="flex flex-column gap-2 container">
+                <div class="labelContainer">
+                  <label class="label">Est spéciale</label>
+                </div>
+                <div class="inputContainer">
+                  <div class="grid formgrid">
+                    <div class="inputContainer">
+                      <p-dropdown
+                        [(ngModel)]="isSpecial"
+                        (change)="updateIsSpecial(serviceUpdate)"
+                        name="option"
+                        [options]="[{ label: 'Oui', value: true }, { label: 'Non', value: false }]"
+                        [showClear]="true"
+                      ></p-dropdown>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="flex flex-column gap-2 container">
+                <div class="labelContainer">
+                  <label class="label">Catégorie du service</label>
+                </div>
+                <div class="inputContainer">
+                  <div class="grid formgrid">
+                    <div class="inputContainer">
+                      <p-dropdown
+                        [ngClass]="{'ng-dirty ng-invalid' : errorsUpdate && errorsUpdate[0]?.field ==='idcategorieservice'} "
+                        (input)="onInput()"
+                        [(ngModel)]="serviceUpdate.categorieservice?.nom||serviceUpdate.idcategorieservice"
+                        name="idcategorieservice"
+                        [options]="categorieservices"
+                        optionLabel="nom"
+                        optionValue="_id"
+                        [showClear]="true"
+                      ></p-dropdown>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <p
+                *ngIf="errorsUpdate && errorsUpdate[0]?.field ==='idcategorieservice'"
+                class="text-danger"
+              >
+                {{errorsUpdate[0]?.message}}
+              </p>
+              <LabelInput
+                label="Nom du service"
+                name="nom"
+                [ngClass]="{'ng-dirty ng-invalid' : errorsUpdate && errorsUpdate[0]?.field ==='nom'} "
+                (input)="onInput()"
+                [(ngModel)]="serviceUpdate.nom"
+              />
+              <p
+                *ngIf="errorsUpdate && errorsUpdate[0]?.field ==='nom'"
+                class="text-danger"
+              >
+                {{errorsUpdate[0]?.message}}
+              </p>
+              <div class="flex flex-column gap-2 container">
+                <div class="labelContainer">
+                  <label for="textarea" class="label"
+                    >Description du service</label
+                  >
+                </div>
+                <div class="inputContainer">
+                  <span class="p-input-icon-left p-input-icon-right">
+                    <textarea
+                      id="textarea"
+                      rows="5"
+                      cols="30"
+                      pInputTextarea
+                      name="description"
+                      [ngClass]="{'ng-dirty ng-invalid' : errorsUpdate && errorsUpdate[0]?.field ==='description'} "
+                      (input)="onInput()"
+                      [(ngModel)]="serviceUpdate.description"
+                    ></textarea>
+                  </span>
+                </div>
+              </div>
+              <p
+                *ngIf="errorsUpdate && errorsUpdate[0]?.field ==='description'"
+                class="text-danger"
+              >
+                {{errorsUpdate[0]?.message}}
+              </p>
+              <LabelInput
+                label="Durée du service(en heure)"
+                type="number"
+                name="duree"
+                [ngClass]="{'ng-dirty ng-invalid' : errorsUpdate && errorsUpdate[0]?.field ==='duree'} "
+                (input)="onInput()"
+                [(ngModel)]="serviceUpdate.duree"
+              />
+              <p
+                *ngIf="errorsUpdate && errorsUpdate[0]?.field ==='duree'"
+                class="text-danger"
+              >
+                {{errorsUpdate[0]?.message}}
+              </p>
+              <LabelInput
+                label="Prix du service(en MGA)"
+                type="number"
+                name="prix"
+                [ngClass]="{'ng-dirty ng-invalid' : errorsUpdate && errorsUpdate[0]?.field ==='prix'} "
+                (input)="onInput()"
+                [(ngModel)]="serviceUpdate.prix"
+              />
+              <p
+                *ngIf="errorsUpdate && errorsUpdate[0]?.field ==='prix'"
+                class="text-danger"
+              >
+                {{errorsUpdate[0]?.message}}
+              </p>
+              <LabelInput
+                label="Commission du service(en %)"
+                type="number"
+                name="commission"
+                [ngClass]="{'ng-dirty ng-invalid' : errorsUpdate && errorsUpdate[0]?.field ==='commission'} "
+                (input)="onInput()"
+                [(ngModel)]="serviceUpdate.commission"
+              />
+              <p
+                *ngIf="errorsUpdate && errorsUpdate[0]?.field ==='commission'"
+                class=""
+              >
+                {{errorsUpdate[0]?.message}}
+              </p>
+            </div>
+          </div>
+          <div class="col-6 md:col-6" >
+
+
+            <div class="card p-fluid">
+              <div class="flex flex-column gap-2 container">
+                <div class="labelContainer">
+                  <label class="label">Image du service</label>
+                </div>
+                <div class="inputContainer">
+                  <p-fileUpload
+                    [multiple]="false"
+                    accept="image/*"
+                    [maxFileSize]="1000000"
+                    [showCancelButton]="false"
+                    chooseLabel="Choisir une image"
+                    [showUploadButton]="false"
+                    (onSelect)="onSelect($event)"
+                    (onRemove)="onRemove()"
+                  >
+                    <ng-template pTemplate="content">
+                      <label
+                        *ngIf="serviceUpdate.image === undefined || serviceUpdate.image === null"
+                        >Glisser votre image ici</label
+                      >
+                    </ng-template>
+                  </p-fileUpload>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="card p-fluid" *ngIf="isSpecial">
+              <h5>Option offre Spéciale</h5>
+              <div class="flex flex-column gap-2 container">
+                <div class="labelContainer">
+                  <label for="textarea" class="label"
+                    >Description de l'offre spéciale</label
+                  >
+                </div>
+                <div class="inputContainer">
+                  <span class="p-input-icon-left p-input-icon-right">
+                    <textarea
+                      id="textarea"
+                      rows="5"
+                      cols="30"
+                      pInputTextarea
+                      name="descriptionoffrespeciale"
+                      [(ngModel)]="serviceUpdate.descriptionoffrespeciale"
+                      (input)="onInput()"
+                      [ngClass]="{'ng-dirty ng-invalid' : errorsUpdate && errorsUpdate[0]?.field ==='descriptionoffrespeciale'} "
+                    ></textarea>
+                  </span>
+                </div>
+              </div>
+              <p
+                *ngIf="errorsUpdate && errorsUpdate[0]?.field === 'descriptionoffrespeciale'"
+                style="color: red"
+              >
+                {{errorsUpdate[0]?.message}}
+              </p>
+
+              <LabelInput
+                label="Réduction(en %)"
+                type="number"
+                name="reductionoffrespeciale"
+                [(ngModel)]="serviceUpdate.reductionoffrespeciale"
+                (input)="onInput()"
+                [ngClass]="{'ng-dirty ng-invalid' : errorsUpdate && errorsUpdate[0]?.field ==='reductionoffrespeciale'} "
+              />
+              <p
+                *ngIf="errorsUpdate && errorsUpdate[0]?.field === 'reductionoffrespeciale'"
+                style="color: red"
+              >
+                {{errorsUpdate[0]?.message}}
+              </p>
+
+              <LabelInput
+                label="Date de debut de l'offre spéciale"
+                type="datetime-local"
+                name="dateheuredebutoffrespeciale"
+                [(ngModel)]="serviceUpdate.dateheuredebutoffrespeciale"
+                (input)="onInput()"
+                [ngClass]="{'ng-dirty ng-invalid' : errorsUpdate && errorsUpdate[0]?.field ==='dateheuredebutoffrespeciale'} "
+              />
+              <p
+                *ngIf="errorsUpdate && errorsUpdate[0]?.field === 'dateheuredebutoffrespeciale'"
+                style="color: red"
+              >
+                {{errorsUpdate[0]?.message}}
+              </p>
+
+              <LabelInput
+                label="Date d'expiration de l'offre spéciale"
+                type="datetime-local"
+                name="dateheurefinoffrespeciale"
+                [(ngModel)]="serviceUpdate.dateheurefinoffrespeciale"
+                (input)="onInput()"
+                [ngClass]="{'ng-dirty ng-invalid' : errorsUpdate && errorsUpdate[0]?.field ==='dateheurefinoffrespeciale'} "
+              />
+              <p
+                *ngIf="errorsUpdate && errorsUpdate[0]?.field === 'dateheurefinoffrespeciale'"
+                style="color: red"
+              >
+                {{errorsUpdate[0]?.message}}
+              </p>
+            </div>
+          </div>
+        </div> </ng-template
+      ><ng-template pTemplate="footer">
+        <button
+          pButton
+          pRipple
+          label="Annuler"
+          icon="pi pi-times"
+          class="p-button-text"
+          (click)="CancelUpdateService()"
+        ></button>
+        <button
+          pButton
+          pRipple
+          label="Modifier"
+          icon="pi pi-check"
+          class="p-button-text"
+          (click)="ValidUpdateService()"
+        ></button> </ng-template
+    ></p-dialog>
+  </div>
+</div>

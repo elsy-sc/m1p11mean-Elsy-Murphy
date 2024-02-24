@@ -14,7 +14,7 @@ export class AppTopBarComponent implements OnInit {
     
     tieredItems: MenuItem[] = [];
 
-    utilisateur: Utilisateur|undefined;
+    utilisateur?: Utilisateur;
 
     @ViewChild('menubutton') menuButton!: ElementRef;
 
@@ -26,12 +26,12 @@ export class AppTopBarComponent implements OnInit {
 
 
     ngOnInit(): void {
-
-        let userCOnnecte = this.utilisateurservice.getUserConnecte();
-        if (userCOnnecte) {
-            this.utilisateur = JSON.parse(userCOnnecte);
-        }
-
+        this.utilisateurservice.getUserConnecte();
+        this.utilisateurservice.utilisateurConnecte.subscribe(
+            (user) => {
+                this.utilisateur = user;
+            }
+        );
         //on cick utilisateurs
         this.items = [
             {

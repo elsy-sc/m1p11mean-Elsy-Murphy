@@ -1,0 +1,239 @@
+<div class="grid">
+  <div class="col-6 md:col-6">
+    <div class="card p-fluid">
+      <form (ngSubmit)="submit()">
+        <h5>Création de Service</h5>
+        <LabelInput
+          label="Nom du service"
+          name="nom"
+          [(ngModel)]="service.nom"
+          (input)="onInput()"
+          [ngClass]="{'ng-dirty ng-invalid' : errors && errors[0]?.field ==='nom'} "
+        />
+        <p *ngIf="errors && errors[0]?.field === 'nom'" style="color: red">
+          {{errors[0]?.message}}
+        </p>
+        <div class="flex flex-column gap-2 container">
+          <div class="labelContainer">
+            <label for="textarea" class="label">Description du service</label>
+          </div>
+          <div class="inputContainer">
+            <span class="p-input-icon-left p-input-icon-right">
+              <textarea
+                id="textarea"
+                rows="5"
+                cols="30"
+                pInputTextarea
+                name="description"
+                [(ngModel)]="service.description"
+                (input)="onInput()"
+                [ngClass]="{'ng-dirty ng-invalid' : errors && errors[0]?.field ==='description'} "
+              ></textarea>
+            </span>
+          </div>
+        </div>
+        <p
+          *ngIf="errors && errors[0]?.field === 'description'"
+          style="color: red"
+        >
+          {{errors[0]?.message}}
+        </p>
+        <LabelInput
+          label="Durée du service(en heure)"
+          type="number"
+          name="duree"
+          [(ngModel)]="service.duree"
+          (input)="onInput()"
+          [ngClass]="{'ng-dirty ng-invalid' : errors && errors[0]?.field ==='duree'} "
+        />
+        <p *ngIf="errors && errors[0]?.field === 'duree'" style="color: red">
+          {{errors[0]?.message}}
+        </p>
+        <LabelInput
+          label="Prix du service(en MGA)"
+          type="number"
+          name="prix"
+          [(ngModel)]="service.prix"
+          (input)="onInput()"
+          [ngClass]="{'ng-dirty ng-invalid' : errors && errors[0]?.field ==='prix'} "
+        />
+        <p *ngIf="errors && errors[0]?.field === 'prix'" style="color: red">
+          {{errors[0]?.message}}
+        </p>
+        <LabelInput
+          label="Commission du service(en %)"
+          type="number"
+          name="commission"
+          [(ngModel)]="service.commission"
+          (input)="onInput()"
+          [ngClass]="{'ng-dirty ng-invalid' : errors && errors[0]?.field ==='commission'} "
+        />
+        <p
+          *ngIf="errors && errors[0]?.field === 'commission'"
+          style="color: red"
+        >
+          {{errors[0]?.message}}
+        </p>
+        <div class="flex flex-column gap-2 container">
+          <div class="labelContainer">
+            <label class="label">Catégorie du service</label>
+          </div>
+          <div class="inputContainer">
+            <div class="grid formgrid">
+              <div class="inputContainer">
+                <p-dropdown
+                  [(ngModel)]="service.idcategorieservice"
+                  (input)="onInput()"
+                  [ngClass]="{'ng-dirty ng-invalid' : errors && errors[0]?.field ==='idcategorieservice'} "
+                  name="idcategorieservice"
+                  [options]="categorieservices"
+                  optionLabel="nom"
+                  optionValue="_id"
+                  [showClear]="true"
+                  appendTo="body"
+                ></p-dropdown>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p
+          *ngIf="errors && errors[0]?.field === 'idcategorieservice'"
+          style="color: red"
+        >
+          {{errors[0]?.message}}
+        </p>
+
+        <div class="flex flex-column gap-2 container">
+          <div class="labelContainer">
+            <label class="label">Spéciale</label>
+          </div>
+          <div class="inputContainer">
+            <div class="grid formgrid">
+              <div class="inputContainer">
+                <p-dropdown
+                  [(ngModel)]="isSpeciale"
+                  name="speciale"
+                  [options]="[{ label: 'Oui', value: true }, { label: 'Non', value: false }]"
+                  [showClear]="true"
+                  appendTo="body"
+                ></p-dropdown>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <button
+          pButton
+          label="Créer"
+          type="submit"
+          [loading]="isLoading"
+        ></button>
+      </form>
+    </div>
+  </div>
+  <div class="col-6 md:col-6">
+    <div class="card p-fluid">
+      <div class="flex flex-column gap-2 container">
+        <div class="labelContainer">
+          <label class="label">Image du service</label>
+        </div>
+        <div class="inputContainer">
+          <p-fileUpload
+            name="image"
+            [multiple]="false"
+            accept="image/*"
+            [maxFileSize]="1000000"
+            [showCancelButton]="false"
+            chooseLabel="Choisir une image"
+            [showUploadButton]="false"
+            (onSelect)="onSelect($event)"
+            (onRemove)="onRemove()"
+          >
+            <ng-template pTemplate="content">
+              <label
+                *ngIf="service.image === undefined || service.image === null"
+                >Glisser votre image ici</label
+              >
+            </ng-template>
+          </p-fileUpload>
+        </div>
+      </div>
+    </div>
+
+    <div class="card p-fluid" *ngIf="isSpeciale">
+      <h5>Option offre Spéciale</h5>
+      <div class="flex flex-column gap-2 container">
+        <div class="labelContainer">
+          <label for="textarea" class="label"
+            >Description de l'offre spéciale</label
+          >
+        </div>
+        <div class="inputContainer">
+          <span class="p-input-icon-left p-input-icon-right">
+            <textarea
+              id="textarea"
+              rows="5"
+              cols="30"
+              pInputTextarea
+              name="descriptionoffrespeciale"
+              [(ngModel)]="service.descriptionoffrespeciale"
+              (input)="onInput()"
+              [ngClass]="{'ng-dirty ng-invalid' : errors && errors[0]?.field ==='descriptionoffrespeciale'} "
+            ></textarea>
+          </span>
+        </div>
+      </div>
+      <p
+        *ngIf="errors && errors[0]?.field === 'descriptionoffrespeciale'"
+        style="color: red"
+      >
+        {{errors[0]?.message}}
+      </p>
+
+      <LabelInput
+        label="Réduction(en %)"
+        type="number"
+        name="reductionoffrespeciale"
+        [(ngModel)]="service.reductionoffrespeciale"
+        (input)="onInput()"
+        [ngClass]="{'ng-dirty ng-invalid' : errors && errors[0]?.field ==='reductionoffrespeciale'} "
+      />
+      <p
+        *ngIf="errors && errors[0]?.field === 'reductionoffrespeciale'"
+        style="color: red"
+      >
+        {{errors[0]?.message}}
+      </p>
+
+      <LabelInput
+        label="Date de debut de l'offre spéciale"
+        type="datetime-local"
+        name="dateheuredebutoffrespeciale"
+        [(ngModel)]="service.dateheuredebutoffrespeciale"
+        (input)="onInput()"
+        [ngClass]="{'ng-dirty ng-invalid' : errors && errors[0]?.field ==='dateheuredebutoffrespeciale'} "
+      />
+      <p
+        *ngIf="errors && errors[0]?.field === 'dateheuredebutoffrespeciale'"
+        style="color: red"
+      >
+        {{errors[0]?.message}}
+      </p>
+
+      <LabelInput
+        label="Date d'expiration de l'offre spéciale"
+        type="datetime-local"
+        name="dateheurefinoffrespeciale"
+        [(ngModel)]="service.dateheurefinoffrespeciale"
+        (input)="onInput()"
+        [ngClass]="{'ng-dirty ng-invalid' : errors && errors[0]?.field ==='dateheurefinoffrespeciale'} "
+      />
+      <p
+        *ngIf="errors && errors[0]?.field === 'dateheurefinoffrespeciale'"
+        style="color: red"
+      >
+        {{errors[0]?.message}}
+      </p>
+    </div>
+  </div>
+</div>

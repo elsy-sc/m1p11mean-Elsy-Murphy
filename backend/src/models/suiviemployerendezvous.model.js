@@ -2,10 +2,11 @@ const { Date } = require("../beans/date.bean.util");
 const { Rendezvous } = require("./rendezvous.model");
 
 class SuiviEmployeRendezvous extends Rendezvous {
-    constructor(idemploye, dateheuredebutsuivi, dateheurefinsuivi) {
+    constructor(idemploye, dateheuredebutsuivi, dateheurefinsuivi, dateheurevalidation) {
         super();
         this.tableName = "rendezvous";
         this.idemploye = idemploye;
+        this.dateheurevalidation = dateheurevalidation;
         this.dateheuredebutsuivi = dateheuredebutsuivi;
         this.dateheurefinsuivi = dateheurefinsuivi;
         this.linkedTableId ?
@@ -29,9 +30,12 @@ class SuiviEmployeRendezvous extends Rendezvous {
     }
 
     setIdemploye(idemploye) {
-        if (idemploye == null || idemploye == undefined || idemploye.trim() == "") {
-            throw new Error("L'id de l'employé est obligatoire");
-        }
+        // if (idemploye == null || idemploye == undefined || idemploye.trim() == "") {
+        //     throw {
+        //         field: 'idemploye',
+        //         message: 'Le champ idemploye est obligatoire. veuillez entrer le id de l\'employe'
+        //     }
+        // }
         this.idemploye = idemploye;
     }
 
@@ -52,6 +56,7 @@ class SuiviEmployeRendezvous extends Rendezvous {
             this.dateheurefinsuivi = dateheurefinsuivi;
         }
     }
+
 }
 
 exports.SuiviEmployeRendezvous = SuiviEmployeRendezvous;

@@ -1,0 +1,5 @@
+---- unique -----
+db.categorieservice.createIndex({"nom": 1},{unique:true})
+db.service.createIndex({"nom": 1},{unique:true})
+db.utilisateur.createIndex({"email": 1},{unique:true})
+db.typedepense.createIndex({"nom": 1},{unique:true})

@@ -4,47 +4,79 @@ const httpUtil = require("../utils/http.util");
 
 async function createDepense(req, res) {
     const db = await getMongoDBDatabase();
+    let errors = [];
+
     try {
-        const depense = new Depense(null,null,null);
+        const depense = new Depense(null,null,null,null);
         depense.setIdTypeDepense(req.body?.idtypedepense);
         depense.setMontant(req.body?.montant);
+        depense.setDescription(req.body?.description);
         depense.setDateDepense(req.body?.datedepense);
 
         await depense.create(db).then(() => {
             httpUtil.sendJson(res, null, 201, "OK");        
         });
     } catch (error) {
-        httpUtil.sendJson(res, null, error.status || error.statusCode || 500, error.message);
+        if (error.field && error.message) {
+            errors.push(error);
+        }
+        else if (error.code) {
+            let field = error.keyPattern ? Object.keys(error.keyPattern)[0] : null;
+            if (field) {
+                let error = {
+                    field: field,
+                    message: field + " déjà utilisée. Veuillez choisir une autre " + field
+                }
+                errors.push(error);
+            }
+        }
+        httpUtil.sendJson(res, errors, 422, "error");
     }
 }
 
 async function readDepense(req, res) {
     const db = await getMongoDBDatabase();
     try {
-        await new Depense(req.body?.idtypedepense,  req.body?.montant , req.body?.datedepense).read(db).then((result) => {
-            httpUtil.sendJson(res, result, 201, "OK");
+        await new Depense(req.body?.idtypedepense,  req.body?.montant , req.body?.description ? { $regex: new RegExp(req.body?.description, 'i') } : null ,req.body?.datedepense ? { $regex: new RegExp(req.body?.datedepense, 'i') } : null).read(db).then((result) => {
+            httpUtil.sendJson(res, result, 200, "OK");
         });
     } catch (error) {
-        httpUtil.sendJson(res, null, 201, error.message);
+        httpUtil.sendJson(res, null, error.status || error.statusCode || 500, error.message);
     }
 }
 
 async function updateDepense(req, res) {
     const db = await getMongoDBDatabase();
+    let errorsUpdate = [];
+
     try {
         const depenseWhere = new Depense();
         depenseWhere._id = req.body?._id;
 
         const depenseSet = new Depense();
         depenseSet.setIdTypeDepense(req.body?.idtypedepense);
+        depenseSet.setDescription(req.body?.description);
         depenseSet.setMontant(req.body?.montant);
         depenseSet.setDateDepense(req.body?.datedepense);
         
         await depenseWhere.update(db, depenseSet).then(() => {
-            httpUtil.sendJson(res, null, 201, "OK");        
+            httpUtil.sendJson(res, null, 200, "OK");        
         });
     } catch (error) {
-        httpUtil.sendJson(res, null,  error.status || error.statusCode || 500, error.message);
+        if (error.field && error.message) {
+            errorsUpdate.push(error);
+        } 
+        else if (error.code) {
+            let field  = error.keyPattern ? Object.keys(error.keyPattern)[0] : null;
+            if (field) {
+                let error = {
+                    field: field,
+                    message: field+" déjà utilisée. Veuillez choisir une autre "+field
+                }
+                errorsUpdate.push(error);
+            }
+        }
+        httpUtil.sendJson(res, errorsUpdate, 422, "error");
     }
 }
 
@@ -55,7 +87,7 @@ async function deleteDepense(req, res) {
         depense._id = req.body?._id;
 
         await depense.delete(db).then(() => {
-            httpUtil.sendJson(res, null, 201, "OK");        
+            httpUtil.sendJson(res, null, 200, "OK");        
         });
     } catch (error) {
         httpUtil.sendJson(res, null, error.status || error.statusCode || 500, error.message);

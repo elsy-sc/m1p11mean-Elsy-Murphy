@@ -1,0 +1,51 @@
+<p-toast></p-toast>
+<div class="grid">
+    <div class="col-8 md:col-6">
+        <div class="card p-fluid">
+            <form (ngSubmit)="submit()">
+                <h5>Ajout horaire de travail</h5>
+                <div class="flex flex-column gap-2 container">
+                    <div class="labelContainer"><label class="label">Jour</label></div>
+                    <div class="inputContainer">
+                        <div class="grid formgrid">
+                            <div class="inputContainer">
+                                <p-multiSelect [options]="joursSemaine" name="selectedJours" [(ngModel)]="selectedJours"
+                                    (ngModelChange)="onInput()"
+                                    [ngClass]="{'ng-dirty ng-invalid' : errors && errors[0]?.field ==='jour'} "
+                                    placeholder="Choisir jour de la semaine" optionLabel="label" optionValue="value"
+                                    class="multiselect-custom" display="chip">
+                                    <ng-template let-jour pTemplate="item">
+                                        <div class="flex align-items-center">
+                                            <span class="ml-2">{{jour.label}}</span>
+                                        </div>
+                                    </ng-template>
+                                </p-multiSelect>
+                            </div>
+                        </div>
+                    </div>
+                    <p *ngIf="errors && errors[0]?.field === 'jour'" style="color: red;">{{errors[0]?.message}}</p>
+                    <label>Heures Matin</label>
+                    <div class="formgroup-inline">
+                        <div class="field">
+                            <input pInputText (input)="onInput()" type="time" name="debut" [(ngModel)]="heureMatin.debut" [ngClass]="{'ng-dirty ng-invalid' : errors && errors[0]?.field ==='heures'} " />
+                        </div>
+                        <div class="field">
+                            <input pInputText (input)="onInput()" type="time" name="fin" [(ngModel)]="heureMatin.fin" [ngClass]="{'ng-dirty ng-invalid' : errors && errors[0]?.field ==='heures'} " />
+                        </div>
+                    </div>
+                    <label>Heures Apres-midi</label>
+                    <div class="formgroup-inline">
+                        <div class="field">
+                            <input pInputText (input)="onInput()" type="time" name="debut" [(ngModel)]="heureApresMidi.debut" [ngClass]="{'ng-dirty ng-invalid' : errors && errors[0]?.field ==='heures'} "/>
+                        </div>
+                        <div class="field">
+                            <input pInputText (input)="onInput()" type="time" name="fin" [(ngModel)]="heureApresMidi.fin" [ngClass]="{'ng-dirty ng-invalid' : errors && errors[0]?.field ==='heures'} " />
+                        </div>
+                    </div>
+                    <p *ngIf="errors && errors[0]?.field === 'heures'" style="color: red;">{{errors[0]?.message}}</p>
+                </div>
+                <button pButton label="Ajouter" [loading]="isLoading"></button>
+            </form>
+        </div>
+    </div>
+</div>

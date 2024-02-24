@@ -4,7 +4,7 @@ const { createRendezvous, readRendezvous, updateRendezvous, deleteRendezvous } =
 const router = express.Router();
 
 router.post("/create", createRendezvous);
-router.get("/read", readRendezvous);
+router.post("/read", readRendezvous);
 router.put("/update", updateRendezvous);
 router.delete("/delete", deleteRendezvous);
 

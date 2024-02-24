@@ -19,7 +19,7 @@ class Paiement extends TableObject {
                 tableName: "rendezvous",
                 foreignField: "_id",
                 localField: "idrendezvous",
-                as: "rendez-vous",
+                as: "rendezVous",
             },
         ];
     }
@@ -50,7 +50,7 @@ class Paiement extends TableObject {
             this.dateheurepaiement = new Date().date;
         }
         else {  
-            this.dateheurepaiement = dateheurepaiement;
+            this.dateheurepaiement = new Date(dateheurepaiement).date;
         }
     }
 

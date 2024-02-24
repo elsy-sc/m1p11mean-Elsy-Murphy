@@ -1,0 +1,4 @@
+.error-message {
+    color: red;
+    word-wrap: break-word; /* Permet au texte de se mettre à la ligne si nécessaire */
+}

@@ -1,0 +1,115 @@
+<div class="surface-ground flex align-items-center justify-content-center min-h-screen min-w-screen overflow-hidden">
+    <div class="flex flex-column align-items-center justify-content-center">
+        <img src="assets/layout/images/logo.png" alt="Sakai logo" class="mb-5 w-6rem flex-shrink-0">
+        <div
+            style="border-radius:56px; padding:0.3rem; background: linear-gradient(180deg, var(--primary-color) 10%, rgba(33, 150, 243, 0) 30%);">
+            <div class="w-full surface-card py-8 px-5 sm:px-8" style="border-radius:53px">
+                <div class="text-center mb-5">
+                    <div class="text-900 text-3xl font-medium mb-3">beauty-salon</div>
+                    <span class="text-600 font-medium">Inscription</span>
+                </div>
+                <p-toast></p-toast>
+                <form *ngIf="!inValidation" (ngSubmit)="incription()">
+                    <div>
+                        <div class="fiels p-fluid  mb-5">
+                            <label for="nom" class="block text-900 text-xl font-medium mb-2">Nom</label>
+                            <input id="nom" type="text" name="nom" pInputText class="w-full md:w-30rem"
+                                placeholder="nom" [(ngModel)]="utilisateur.nom" style="padding:1rem"
+                                [ngClass]="{ 'ng-dirty ng-invalid': errors && errors[0]?.field === 'nom'}"
+                                (input)="onInput()">
+                            <div class="w-full md:w-30rem">
+                                <p *ngIf="errors && errors[0]?.field === 'nom'" style="color: red;"
+                                    class="w-full md:w-30rem" class="input-error">{{errors[0]?.message}}</p>
+                            </div>
+
+                        </div>
+                        <div class="fiels p-fluid  mb-5">
+                            <label for="prenom" class="block text-900 text-xl font-medium mb-2">Prenom</label>
+                            <input id="prenom" type="text" name="prenom" pInputText class="w-full md:w-30rem"
+                                placeholder="prenom" [(ngModel)]="utilisateur.prenom" style="padding:1rem"
+                                [ngClass]="{ 'ng-dirty ng-invalid': errors && errors[0]?.field === 'prenom'}"
+                                (input)="onInput()">
+                            <div class="w-full md:w-30rem">
+                                <p *ngIf="errors && errors[0]?.field === 'prenom'" style="color: red;"
+                                    class="w-full md:w-30rem" class="input-error">{{errors[0]?.message}}</p>
+                            </div>
+                        </div>
+                        <div class="fiels p-fluid  mb-5">
+                            <label for="email" class="block text-900 text-xl font-medium mb-2">Email</label>
+                            <input id="email" type="email" name="email" pInputText class="w-full md:w-30rem"
+                                placeholder="email" [(ngModel)]="utilisateur.email" style="padding:1rem"
+                                [ngClass]="{ 'ng-dirty ng-invalid': errors && errors[0]?.field === 'email'}"
+                                (input)="onInput()">
+                            <div class="w-full md:w-30rem">
+                                <p *ngIf="errors && errors[0]?.field === 'email'" style="color: red;"
+                                    class="w-full md:w-30rem" class="input-error">{{errors[0]?.message}}</p>
+                            </div>
+                        </div>
+                        <div class="fiels p-fluid  mb-5">
+                            <label for="datenaissance" class="block text-900 text-xl font-medium mb-2">Date de
+                                naissance</label>
+                            <input id="datenaissance" type="date" name="datenaissance" pInputText
+                                class="w-full md:w-30rem" placeholder="date de naissance"
+                                [(ngModel)]="utilisateur.datenaissance" style="padding:1rem"
+                                [ngClass]="{ 'ng-dirty ng-invalid': errors && errors[0]?.field === 'datenaissance'}"
+                                (input)="onInput()">
+                            <div class="w-full md:w-30rem">
+                                <p *ngIf="errors && errors[0]?.field === 'datenaissance'" style="color: red;"
+                                    class="w-full md:w-30rem" class="input-error">{{errors[0]?.message}}</p>
+                            </div>
+                        </div>
+                        <div class="fiels p-fluid  mb-5">
+                            <label for="numerotelephone" class="block text-900 text-xl font-medium mb-2">Numero de
+                                télephone</label>
+                            <input id="numerotelephone" type="tel" name="numerotelephone" pInputText
+                                class="w-full md:w-30rem" placeholder="numero de télephone"
+                                [(ngModel)]="utilisateur.numerotelephone" style="padding:1rem"
+                                [ngClass]="{ 'ng-dirty ng-invalid': errors && errors[0]?.field === 'numerotelephone'}"
+                                (input)="onInput()">
+                            <div class="w-full md:w-30rem">
+                                <p *ngIf="errors && errors[0]?.field === 'numerotelephone'" style="color: red;"
+                                    class="w-full md:w-30rem" class="input-error">{{errors[0]?.message}}</p>
+                            </div>
+                        </div>
+                        <div class="fiels p-fluid  mb-5">
+                            <label for="motdepasse" class="block text-900 text-xl font-medium mb-2">Mot de passe</label>
+                            <p-password id="motdepasse" [feedback]="false" name="motdepasse" [toggleMask]="true"
+                                placeholder="mot de passe" [(ngModel)]="utilisateur.motdepasse"
+                                inputStyleClass="w-full p-3 md:w-30rem"
+                                [ngClass]="{ 'ng-dirty ng-invalid': errors && errors[0]?.field === 'motdepasse'}"
+                                (input)="onInput()"></p-password>
+                            <div class="w-full md:w-30rem">
+                                <p *ngIf="errors && errors[0]?.field === 'motdepasse'" style="color: red;"
+                                    class="input-error">{{errors[0]?.message}}</p>
+                            </div>
+                        </div>
+                        <div class="flex align-items-center justify-content-between mb-5 gap-5">
+                            <button pButton pRipple label="S'inscrire" type="submit" [loading]="isLoading"
+                                class="w-full p-3 md:w-30rem text-xl"></button>
+                        </div>
+                        <p>Vous avez deja un compte ?<a class="font-medium no-underline ml-2 text-right cursor-pointer"
+                                routerLink="/" style="color: var(--primary-color)">Se connecter</a></p>
+                    </div>
+                </form>
+                <form *ngIf="inValidation" (ngSubmit)="valideInscription()">
+                    <div class="fiels p-fluid  mb-5">
+                        <div class="w-full md:w-30rem">
+                            <p-messages [(value)]="messageValidation" [closable]="false"></p-messages>
+                        </div>
+                        <label for="code" class="block text-900 text-xl font-medium mb-2">Code de validation</label>
+                        <input id="code" type="text" name="codevalidation" pInputText class="w-full md:w-30rem"
+                            placeholder="XXXXXX" [(ngModel)]="codevalidation" style="padding:1rem"
+                            [ngClass]="{ 'ng-dirty ng-invalid': errors && errors[0]?.field === 'code'}"
+                            (input)="valideInscription()">
+                        <p *ngIf="errors && errors[0]?.field === 'code'" style="color: red;" class="w-full md:w-30rem"
+                            class="input-error">{{errors[0]?.message}}</p>
+                    </div>
+                    <div class="flex align-items-center justify-content-between mb-5 gap-5">
+                        <button pButton pRipple label="Valide Inscription" type="submit" [loading]="isLoading"
+                            class="w-full p-3 md:w-30rem text-xl"></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

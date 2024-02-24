@@ -6,6 +6,11 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { FormsModule } from '@angular/forms';
 import { PasswordModule } from 'primeng/password';
 import { InputTextModule } from 'primeng/inputtext';
+import { RouterModule } from '@angular/router';
+import { AccordionModule } from 'primeng/accordion';
+import { TableModule } from 'primeng/table';
+import { ToastModule } from 'primeng/toast';
+
 
 @NgModule({
     imports: [
@@ -14,7 +19,11 @@ import { InputTextModule } from 'primeng/inputtext';
         CheckboxModule,
         InputTextModule,
         FormsModule,
-        PasswordModule
+        PasswordModule,
+        RouterModule,
+        AccordionModule,
+        TableModule,
+        ToastModule
     ],
     declarations: [LoginComponent]
 })

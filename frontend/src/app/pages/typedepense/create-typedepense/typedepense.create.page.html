@@ -1,0 +1,22 @@
+<div class="grid">
+    <div class="col-8 md:col-6">
+        <div class="card p-fluid">
+            <form (ngSubmit)="submit()">
+                <h5>Création des types de depense</h5>
+                <LabelInput label="Nom" type="text" name="nom" [(ngModel)]="typedepense.nom" (input)="onInput()"
+                    [ngClass]="{'ng-dirty ng-invalid' : errors && errors[0]?.field ==='nom'} " />
+                <p *ngIf="errors && errors[0]?.field === 'nom'" class="text-danger">{{errors[0]?.message}}</p>
+                <div class="flex flex-column gap-2 container">
+                    <div class="labelContainer"><label for="textarea" class="label">Description</label></div>
+                    <div class="inputContainer"><span class="p-input-icon-left p-input-icon-right"><textarea id=textarea
+                                rows="5" cols="30" pInputTextarea name="description"
+                                [(ngModel)]="typedepense.description" (input)="onInput()"
+                                [ngClass]="{'ng-dirty ng-invalid' : errors && errors[0]?.field ==='description'} "></textarea></span>
+                    </div>
+                </div>
+                <p *ngIf="errors && errors[0]?.field === 'description'" class="text-danger">{{errors[0]?.message}}</p>
+                <button pButton label="Ajouter" [loading]="isLoading"></button>
+            </form>
+        </div>
+    </div>
+</div>

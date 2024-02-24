@@ -3,6 +3,7 @@ import { TokenObject } from "../beans/tokenobject.bean";
 import { LabelInput } from "../interfaces/annotations/components/labelinput.annotation.component";
 import { Select } from "../interfaces/annotations/components/select.annotation.component";
 import { Textarea } from "../interfaces/annotations/components/textarea.annotation.component";
+import { List } from "../interfaces/annotations/list.annotation";
 
 export class Utilisateur extends TokenObject {
     @LabelInput({
@@ -10,10 +11,18 @@ export class Utilisateur extends TokenObject {
         name: 'nom',
         type: 'text',
     })
+    @List({
+        title: 'Nom',
+        type: 'simple'
+    })
     nom: string|undefined;
     @Textarea({
         label: 'Prénom',
         name: 'prenom',
+    })
+    @List({
+        title: 'Prénom',
+        type: 'simple'
     })
     prenom: string|undefined;
     @LabelInput({
@@ -21,14 +30,36 @@ export class Utilisateur extends TokenObject {
         name: 'email',
         type: 'email',
     })
+    @List({
+        title: 'email',
+        type: 'simple'
+    })
     email: string|undefined;
     @LabelInput({
         label: 'Date de naissance',
         name: 'datenaissance',
         type: 'date',
     })
+    @List({
+        title: 'Date de naissance',
+        type: 'simple'
+    })
     datenaissance: Date|undefined;
+    @LabelInput({
+        label: 'Numero de telephone',
+        name: 'numerotelephone',
+        type: 'tel',
+    })
+    @List({
+        title: 'Numero de telephone',
+        type: 'simple'
+    })
     numerotelephone: string|undefined;
+    @LabelInput({
+        label: 'Mot de passe',
+        name: 'motdepasse',
+        type: 'password',
+    })
     motdepasse: string|undefined;
     @Select({
         label: 'Role',
@@ -37,7 +68,12 @@ export class Utilisateur extends TokenObject {
         multiple: true,
         multipleLabelSearch: 'name'
     })
+    @List({
+        title: 'Role',
+        type: 'simple'
+    })
     role: number|undefined;
+    solde: number|undefined;
 
     constructor(nom?: string, prenom?: string, email?: string, datenaissance?: Date, numerotelephone?: string, motdepasse?: string, role?: number) {
         super();

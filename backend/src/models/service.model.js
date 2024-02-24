@@ -1,14 +1,16 @@
 const { TableObject } = require("../beans/tableobject.bean");
+const { getNonEmptyObject } = require("../utils/object.util");
 
 class Service extends TableObject {
-    constructor(idcategorieservice, nom, description, duree, prix, commission) {
+    constructor(idcategorieservice, nom, description, duree, prix, commission, image) {
         super();
         this.idcategorieservice = idcategorieservice;
-        this.nom = nom;
-        this.description = description;
-        this.duree = duree; // en heure // nombre floatant
-        this.prix = prix; // en ariary // nombre floatant
+        this.nom = (nom != undefined && nom != null && nom.toString().trim() != "")  ? nom : undefined;
+        this.description = (description != undefined && description != null && description.toString().trim() != "")  ? description : undefined;
+        this.duree = getNonEmptyObject(duree); // en heure // nombre floatant
+        this.prix = getNonEmptyObject(prix); // en ariary // nombre floatant
         this.commission = commission; // en pourcentage // nombre floatant
+        this.image = image;
         this.linkedTableId = [
             {
                 tableName: "categorieservice",
@@ -21,28 +23,41 @@ class Service extends TableObject {
 
     setNom(nom) {
         if (nom == null || nom == undefined || nom.trim() == "") {
-            throw new Error("Le nom du service est obligatoire");
+            throw  {
+                field: 'nom',
+                message: 'Le champ nom est obligatoire. veuillez entrer le nom du service'
+            }
         }
         this.nom = nom;
     }
 
     setPrix(prix) {
         if (prix == null || prix == undefined) {
-            throw new Error("Le prix du service est obligatoire");
+            throw {
+                field: 'prix',
+                message: 'Le champ prix est obligatoire. veuillez entrer le prix du service'
+            
+            }
         }
         this.prix = prix;
     }
 
     setDuree(duree) {
         if (duree == null || duree == undefined ) {
-            throw new Error("La durée du service est obligatoire");
+            throw {
+                field: 'duree',
+                message: 'Le champ duree est obligatoire. veuillez entrer la durée du service'
+            }
         }
         this.duree = duree;
     }
 
     setIdcategorieservice(idcategorieservice) {
         if (idcategorieservice == null || idcategorieservice == undefined || idcategorieservice.trim() == "") {
-            throw new Error("La catégorie du service est obligatoire");
+            throw {
+                field: 'idcategorieservice',
+                message: 'Le champ idcategorieservice est obligatoire. veuillez entrer l\'id de la catégorie du service'
+            }
         }
         this.idcategorieservice = idcategorieservice;
     }

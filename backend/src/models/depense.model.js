@@ -2,11 +2,12 @@ const { Date } = require("../beans/date.bean.util");
 const { TableObject } = require("../beans/tableobject.bean");
 
 class Depense extends TableObject {
-    constructor (idtypedepense,montant,datedepense) {
+    constructor (idtypedepense,montant,description,datedepense) {
         super();
         this.idtypedepense = idtypedepense;
-        this.montant = montant;
-        this.datedepense = datedepense;
+        this.montant = (montant != undefined &&  montant != null && montant.toString().trim() != "")  ? montant : undefined;
+        this.description = (description != undefined &&  description != null && description.toString().trim() != "")  ? description : undefined;
+        this.datedepense = (datedepense != undefined &&  datedepense != null)  ? datedepense : undefined;;
         this.linkedTableId = [
             {
                 tableName: "typedepense",
@@ -19,23 +20,39 @@ class Depense extends TableObject {
 
     setIdTypeDepense (idtypedepense) {
         if (idtypedepense == null || idtypedepense == undefined || idtypedepense.trim() == "") {
-            throw new Error("L'id du type de depense est obligatoire");
+            throw {
+                field:"idtypedepense",
+                message: "Le type de depense est obligatoire"
+            }
         }
         this.idtypedepense = idtypedepense;   
     }
 
     setMontant (montant) {
         if (montant == null || montant == undefined || montant <= 0) {
-            throw new Error("La valeur du montant est obligatoire et doit être superieur à 0");
+            throw {
+                field:"montant",
+                message: "La valeur du montant est obligatoire et doit être superieur à 0"
+            }
         }
         this.montant = montant;
     }
 
+    setDescription (description) {
+        if (description == null || description == undefined || description.trim() == '') {
+            throw {
+                field:"description",
+                message: "Le champ description est obligatoire. veuillez entrer une description"
+            }
+        }
+        this.description = description;
+    }
+
     setDateDepense(datedepense) {
         if (datedepense == null || datedepense == undefined || datedepense.trim() == "") {
-            this.datedepense = new Date().date;
+            this.datedepense = new Date().date.split(" ")[0];
         }
-        else {  
+        else { 
             this.datedepense = datedepense;
         }
     }    
