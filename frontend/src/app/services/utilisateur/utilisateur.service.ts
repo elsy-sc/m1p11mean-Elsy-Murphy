@@ -44,8 +44,11 @@ export class UtilisateurService {
 
   setUserConnecte(user: Utilisateur): void {
     if (typeof window !== 'undefined') {
-      user.motdepasse = undefined;
       localStorage.setItem("user", JSON.stringify(user));
+      if (user.solde == undefined) {
+        user.solde = 0;
+      }
+      user.motdepasse = undefined;
       this.utilisateurConnecteSubject.next(user);
     }
   }

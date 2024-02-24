@@ -123,7 +123,7 @@
       [modal]="true" [style]="{width: '450px'}" class="p-fluid">
       <ng-template pTemplate="content">
         <div class="card">
-          <p>Solde: <strong>{{utilisateur.solde}} Ar</strong></p>
+          <p>Solde: <strong>{{utilisateur?.solde}} Ar</strong></p>
         </div>
         <div class="card">
           <p *ngIf="suiviemployerendezvousPaiement.service && suiviemployerendezvousPaiement.service[0]">Service :
