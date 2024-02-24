@@ -1,6 +1,6 @@
 const multer = require('multer');
 const { getStorage } = require("../utils/upload.middleware.util");
-const storage = getStorage(process.env.IMAGE_SERVICE_DIRECTORY, 'image');
+const storage = getStorage(process.env.IMAGE_SERVICE_DIRECTORY|| 'public/images/services', 'image');
 const uploadFunction = multer({ storage: storage });
 const httpUtil = require("../utils/http.util");
 
