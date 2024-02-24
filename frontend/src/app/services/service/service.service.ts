@@ -27,17 +27,23 @@ export class ServiceService {
         return "";
     }
 
-    createService(service: Service): Observable<HttpResponseApi> {
+    createService(service: Service, image: any): Observable<HttpResponseApi> {
         let url = BASE_URL + "/service/create";
         const token = this.getToken();
         const httpOptions = {
             headers: new HttpHeaders({
-                'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`
             })
         };
-        let body = JSON.stringify(service);
-        return this.http.post<HttpResponseApi>(url, body, httpOptions);
+
+        const formData: FormData = new FormData();
+        formData.append('service', JSON.stringify(service));
+        if (image) {
+            formData.append('image', image, image.name);
+        }
+
+        httpOptions.headers.set('Content-Type', 'multipart/form-data');
+        return this.http.post<HttpResponseApi>(url, formData, httpOptions);
     }
 
     readService(serviceSearch: Service): Observable<HttpResponseApi> {

@@ -2,19 +2,22 @@ const { Service } = require("../models/service.model");
 const { getMongoDBDatabase } = require("../utils/db.util");
 const httpUtil = require("../utils/http.util");
 
-async function createService(req, res) {
+async function createService(req,res, next) {
     const db = await getMongoDBDatabase();
     let errors = [];
-    try {
-        const service = new Service(null, null, req.body?.description, null, null, req.body?.commission);
-        service.setIdcategorieservice(req.body?.idcategorieservice);
-        service.setNom(req.body?.nom);
-        service.setPrix(req.body?.prix);
-        service.setDuree(req.body?.duree);
+    try {        
+        const serviceBody = JSON.parse(req.body?.service|| {});
+        const service = new Service(null, null, serviceBody.description, null, null, serviceBody.commission);
+        service.setIdcategorieservice(serviceBody.idcategorieservice);
+        service.setNom(serviceBody.nom);
+        service.setPrix(serviceBody.prix);
+        service.setDuree(serviceBody.duree);
+        service.image = req.body?.imageDB;
         await service.create(db).then(() => {
             httpUtil.sendJson(res, [service], 201, "OK");        
         });
     } catch (error) {
+        console.log(error)
         if (error.field && error.message) {
             errors.push(error);
         }

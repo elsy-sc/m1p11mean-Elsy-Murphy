@@ -27,17 +27,23 @@ export class OffrespecialeService {
         return "";
     }
 
-    createOffrespeciale(offrespeciale: Offrespeciale): Observable<HttpResponseApi> {
+    createOffrespeciale(offrespeciale: Offrespeciale, image: any): Observable<HttpResponseApi> {
         let url = BASE_URL + "/offrespeciale/create";
         const token = this.getToken();
         const httpOptions = {
             headers: new HttpHeaders({
-                'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`
             })
         };
-        let body = JSON.stringify(offrespeciale);
-        return this.http.post<HttpResponseApi>(url, body, httpOptions);
+
+        const formData: FormData = new FormData();
+        formData.append('offrespeciale', JSON.stringify(offrespeciale));
+        if (image) {
+            formData.append('image', image, image.name);
+        }
+
+        httpOptions.headers.set('Content-Type', 'multipart/form-data');
+        return this.http.post<HttpResponseApi>(url, formData, httpOptions);
     }
 
     readOffrespeciale(offrespecialeSearch: Offrespeciale): Observable<HttpResponseApi> {

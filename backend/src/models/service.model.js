@@ -2,7 +2,7 @@ const { TableObject } = require("../beans/tableobject.bean");
 const { getNonEmptyObject } = require("../utils/object.util");
 
 class Service extends TableObject {
-    constructor(idcategorieservice, nom, description, duree, prix, commission) {
+    constructor(idcategorieservice, nom, description, duree, prix, commission, image) {
         super();
         this.idcategorieservice = idcategorieservice;
         this.nom = (nom != undefined && nom != null && nom.toString().trim() != "")  ? nom : undefined;
@@ -10,6 +10,7 @@ class Service extends TableObject {
         this.duree = getNonEmptyObject(duree); // en heure // nombre floatant
         this.prix = getNonEmptyObject(prix); // en ariary // nombre floatant
         this.commission = commission; // en pourcentage // nombre floatant
+        this.image = image;
         this.linkedTableId = [
             {
                 tableName: "categorieservice",

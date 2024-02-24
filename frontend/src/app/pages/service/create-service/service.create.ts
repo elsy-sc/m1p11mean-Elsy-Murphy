@@ -30,7 +30,7 @@ export class CreateService implements OnInit {
         this.isLoading = true;
 
         if (this.isSpeciale) {
-            this.offrespecialeService.createOffrespeciale(this.service).subscribe(
+            this.offrespecialeService.createOffrespeciale(this.service, this.imageUpload).subscribe(
                 (response: HttpResponseApi) => {
                     console.log(response);
                     if (response.message == "error" && response.status == 422) {
@@ -50,7 +50,7 @@ export class CreateService implements OnInit {
             )
         }
         else {
-            this.serviceService.createService(this.service as Service).subscribe(
+            this.serviceService.createService(this.service as Service, this.imageUpload).subscribe(
                 (response: HttpResponseApi) => {
                     console.log(response);
                     if (response.message == "error" && response.status == 422) {

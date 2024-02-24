@@ -2,19 +2,21 @@ const { Offrespeciale } = require('../models/offrespeciale.model');
 const { getMongoDBDatabase } = require('../utils/db.util');
 const httpUtil = require('../utils/http.util');
 
-async function createOffrespeciale(req, res) {
+async function createOffrespeciale(req, res, next) {
     const db = await getMongoDBDatabase();
     let errors = [];
     try {
+        const offrespecialeBody = JSON.parse(req.body?.offrespeciale);
         const offrespeciale = new Offrespeciale();
-        offrespeciale.setDescriptionoffrespeciale(req.body?.descriptionoffrespeciale);
-        offrespeciale.setDateheuredebutoffrespeciale(req.body?.dateheuredebutoffrespeciale);
-        offrespeciale.setDateheurefinoffrespeciale(req.body?.dateheurefinoffrespeciale);
-        offrespeciale.setReductionoffrespeciale(req.body?.reductionoffrespeciale);
-        offrespeciale.setNom(req.body?.nom);
-        offrespeciale.setPrix(req.body?.prix);
-        offrespeciale.setDuree(req.body?.duree);
-        offrespeciale.setIdcategorieservice(req.body?.idcategorieservice);
+        offrespeciale.setDescriptionoffrespeciale(offrespecialeBody?.descriptionoffrespeciale);
+        offrespeciale.setDateheuredebutoffrespeciale(offrespecialeBody?.dateheuredebutoffrespeciale);
+        offrespeciale.setDateheurefinoffrespeciale(offrespecialeBody?.dateheurefinoffrespeciale);
+        offrespeciale.setReductionoffrespeciale(offrespecialeBody?.reductionoffrespeciale);
+        offrespeciale.setNom(offrespecialeBody?.nom);
+        offrespeciale.setPrix(offrespecialeBody?.prix);
+        offrespeciale.setDuree(offrespecialeBody?.duree);
+        offrespeciale.setIdcategorieservice(offrespecialeBody?.idcategorieservice);
+        offrespeciale.image = req.body?.imageDB;
         await offrespeciale.create(db).then(() => {
             httpUtil.sendJson(res, null, 201, "OK");        
         });
