@@ -5,8 +5,9 @@ const { replaceSpecialCharacters } = require("./string.util");
 const { Date } = require("../beans/date.bean.util");
 
 function getStorage(destination) {
-  if (!fs.existsSync(path.dirname(destination))) {
-    fs.mkdirSync(path.dirname(destination), { recursive: true });
+  const adjustedDestination = path.join('/tmp', destination);
+  if (!fs.existsSync(adjustedDestination)) {
+    fs.mkdirSync(adjustedDestination, { recursive: true });
   }
   return multer.diskStorage({
     destination: function (req, file, cb) {
