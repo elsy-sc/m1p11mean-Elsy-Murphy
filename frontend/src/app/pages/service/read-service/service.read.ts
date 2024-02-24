@@ -31,6 +31,20 @@ export class ReadService implements OnInit {
     errorsUpdate: any[] | undefined = [];
     isSpecial: boolean = false;
 
+    imageUpload: any;
+
+
+    
+    
+    onSelect(event: any) {
+        this.serviceUpdate.image = event.files[0].name;
+        this.imageUpload = event.files[0];
+    }
+
+    onRemove(){
+        this.serviceUpdate.image = undefined;
+    }
+
 
     UpdateService(service: Offrespeciale) {
         this.updateIsSpecial(service);

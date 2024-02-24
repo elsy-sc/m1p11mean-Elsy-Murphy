@@ -13,6 +13,7 @@ import { MultiSelectModule } from "primeng/multiselect";
 import { AppLayoutModule } from "../../../components/layout/app.layout.module";
 import { PasswordModule } from "primeng/password";
 import { ToastModule } from "primeng/toast";
+import { FileUploadModule } from "primeng/fileupload";
 @NgModule({
     declarations: [
         CreateService
@@ -31,7 +32,8 @@ import { ToastModule } from "primeng/toast";
         MultiSelectModule,
         PasswordModule,
         ToastModule,
-        LabelInputModule
+        LabelInputModule,
+        FileUploadModule
     ]
 })
 export class CreateServiceModule { }

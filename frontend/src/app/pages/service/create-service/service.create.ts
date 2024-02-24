@@ -21,12 +21,15 @@ export class CreateService implements OnInit {
     errors: any[] | undefined = [];
     isSpeciale = false;
 
+    imageUpload: any;
+
+
     constructor(private offrespecialeService: OffrespecialeService, private messageService: MessageService, private router: Router, private servicecategorieService: CategorieServiceService, private serviceService: ServiceService) { }
 
     submit() {
         this.isLoading = true;
 
-        if(this.isSpeciale){  
+        if (this.isSpeciale) {
             this.offrespecialeService.createOffrespeciale(this.service).subscribe(
                 (response: HttpResponseApi) => {
                     console.log(response);
@@ -66,10 +69,10 @@ export class CreateService implements OnInit {
                 }
             )
         }
-        
+
     }
 
-    getServiceCategories(){
+    getServiceCategories() {
         this.servicecategorieService.readCategorieService(new CategorieService()).subscribe((response: HttpResponseApi) => {
             if (response.data) {
                 this.categorieservices = response.data;
@@ -83,6 +86,16 @@ export class CreateService implements OnInit {
 
     ngOnInit(): void {
         this.getServiceCategories();
+    }
+
+
+    onSelect(event: any) {
+        this.service.image = event.files[0].name;
+        this.imageUpload = event.files[0];
+    }
+
+    onRemove () {
+        this.service.image = undefined;
     }
 
 }

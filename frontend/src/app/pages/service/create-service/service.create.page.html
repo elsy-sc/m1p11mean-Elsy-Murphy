@@ -90,6 +90,7 @@
                   optionLabel="nom"
                   optionValue="_id"
                   [showClear]="true"
+                  appendTo="body"
                 ></p-dropdown>
               </div>
             </div>
@@ -114,6 +115,7 @@
                   name="speciale"
                   [options]="[{ label: 'Oui', value: true }, { label: 'Non', value: false }]"
                   [showClear]="true"
+                  appendTo="body"
                 ></p-dropdown>
               </div>
             </div>
@@ -129,12 +131,41 @@
       </form>
     </div>
   </div>
-  <div class="col-6 md:col-6" *ngIf="isSpeciale">
+  <div class="col-6 md:col-6">
     <div class="card p-fluid">
+      <div class="flex flex-column gap-2 container">
+        <div class="labelContainer">
+          <label class="label">Image du service</label>
+        </div>
+        <div class="inputContainer">
+          <p-fileUpload
+            [multiple]="false"
+            accept="image/*"
+            [maxFileSize]="1000000"
+            [showCancelButton]="false"
+            chooseLabel="Choisir une image"
+            [showUploadButton]="false"
+            (onSelect)="onSelect($event)"
+            (onRemove)="onRemove()"
+          >
+            <ng-template pTemplate="content">
+              <label
+                *ngIf="service.image === undefined || service.image === null"
+                >Glisser votre image ici</label
+              >
+            </ng-template>
+          </p-fileUpload>
+        </div>
+      </div>
+    </div>
+
+    <div class="card p-fluid" *ngIf="isSpeciale">
       <h5>Option offre Spéciale</h5>
       <div class="flex flex-column gap-2 container">
         <div class="labelContainer">
-          <label for="textarea" class="label">Description de l'offre spéciale</label>
+          <label for="textarea" class="label"
+            >Description de l'offre spéciale</label
+          >
         </div>
         <div class="inputContainer">
           <span class="p-input-icon-left p-input-icon-right">
@@ -189,20 +220,19 @@
       </p>
 
       <LabelInput
-      label="Date d'expiration de l'offre spéciale"
-      type="datetime-local"
-      name="dateheurefinoffrespeciale"
-      [(ngModel)]="service.dateheurefinoffrespeciale"
-      (input)="onInput()"
-      [ngClass]="{'ng-dirty ng-invalid' : errors && errors[0]?.field ==='dateheurefinoffrespeciale'} "
-    />
-    <p
-      *ngIf="errors && errors[0]?.field === 'dateheurefinoffrespeciale'"
-      style="color: red"
-    >
-      {{errors[0]?.message}}
-    </p>
-
+        label="Date d'expiration de l'offre spéciale"
+        type="datetime-local"
+        name="dateheurefinoffrespeciale"
+        [(ngModel)]="service.dateheurefinoffrespeciale"
+        (input)="onInput()"
+        [ngClass]="{'ng-dirty ng-invalid' : errors && errors[0]?.field ==='dateheurefinoffrespeciale'} "
+      />
+      <p
+        *ngIf="errors && errors[0]?.field === 'dateheurefinoffrespeciale'"
+        style="color: red"
+      >
+        {{errors[0]?.message}}
+      </p>
     </div>
   </div>
 </div>

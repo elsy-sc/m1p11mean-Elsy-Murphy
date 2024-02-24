@@ -13,6 +13,7 @@ import { GenericPopupModule } from "../../../components/generic-popup/generic-po
 import { FormsModule } from "@angular/forms";
 import { InputTextareaModule } from "primeng/inputtextarea";
 import { DialogModule } from "primeng/dialog";
+import { FileUploadModule } from "primeng/fileupload";
 @NgModule({
     declarations: [
         ReadService
@@ -30,7 +31,8 @@ import { DialogModule } from "primeng/dialog";
         GenericPopupModule,
         InputTextareaModule,
         DialogModule,
-        LabelInputModule
+        LabelInputModule,
+        FileUploadModule
     ]
 })
 export class ReadServiceModule { }
