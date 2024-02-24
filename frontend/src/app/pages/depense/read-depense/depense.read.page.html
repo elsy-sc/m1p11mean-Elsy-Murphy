@@ -38,7 +38,6 @@
                 <ng-template pTemplate="header">
                     <tr>
                         <th style="min-width: 12rem">Type de depense</th>
-                        <th style="min-width: 12rem">Montant</th>
                         <th style="min-width: 12rem">Description</th>
                         <th style="min-width: 12rem">Date du depense</th>
                         <th>Actions</th>
@@ -47,8 +46,9 @@
                 <ng-template pTemplate="body" let-depense>
                     <tr>
                         <td>{{depense.Type[0].nom}}</td>
-                        <td>{{depense.montant}}</td>
-                        <td>{{depense.description}}</td>
+                        <td>{{depense.description}} <br /><br />
+                            <strong>{{depense.montant}} Ar</strong>
+                        </td>
                         <td>{{depense.datedepense}}</td>
                         <td>
                             <div class="flex"><button pButton pRipple icon="pi pi-pencil"
@@ -84,7 +84,7 @@
                 </div>
                 <p *ngIf="errorsUpdate && errorsUpdate[0]?.field ==='idtypedepense'" class="text-danger">
                     {{errorsUpdate[0]?.message}}</p>
-                <LabelInput label="Montant" type="number" name="montant"
+                <LabelInput label="Montant (en Ar)" type="number" name="montant"
                     [ngClass]="{'ng-dirty ng-invalid' : errorsUpdate && errorsUpdate[0]?.field ==='montant'} "
                     (input)="onInput()" [(ngModel)]="depenseUpdate.montant" />
                 <p *ngIf="errorsUpdate && errorsUpdate[0]?.field ==='montant'" class="text-danger">

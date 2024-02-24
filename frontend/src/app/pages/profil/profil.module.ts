@@ -13,6 +13,7 @@ import { ToastModule } from "primeng/toast";
 import { AppLayoutModule } from "../../components/layout/app.layout.module";
 import { LabelInputModule } from "../../components/labelinput/labelinput.module";
 import { Profil } from "./profil";
+import { DialogModule } from "primeng/dialog";
 @NgModule({
     declarations: [
         Profil
@@ -31,7 +32,8 @@ import { Profil } from "./profil";
         MultiSelectModule,
         PasswordModule,
         ToastModule,
-        LabelInputModule
+        LabelInputModule,
+        DialogModule
     ]
 })
 export class ProfilModule { }

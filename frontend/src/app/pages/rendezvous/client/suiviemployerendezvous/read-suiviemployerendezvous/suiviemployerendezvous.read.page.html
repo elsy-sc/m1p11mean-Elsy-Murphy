@@ -3,12 +3,10 @@
   <div class="col-12">
     <div class="card">
       <h5>Liste des rendez-vous</h5>
-      <p-table [value]="suiviemployerendezvouss" [paginator]="true" [rows]="10"
-        ><p-toast></p-toast
-        ><ng-template pTemplate="caption"
-          >
-          <p-accordion
-            >
+      <p-table [value]="suiviemployerendezvouss" [paginator]="true" [rows]="10">
+        <p-toast></p-toast>
+        <ng-template pTemplate="caption">
+          <p-accordion>
             <!-- <p-accordionTab
               header="Recherche"
               [selected]="false"
@@ -70,63 +68,83 @@
             />
             </p-accordionTab> -->
           </p-accordion>
-            
-            </ng-template
-        ><ng-template pTemplate="header"
-          ><tr>
+
+        </ng-template>
+        <ng-template pTemplate="header">
+          <tr>
             <th style="min-width: 12rem">Service du rendez-vous</th>
             <th style="min-width: 12rem">Employe du rendez-vous</th>
             <th style="min-width: 12rem">Date et heure du rendez-vous</th>
             <th style="min-width: 12rem">Date et heure de validation</th>
             <th>Actions</th>
-          </tr></ng-template
-        ><ng-template pTemplate="body" let-suiviemployerendezvous
-          ><tr>
-            <td>{{suiviemployerendezvous.service[0]?.nom}} <br/><br/> <strong>{{suiviemployerendezvous.service[0]?.prix}} Ar</strong></td>
-            <td>{{suiviemployerendezvous.employe[0]?.nom}}</td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-suiviemployerendezvous>
+          <tr>
+            <td>{{suiviemployerendezvous.service[0]?.nom}} <br /><br />
+              <strong>{{suiviemployerendezvous.service[0]?.prix}} Ar</strong>
+            </td>
+            <td>{{ (suiviemployerendezvous.employe[0]?.nom) ? suiviemployerendezvous.employe[0]?.nom+"
+              "+suiviemployerendezvous.employe[0]?.prenom : ""}}</td>
             <td>{{suiviemployerendezvous.dateheurerendezvous}}</td>
             <td>{{suiviemployerendezvous.dateheurevalidation}}</td>
             <td>
               <div class="flex">
+                <button *ngIf="suiviemployerendezvous.dateheurevalidation && !suiviemployerendezvous.paiement[0]" pButton pRipple icon="pi pi-money-bill"
+                  class="p-button-rounded p-button-primary mr-2" label="Payer"
+                  (click)="PaierRendezVous(suiviemployerendezvous)"></button>
                 <button
-                  pButton
-                  pRipple
-                  icon="pi pi-pencil"
-                  class="p-button-rounded p-button-success mr-2"
-                  label="Valider"
-                  (click)="UpdateSuiviEmployeRendezVous(suiviemployerendezvous)"
-                ></button
-                ><button
-                  pButton
-                  pRipple
-                  icon="pi pi-trash"
-                  class="p-button-rounded p-button-danger"
-                  label="Annuler"
-                  (click)="DeleteSuiviEmployeRendezVous(suiviemployerendezvous)"
-                ></button>
+                  *ngIf="suiviemployerendezvous.dateheurevalidation  && suiviemployerendezvous.paiement[0]"
+                  pButton pRipple icon="pi pi-check" class="p-button-rounded p-button-outlined p-button-primary mr-2"
+                  label="Payé" disabled="true"></button>
+                <button *ngIf="!suiviemployerendezvous.dateheurevalidation" pButton pRipple icon="pi pi-pencil"
+                  class="p-button-rounded p-button-success mr-2" label="Valider"
+                  (click)="UpdateSuiviEmployeRendezVous(suiviemployerendezvous)"></button>
+                <button *ngIf="!suiviemployerendezvous.dateheurevalidation" pButton pRipple icon="pi pi-trash"
+                  class="p-button-rounded p-button-danger" label="Annuler"
+                  (click)="DeleteSuiviEmployeRendezVous(suiviemployerendezvous)"></button>
               </div>
-            </td></tr></ng-template
-      ></p-table>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
     </div>
-    <generic-popup
-      title="Annulation de rendez-vous"
-      subtitle="Etes-vous sûr d'annuler ce rendez-vous"
-      [show]="showDeletePopup"
-      (handleclose)="CancelDeleteSuiviEmployeRendezVous()"
-      (validClick)="ValidDeleteSuiviEmployeRendezVous()"
-      (cancelClick)="CancelDeleteSuiviEmployeRendezVous()"
-    >
+    <generic-popup title="Annulation de rendez-vous" subtitle="Etes-vous sûr d'annuler ce rendez-vous"
+      [show]="showDeletePopup" (handleclose)="CancelDeleteSuiviEmployeRendezVous()"
+      (validClick)="ValidDeleteSuiviEmployeRendezVous()" (cancelClick)="CancelDeleteSuiviEmployeRendezVous()">
     </generic-popup>
 
-    <generic-popup
-      title="Validation de rendez-vous"
-      subtitle="Etes-vous sûr de valider ce rendez-vous"
-      [show]="showUpdatePopup"
-      (handleclose)="CancelUpdateSuiviEmployeRendezVous()"
-      (validClick)="ValidUpdateSuiviEmployeRendezVous()"
-      (cancelClick)="CancelUpdateSuiviEmployeRendezVous()"
-    >
+    <generic-popup title="Validation de rendez-vous" subtitle="Etes-vous sûr de valider ce rendez-vous"
+      [show]="showUpdatePopup" (handleclose)="CancelUpdateSuiviEmployeRendezVous()"
+      (validClick)="ValidUpdateSuiviEmployeRendezVous()" (cancelClick)="CancelUpdateSuiviEmployeRendezVous()">
     </generic-popup>
+
+    <p-dialog [(visible)]="showPaiementPopup" (onHide)="CancelPaierRendezVous()" header="Paiement du rendez-vous"
+      [modal]="true" [style]="{width: '450px'}" class="p-fluid">
+      <ng-template pTemplate="content">
+        <div class="card">
+          <p>Solde: <strong>{{utilisateur.solde}} Ar</strong></p>
+        </div>
+        <div class="card">
+          <p *ngIf="suiviemployerendezvousPaiement.service && suiviemployerendezvousPaiement.service[0]">Service :
+            <br />
+            {{suiviemployerendezvousPaiement.service[0].nom}} <br /><br />
+            Prix : <br /> <strong>{{suiviemployerendezvousPaiement.service[0].prix}} Ar</strong> <br /><br />
+            Date et heure : <br /> {{suiviemployerendezvousPaiement.dateheurerendezvous}}
+          </p>
+        </div>
+        <label>Date et heure de paiement</label>
+        <p-calendar placeholder="Date et heure actuel" [(ngModel)]="paiement.dateheurepaiement" [showIcon]="true"
+          [showTime]="true" [hourFormat]="'24'" appendTo="body">
+        </p-calendar>
+      </ng-template>
+      <ng-template pTemplate="footer">
+        <button pButton pRipple label="Annuler" icon="pi pi-times" class="p-button-text"
+          (click)="CancelPaierRendezVous()"></button>
+        <button pButton pRipple label="Valider" icon="pi pi-check" class="p-button-text"
+          (click)="ValidPaiementRendezVous()"></button>
+      </ng-template>
+    </p-dialog>
 
   </div>
 </div>

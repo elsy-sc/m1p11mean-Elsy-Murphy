@@ -38,7 +38,9 @@ async function createSuiviEmployeRendezvous(req, res) {
 async function readSuiviEmployeRendezvous(req, res) {
     const db = await getMongoDBDatabase();
     try {
-        await new SuiviEmployeRendezvous(req.body?.idemploye, req.body?.dateheuredebutsuivi, req.body?.dateheurefinsuivi).read(db).then((result) => {
+        const suiviemployerendezvous = new SuiviEmployeRendezvous(req.body?.idemploye, req.body?.dateheuredebutsuivi, req.body?.dateheurefinsuivi);
+        suiviemployerendezvous.idclient = req.body?.idclient;
+        await suiviemployerendezvous.read(db).then((result) => {
             httpUtil.sendJson(res, result, 200, "OK");
         });
     } catch (error) {

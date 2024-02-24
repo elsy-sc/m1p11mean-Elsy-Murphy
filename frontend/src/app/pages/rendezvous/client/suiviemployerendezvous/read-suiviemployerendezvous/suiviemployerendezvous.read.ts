@@ -9,6 +9,11 @@ import { Utilisateur } from "../../../../../models/utilisateur.model";
 import { Date } from "../../../../../beans/date.bean.util";
 import { EmployeService } from "../../../../../services/employe/employe.service";
 import { ServiceService } from "../../../../../services/service/service.service";
+import { Rendezvous } from "../../../../../models/rendezvous.model";
+import { Paiement } from "../../../../../models/paiement.model";
+import { PaiementService } from "../../../../../services/paiement/paiement.service";
+import { response } from "express";
+import { UtilisateurService } from "../../../../../services/utilisateur/utilisateur.service";
 @Component({
     selector: "read-suiviemployerendezvous",
     templateUrl: "./suiviemployerendezvous.read.page.html",
@@ -23,11 +28,19 @@ export class ReadSuiviEmployeRendezVous implements OnInit {
 
     suiviemployerendezvousUpdate: SuiviEmployeRendezVous = new SuiviEmployeRendezVous();
 
+    suiviemployerendezvousPaiement: SuiviEmployeRendezVous = new SuiviEmployeRendezVous();
+
+    paiement: Paiement = new Paiement();
+
+    utilisateur?: Utilisateur;
+
     loadingButtonUpdate: boolean = true;
 
     showDeletePopup: boolean = false;
 
     showUpdatePopup: boolean = false;
+
+    showPaiementPopup: boolean = false;
 
     errorsUpdate: any[] | undefined = [];
 
@@ -86,17 +99,27 @@ export class ReadSuiviEmployeRendezVous implements OnInit {
     }
 
     ngOnInit(): void {
+        this.utilisateurSerivce.getUserConnecte();
+        this.utilisateurSerivce.utilisateurConnecte.subscribe(
+            (user) => {
+                this.utilisateur = user;
+            }
+        );
         this.getEmployes();
         this.getServices();
         this.getSuiviEmployeRendezVouss();
     }
 
-    constructor(private suiviemployerendezvousService: SuiviEmployeRendezVousService, private messageService: MessageService, private employeService: EmployeService, private serviceService: ServiceService) {
+    constructor(private suiviemployerendezvousService: SuiviEmployeRendezVousService, private messageService: MessageService, private employeService: EmployeService, private serviceService: ServiceService, private paiementService: PaiementService, private utilisateurSerivce: UtilisateurService) {
 
     }
 
     getSuiviEmployeRendezVouss() {
-        console.log(this.suiviemployerendezvousSearch)
+        const userStorage = this.suiviemployerendezvousService.getUserConnecte();
+        if (userStorage) {
+            const user = JSON.parse(userStorage);
+            this.suiviemployerendezvousSearch.idclient = user._id;
+        }
         this.suiviemployerendezvousService.readSuiviEmployeRendezVous(this.suiviemployerendezvousSearch).subscribe((response: HttpResponseApi) => {
             if (response.data) {
                 this.suiviemployerendezvouss = response.data;
@@ -145,6 +168,57 @@ export class ReadSuiviEmployeRendezVous implements OnInit {
                 this.services = response.data;
             }
         });
+    }
+
+    PaierRendezVous(rendezvous: Rendezvous) {
+        this.showPaiementPopup = true;
+        this.suiviemployerendezvousPaiement = JSON.parse(JSON.stringify(rendezvous));
+        this.paiement.idclient = this.suiviemployerendezvousPaiement.idclient;
+        this.paiement.idrendezvous = this.suiviemployerendezvousPaiement._id;
+        this.paiement.dateheurepaiement = undefined;
+        if (this.suiviemployerendezvousPaiement.service) {
+            this.paiement.montantpaye = this.suiviemployerendezvousPaiement.service[0].prix;
+        }
+    }
+
+    CancelPaierRendezVous() {
+        this.showPaiementPopup = false;
+    }
+
+    ValidPaiementRendezVous() {
+        if (this.paiement.montantpaye && this.utilisateur && this.utilisateur.solde) {
+            if (this.paiement.montantpaye > this.utilisateur.solde) {
+                this.showPaiementPopup = false;
+                this.messageService.add({ severity: "error", summary: "Erreur", detail: "solde insuffisant !!!" });
+            }
+            else {
+                this.paiementService.createPaiement(this.paiement).subscribe(
+                    (response) => {
+                        this.showPaiementPopup = false;
+                        if (response.status == 201) {
+                            if (this.utilisateur && this.utilisateur.solde && this.paiement.montantpaye) {
+                                this.utilisateur.solde -= parseInt(this.paiement.montantpaye.toString());
+                                this.utilisateurSerivce.update(this.utilisateur).subscribe();
+                                this.utilisateurSerivce.setUserConnecte(this.utilisateur);
+                            }
+                            this.getSuiviEmployeRendezVouss();
+                            this.messageService.add({ severity: "success", summary: "Succès", detail: "Paiement du rendez-vous effectuée avec succès" });
+                        }
+                        else if (response.status == 422) {
+                            if (response.data) {
+                                this.messageService.add({ severity: "error", summary: "Erreur", detail: response.data[0].message });
+                            }
+                        }
+                        else {
+                            this.messageService.add({ severity: "error", summary: "Erreur", detail: response.message });
+                        }
+                    },
+                    (error) => {
+                        console.error(error);
+                    }
+                );
+            }
+        }
     }
 
 }

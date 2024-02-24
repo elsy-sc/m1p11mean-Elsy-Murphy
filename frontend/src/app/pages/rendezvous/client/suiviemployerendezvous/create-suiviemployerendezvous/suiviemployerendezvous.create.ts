@@ -20,6 +20,7 @@ export class CreateSuiviEmployeRendezVous implements OnInit {
 
     isLoading: boolean = false;
     suiviemployerendezvous: SuiviEmployeRendezVous = new SuiviEmployeRendezVous();
+
     errors: any[] | undefined = [];
 
     employes: Employe[] = [];
@@ -66,6 +67,12 @@ export class CreateSuiviEmployeRendezVous implements OnInit {
     }
 
     ngOnInit(): void {
+        const userStorage = this.suiviemployerendezvousService.getUserConnecte();
+        if (userStorage) {
+            const user = JSON.parse(userStorage);
+            this.suiviemployerendezvous.idclient = user._id;
+        }
+        console.log(this.suiviemployerendezvous);
         this.getEmployes();
         this.getServices();
     }

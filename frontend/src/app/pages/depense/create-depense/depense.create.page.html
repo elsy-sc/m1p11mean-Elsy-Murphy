@@ -19,7 +19,7 @@
                     </div>
                 </div>
                 <p *ngIf="errors && errors[0]?.field === 'idtypedepense'" class="text-danger">{{errors[0]?.message}}</p>
-                <LabelInput label="Montant" type="number" name="montant" [(ngModel)]="depense.montant"
+                <LabelInput label="Montant (en Ar)" type="number" name="montant" [(ngModel)]="depense.montant"
                     (input)="onInput()"
                     [ngClass]="{'ng-dirty ng-invalid' : errors && errors[0]?.field ==='montant'} " />
                 <p *ngIf="errors && errors[0]?.field === 'montant'" class="text-danger">{{errors[0]?.message}}</p>

@@ -14,3 +14,6 @@ import { Paiement } from "../models/paiement.model";
 // rendezvous.generateCreate();
 // const paiement = new Paiement() ;
 // paiement.generateCRUD();
+
+const paiement = new Paiement();
+paiement.setTsService();

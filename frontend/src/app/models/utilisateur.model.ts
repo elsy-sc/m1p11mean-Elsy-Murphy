@@ -73,6 +73,7 @@ export class Utilisateur extends TokenObject {
         type: 'simple'
     })
     role: number|undefined;
+    solde: number|undefined;
 
     constructor(nom?: string, prenom?: string, email?: string, datenaissance?: Date, numerotelephone?: string, motdepasse?: string, role?: number) {
         super();

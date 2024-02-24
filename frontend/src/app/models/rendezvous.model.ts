@@ -4,6 +4,7 @@ import { Form } from "../interfaces/annotations/components/form.annotation.compo
 import { LabelInput } from "../interfaces/annotations/components/labelinput.annotation.component";
 import { Select } from "../interfaces/annotations/components/select.annotation.component";
 import { List } from "../interfaces/annotations/list.annotation";
+import { Paiement } from "./paiement.model";
 import { Service } from "./service.model";
 import { Utilisateur } from "./utilisateur.model";
 
@@ -49,7 +50,8 @@ export class Rendezvous extends TableObject {
 
 
     client?: Utilisateur;
-    service?: Service;
+    service?: Service[];
+    paiement?: Paiement[];
 
     constructor(idclient?: string, idservice?: string, dateheurerendezvous?: Date) {
         super();

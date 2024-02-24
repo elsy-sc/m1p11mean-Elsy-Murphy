@@ -13,7 +13,7 @@ import { BASE_URL } from '../../utils/constante.util';
 })
 export class UtilisateurService {
 
-  private utilisateurConnecteSubject = new BehaviorSubject<Utilisateur | null>(null);
+  private utilisateurConnecteSubject = new BehaviorSubject<Utilisateur | undefined>(undefined);
   public utilisateurConnecte = this.utilisateurConnecteSubject.asObservable();
 
   constructor(private http: HttpClient, private router: Router) { }
@@ -31,14 +31,22 @@ export class UtilisateurService {
 
   getUserConnecte(): string | null {
     if (typeof window !== 'undefined') {
-      return localStorage.getItem("user");
+      const user = localStorage.getItem("user");
+      if (user) {
+        if (this.utilisateurConnecteSubject.value == null) {
+          this.utilisateurConnecteSubject.next(JSON.parse(user));
+        }
+      }
+      return user;
     }
     return null;
   }
 
   setUserConnecte(user: Utilisateur): void {
     if (typeof window !== 'undefined') {
+      user.motdepasse = undefined;
       localStorage.setItem("user", JSON.stringify(user));
+      this.utilisateurConnecteSubject.next(user);
     }
   }
 

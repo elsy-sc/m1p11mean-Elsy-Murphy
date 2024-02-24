@@ -98,8 +98,13 @@ async function updateUtilisateur(req, res) {
         await utilisateurSet.setEmail(req.body.email);
         await utilisateurSet.setDateNaissance(req.body.datenaissance);
         await utilisateurSet.setNumeroTelephone(req.body.numerotelephone);
-        await utilisateurSet.setMotDePasse(req.body.motdepasse);
+        if (req.body.motdepasse) {
+            await utilisateurSet.setMotDePasse(req.body.motdepasse);
+        }
         await utilisateurSet.setRole(req.body.role);
+        if (req.body.solde) {
+            await utilisateurSet.setSolde(req.body.solde);
+        }
 
         await utilisateurWhere.update(db, utilisateurSet).then(() => {
             httpUtil.sendJson(res, null, 200, "OK");

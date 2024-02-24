@@ -21,6 +21,12 @@ class Rendezvous extends TableObject {
                 localField: "idservice",
                 as: "service",
             },
+            {
+                tableName: "paiement",
+                foreignField: "idrendezvous",
+                localField: "_id",
+                as: "paiement",
+            }
         ];
     }
 

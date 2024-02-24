@@ -80,6 +80,16 @@ class Utilisateur extends TokenObject {
         this.role = role;
     }
 
+    async setSolde (solde) {
+        if (solde == null || solde == undefined || solde < 0) {
+            throw {
+                field: "solde",
+                message: 'Le champ solde est obligatoire et ne doit pas être negatif'
+            }
+        }
+        this.solde = solde;
+    }
+
     async read (connection,afterWhereString, state = 1) {
         this._state = state;
         return await super.read(connection,afterWhereString);
