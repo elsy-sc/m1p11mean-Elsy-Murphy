@@ -81,6 +81,7 @@
               /> </p-accordionTab></p-accordion></ng-template
         ><ng-template pTemplate="header"
           ><tr>
+            <th style="min-width: 12rem">Image</th>
             <th style="min-width: 12rem">Nom du service</th>
             <th style="min-width: 12rem">Description du service</th>
             <th style="min-width: 12rem">Durée du service(en heure)</th>
@@ -92,6 +93,13 @@
           </tr></ng-template
         ><ng-template pTemplate="body" let-service
           ><tr>
+            <td>
+              <img
+                [src]="static_url + service.image"
+                alt="Aucune image"
+                style="width: 100px; height: 100px"
+              />
+            </td>
             <td>{{service.nom}}</td>
             <td>{{service.description}}</td>
             <td>{{service.duree}}</td>
