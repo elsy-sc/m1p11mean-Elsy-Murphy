@@ -3,8 +3,7 @@
   <div class="col-12">
     <div class="card">
       <h5>Liste de Service</h5>
-      <p-table [value]="services" [paginator]="true" [rows]="10"
-        ><ng-template pTemplate="caption">
+      <p-table [value]="services" [paginator]="true" [rows]="10"><ng-template pTemplate="caption">
           <p-accordion
             ><p-accordionTab
               header="Recherche"
@@ -306,6 +305,12 @@
                         *ngIf="serviceUpdate.image === undefined || serviceUpdate.image === null"
                         >Glisser votre image ici</label
                       >
+                      <img
+                        *ngIf="imageUploadInit !== undefined && imageUploadInit !== null"
+                        [src]="imageUploadInit"
+                        alt="Aucune image"
+                        style="width: 100px; height: 100px"
+                      />
                     </ng-template>
                   </p-fileUpload>
                 </div>

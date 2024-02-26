@@ -32,11 +32,11 @@ export class ReadService implements OnInit {
     isSpecial: boolean = false;
 
     imageUpload: any;
-
-
+    imageUploadInit: any;
     
     
     onSelect(event: any) {
+        this.imageUploadInit = null;
         this.serviceUpdate.image = event.files[0].name;
         this.imageUpload = event.files[0];
     }
@@ -50,6 +50,7 @@ export class ReadService implements OnInit {
         this.updateIsSpecial(service);
         this.showUpdatePopup = true;
         this.serviceUpdate = Object.assign({}, service);
+        this.imageUploadInit = this.serviceUpdate.image;
     }
 
     CancelUpdateService() {
@@ -128,7 +129,6 @@ export class ReadService implements OnInit {
     }
 
     getServices() {
-        
         this.offreSpecialService.readOffrespeciale(this.serviceSearch).subscribe((response: HttpResponseApi) => {
             
             if (response.data) {
