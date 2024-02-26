@@ -82,7 +82,7 @@ export class CreateHorraireTravail implements OnInit {
           const response = await this.horrairetravailService.createHorraireTravail(horrTrav).toPromise();
         }
         this.isLoading = false;
-        this.router.navigate(["/beauty-salon/horrairetravail/read"]);
+        this.router.navigate(["/beauty-salon/horrairetravail/read"],{ queryParams: { message: "Horaire de travail ajouter avec succes" } });
       } else {
         this.isLoading = false;
       }

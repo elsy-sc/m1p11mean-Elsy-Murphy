@@ -55,7 +55,7 @@ async function updateSuiviEmployeRendezvous(req, res) {
         const suiviemployerendezvousWhere = new SuiviEmployeRendezvous();
         suiviemployerendezvousWhere._id = req.body?._id;
 
-        const suiviemployerendezvousSet = new SuiviEmployeRendezvous(null, null, req.body?.dateheurefinsuivi, req.body?.dateheurevalidation);
+        const suiviemployerendezvousSet = new SuiviEmployeRendezvous(null, req.body.dateheuredebutsuivi, req.body?.dateheurefinsuivi, req.body?.dateheurevalidation);
         suiviemployerendezvousSet.setIdemploye(req.body?.idemploye);
         suiviemployerendezvousSet.setIdclient(req.body?.idclient);
         suiviemployerendezvousSet.setIdservice(req.body?.idservice);

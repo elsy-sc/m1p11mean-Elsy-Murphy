@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { HttpResponseApi } from '../../../interfaces/http/HttpResponseApi';
 import { Heures } from '../../../models/heures.model';
@@ -10,7 +11,7 @@ import { HorraireTravailService } from '../../../services/horrairetravail/horrai
   templateUrl: './horrairetravail-read.component.html',
   styleUrl: './horrairetravail-read.component.css'
 })
-export class ReadHorrairetravail implements OnInit {
+export class ReadHorrairetravail implements OnInit,AfterViewInit {
 
   horraireTravail!: HorraireTravail;
 
@@ -35,7 +36,7 @@ export class ReadHorrairetravail implements OnInit {
   showDeletePopup: boolean = false;
   showUpdatePopup: boolean = false;
 
-  constructor(private horraireTravailSerice: HorraireTravailService, private messageService: MessageService) { }
+  constructor(private horraireTravailSerice: HorraireTravailService, private messageService: MessageService, private route: ActivatedRoute) { }
 
   getLabelFromValue(value: number): string {
     const jour = this.joursSemaine.find(j => j.value === value);
@@ -51,6 +52,14 @@ export class ReadHorrairetravail implements OnInit {
     }
     this.getHoraireTravail();
   }
+
+  ngAfterViewInit(): void {
+    this.route.queryParamMap.subscribe(params => {     
+        if (params.get('message')) {
+            this.messageService.add({severity:"success", summary:"Succès", detail: params.get('message')?.toString()});
+        }
+    });
+}
 
 
   getHoraireTravail() {

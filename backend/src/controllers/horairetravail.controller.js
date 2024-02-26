@@ -6,18 +6,20 @@ async function createHoraireTravail(req, res) {
     const db = await getMongoDBDatabase();
     try {
         let horairetravail = new HoraireTravail(null, null, null);
+        let horairetravailWhere = new HoraireTravail();
+
         horairetravail.setIdEmploye(req.body?.idemploye);
         horairetravail.setJour(req.body?.jour);
         
         let readResult = await horairetravail.read(db,null,null);
         if (readResult.length != 0) {
             horairetravail = readResult[0];
+            horairetravailWhere._state = readResult[0]._state;
         } 
         horairetravail.heures = req.body?.heures;
         horairetravail._state = 1;
 
         if (horairetravail._id != undefined) {
-            let horairetravailWhere = new HoraireTravail();
             horairetravailWhere._id = horairetravail._id;
 
             delete horairetravail.Employe;

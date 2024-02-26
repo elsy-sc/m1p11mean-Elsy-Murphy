@@ -1,4 +1,5 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, NgZone, OnInit, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 import { MenuItem } from 'primeng/api';
 import { Utilisateur } from '../../../models/utilisateur.model';
 import { LayoutService } from "../../../services/layout/app.layout.service";
@@ -22,21 +23,24 @@ export class AppTopBarComponent implements OnInit {
 
     @ViewChild('topbarmenu') menu!: ElementRef;
 
-    constructor(public layoutService: LayoutService, private utilisateurservice: UtilisateurService) { }
+    constructor(public layoutService: LayoutService, private utilisateurservice: UtilisateurService, private ngZone: NgZone, private router: Router) { }
 
 
     ngOnInit(): void {
-        this.utilisateurservice.getUserConnecte();
+        this.utilisateurservice.setUserConnecteInStorage();
         this.utilisateurservice.utilisateurConnecte.subscribe(
             (user) => {
-                this.utilisateur = user;
+                // this.ngZone.run(() => {
+                    this.utilisateur = user;
+                // });
             }
         );
         //on cick utilisateurs
         this.items = [
             {
                 label: this.utilisateur?.nom +' '+this.utilisateur?.prenom,
-                icon: ''
+                icon: '',
+                command: () => this.profile()
             },
             {
                 label: 'Deconnexion',
@@ -132,6 +136,10 @@ export class AppTopBarComponent implements OnInit {
 
     logout () {
         this.utilisateurservice.logout();
+    }
+
+    profile () {
+        this.router.navigate(['beauty-salon/profil']);
     }
 
 }

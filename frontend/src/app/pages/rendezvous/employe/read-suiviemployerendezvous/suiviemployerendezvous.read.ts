@@ -10,6 +10,7 @@ import { Date } from "../../../../beans/date.bean.util";
 import { EmployeService } from "../../../../services/employe/employe.service";
 import { ServiceService } from "../../../../services/service/service.service";
 import { UtilisateurService } from "../../../../services/utilisateur/utilisateur.service";
+import { response } from "express";
 @Component({
     selector: "read-suiviemployerendezvous",
     templateUrl: "./suiviemployerendezvous.read.page.html",
@@ -17,135 +18,120 @@ import { UtilisateurService } from "../../../../services/utilisateur/utilisateur
 })
 export class ReadSuiviEmployeRendezVousEmploye implements OnInit {
 
-    suiviemployerendezvousSearch: SuiviEmployeRendezVous = new SuiviEmployeRendezVous();
-    suiviemployerendezvouss: SuiviEmployeRendezVous[] = [];
+    nonCommences: SuiviEmployeRendezVous[] = [];
+    enCours: SuiviEmployeRendezVous[] = [];
+    termines: SuiviEmployeRendezVous[] = [];
 
-    suiviemployerendezvousDelete: SuiviEmployeRendezVous = new SuiviEmployeRendezVous();
-
-    suiviemployerendezvousUpdate: SuiviEmployeRendezVous = new SuiviEmployeRendezVous();
-
-    loadingButtonUpdate: boolean = true;
-
-    showDeletePopup: boolean = false;
-
-    showUpdatePopup: boolean = false;
-
-    errorsUpdate: any[] | undefined = [];
-
-    employes: Employe[] = [];
-    services: Service[] = [];
-    clients: Utilisateur[] = [];
-
-    UpdateSuiviEmployeRendezVous(suiviemployerendezvous: SuiviEmployeRendezVous) {
-
-        this.showUpdatePopup = true;
-        this.suiviemployerendezvousUpdate = Object.assign({}, suiviemployerendezvous);
-    }
-
-    CancelUpdateSuiviEmployeRendezVous() {
-
-        this.showUpdatePopup = false;
-        this.errorsUpdate = [];
-    }
+    draggedRendezVousNonCommence: SuiviEmployeRendezVous | undefined | null;
+    draggedRendezVousEnCour: SuiviEmployeRendezVous | undefined | null;
+    draggedRendezVousTermine: SuiviEmployeRendezVous | undefined | null;
+    dragged: SuiviEmployeRendezVous | undefined | null;
 
 
-    ValidUpdateSuiviEmployeRendezVous() {
-        if (this.suiviemployerendezvousUpdate.dateheurevalidation != null) {
-            this.showUpdatePopup = false;
-            this.messageService.add({ severity: "error", summary: "Erreur", detail: "Rendez-vous déjà validé" });
-        }
-        else {
-            this.loadingButtonUpdate = true;
-            this.suiviemployerendezvousUpdate.dateheurevalidation = new Date().date;
-            this.suiviemployerendezvousService.updateSuiviEmployeRendezVous(this.suiviemployerendezvousUpdate).subscribe(
-                (response: HttpResponseApi) => {
-                    console.log(response)
-                    if (response.message == "error" && response.status == 422) {
-                        this.errorsUpdate = response.data;
-                        this.loadingButtonUpdate = false;
-                    } else if (response.status == 200) {
-                        this.getSuiviEmployeRendezVouss();
-                        this.showUpdatePopup = false;
-                        this.loadingButtonUpdate = false;
-                        this.messageService.add({ severity: "success", summary: "Succès", detail: "Validation du rendez-vous effectuée avec succès" });
-                    } else {
-                        this.loadingButtonUpdate = false;
-                        this.messageService.add({ severity: "error", summary: "Erreur", detail: response.message });
+    constructor(private suiviEmployeRendezvousService: SuiviEmployeRendezVousService, private messageService: MessageService) { }
+
+    getRendezVous() {
+        this.nonCommences = [];
+        this.enCours = [];
+        this.termines = [];
+        this.suiviEmployeRendezvousService.readSuiviEmployeRendezVous(new SuiviEmployeRendezVous()).subscribe(
+            (response) => {
+                if (response.data) {
+                    for (let index = 0; index < response.data.length; index++) {
+                        const rendezvous = response.data[index];
+                        if (rendezvous.dateheurevalidation) {
+                            if (rendezvous.dateheuredebutsuivi) {
+                                if (rendezvous.dateheurefinsuivi) {
+                                    this.termines.push(rendezvous);
+                                } else {
+                                    this.enCours.push(rendezvous);
+                                }
+                            }
+                            else {
+                                this.nonCommences.push(rendezvous);
+                            }
+                        }
                     }
-                },
-                (error) => {
-                    this.loadingButtonUpdate = false;
-                    console.error(error);
                 }
-            )
-        }
-    }
-
-    onInput() {
-
-        this.errorsUpdate = [];
+            },
+            (error) => {
+                console.error(error);
+            }
+        )
     }
 
     ngOnInit(): void {
-        this.getClient();
-        this.getServices();
-        this.getSuiviEmployeRendezVouss();
+        this.getRendezVous();
     }
 
-    constructor(private suiviemployerendezvousService: SuiviEmployeRendezVousService, private messageService: MessageService, private clientService: UtilisateurService, private serviceService: ServiceService) {
-
+    dragStartNonCommence(suiviEmployeRendezVous: SuiviEmployeRendezVous) {
+        this.draggedRendezVousNonCommence = suiviEmployeRendezVous;
     }
 
-    getSuiviEmployeRendezVouss() {
-        console.log(this.suiviemployerendezvousSearch)
-        this.suiviemployerendezvousService.readSuiviEmployeRendezVous(this.suiviemployerendezvousSearch).subscribe((response: HttpResponseApi) => {
-            if (response.data) {
-                this.suiviemployerendezvouss = response.data;
+    dragStartEnCour(suiviEmployeRendezVous: SuiviEmployeRendezVous) {
+        this.draggedRendezVousEnCour = suiviEmployeRendezVous;
+    }
+
+    dragStartTermine(suiviEmployeRendezVous: SuiviEmployeRendezVous) {
+        this.draggedRendezVousTermine = suiviEmployeRendezVous;
+    }
+
+    dragEnd() {
+        this.draggedRendezVousNonCommence = null;
+        this.draggedRendezVousEnCour = null;
+        this.draggedRendezVousTermine = null;
+        this.dragged = undefined;
+    }
+
+    drop(toDrop: SuiviEmployeRendezVous[]) {
+        if (this.draggedRendezVousNonCommence) {
+            if (toDrop !== this.nonCommences) {
+                this.dragged = this.draggedRendezVousNonCommence;
+
+                if (toDrop === this.enCours) {
+                    delete this.dragged.client;
+                    delete this.dragged.service;
+                    delete this.dragged.employe;
+                    this.dragged.dateheuredebutsuivi = new Date().date;
+                    this.suiviEmployeRendezvousService.updateSuiviEmployeRendezVous(this.dragged).subscribe(
+                        (response) => {
+                            if (response.status == 200) {
+                                this.getRendezVous();
+                            }
+                        }
+                    );
+                }
+
+                if (toDrop === this.termines) {
+                    if (!this.dragged.dateheuredebutsuivi) {
+                        this.messageService.add({ severity: "error", summary: "Erreur", detail: "Ce rendez-vous ne peut être terminé parce qu'il n'est pas encore commencé !!!", life: 5000 });
+                    }
+                }
+
             }
-        });
-    }
+        }
+        if (this.draggedRendezVousEnCour) {
+            if (toDrop !== this.enCours) {
+                this.dragged = this.draggedRendezVousEnCour;
+                delete this.dragged.client;
+                delete this.dragged.service;
+                delete this.dragged.employe;
 
-    rechercher() {
+                if (toDrop === this.termines) {
+                    this.dragged.dateheurefinsuivi = new Date().date;
+                }
 
-        this.getSuiviEmployeRendezVouss();
-    }
-
-    CancelDeleteSuiviEmployeRendezVous() {
-
-        this.showDeletePopup = false;
-    }
-
-    DeleteSuiviEmployeRendezVous(suiviemployerendezvous: SuiviEmployeRendezVous) {
-
-        this.showDeletePopup = true;
-        this.suiviemployerendezvousDelete = suiviemployerendezvous;
-    }
-
-    ValidDeleteSuiviEmployeRendezVous() {
-
-        this.showDeletePopup = false;
-        this.suiviemployerendezvousService.deleteSuiviEmployeRendezVous(this.suiviemployerendezvousDelete).subscribe((response: HttpResponseApi) => {
-            if (response.status == 200) {
-                this.getSuiviEmployeRendezVouss();
-                this.messageService.add({ severity: "success", summary: "Succès", detail: "Suppression effectuée avec succès" });
+                this.suiviEmployeRendezvousService.updateSuiviEmployeRendezVous(this.dragged).subscribe(
+                    (response) => {
+                        if (response.status == 200) {
+                            this.getRendezVous();
+                        }
+                    }
+                );
             }
-        });
-    }
+        }
 
-    getClient() {
-        this.clientService.read(new Employe()).subscribe((response: HttpResponseApi) => {
-            if (response.data) {
-                this.employes = response.data;
-            }
-        });
-    }
-
-    getServices() {
-        this.serviceService.readService(new Service()).subscribe((response: HttpResponseApi) => {
-            if (response.data) {
-                this.services = response.data;
-            }
-        });
+        this.dragEnd();
     }
 
 }

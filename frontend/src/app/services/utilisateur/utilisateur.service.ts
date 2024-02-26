@@ -29,7 +29,16 @@ export class UtilisateurService {
     return this.http.post<HttpResponseApi>(url, body);
   }
 
-  getUserConnecte(): string | null {
+  getUserConnecte(): Utilisateur|null {
+    if (typeof window !== 'undefined') {
+      if (this.utilisateurConnecteSubject.value != null) {
+          return this.utilisateurConnecteSubject.value;
+      } 
+    }
+    return null;
+  }
+
+  setUserConnecteInStorage(): void {
     if (typeof window !== 'undefined') {
       const user = localStorage.getItem("user");
       if (user) {
@@ -37,9 +46,7 @@ export class UtilisateurService {
           this.utilisateurConnecteSubject.next(JSON.parse(user));
         }
       }
-      return user;
     }
-    return null;
   }
 
   setUserConnecte(user: Utilisateur): void {
@@ -62,8 +69,10 @@ export class UtilisateurService {
   getToken(): string {
     let userConnecte = this.getUserConnecte();
     if (userConnecte) {
-      let token = JSON.parse(userConnecte).tokenValue;
-      return token;
+      let token = userConnecte.tokenValue;
+      if (token) {
+        return token;
+      }
     }
     return '';
   }
@@ -153,15 +162,15 @@ export class UtilisateurService {
     return this.http.put<HttpResponseApi>(url, body, httpOptions);
   }
 
-  sendEmail (receiver: string) : Observable<HttpResponseApi> {
+  sendEmail(receiver: string): Observable<HttpResponseApi> {
     let url = BASE_URL + "/mail/send";
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       }),
     };
-    let body = {receiver: receiver};
-    
+    let body = { receiver: receiver };
+
     return this.http.post<HttpResponseApi>(url, body, httpOptions);
   }
 
