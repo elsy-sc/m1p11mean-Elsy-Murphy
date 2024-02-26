@@ -7,7 +7,6 @@ import { CategorieService } from "../../../models/categorieservice.model";
 import { CategorieServiceService } from "../../../services/categorieservice/categorieservice.service";
 import { OffrespecialeService } from "../../../services/offrespeciale/offrespeciale.service";
 import { Offrespeciale } from "../../../models/offrespeciale.model";
-import { STATIC_URL } from "../../../utils/constante.util";
 @Component({
     selector: "read-service",
     templateUrl: "./service.read.page.html",
