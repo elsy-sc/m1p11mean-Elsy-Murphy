@@ -9,7 +9,9 @@ async function upload(req, res, next) {
         if (err) {
             httpUtil.sendJson(res, null, 500, "Erreur lors de l'upload de l'image.");
         }
-        req.body.imageDB = process.env.IMAGE_SERVICE_DIRECTORY + '/' + req.file.filename;
+        if (req.file) {
+            req.body.imageDB = (process.env.IMAGE_SERVICE_DIRECTORY || 'public/images/services') + '/' + req.file.filename;
+        }
         next();
     });
 }
