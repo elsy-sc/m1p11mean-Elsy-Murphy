@@ -12,7 +12,6 @@ const port = process.env.PORT|| 3000;
 
 jsonUtil.enableJson(app, express);
 routeUtil.setStaticFolder(app, express, 'public');
-// app.use('/public', express.static(path.join(__dirname, 'public')));
 routeUtil.loadRoutes(app, routes);
 
 (async () => {

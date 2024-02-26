@@ -33,7 +33,6 @@ export class ReadService implements OnInit {
     isSpecial: boolean = false;
 
     imageUpload: any;
-    static_url = STATIC_URL + '/';
 
 
     
@@ -67,7 +66,7 @@ export class ReadService implements OnInit {
     ValidUpdateService() {
         if (this.isSpecial) {
             this.loadingButtonUpdate = true;
-            this.offreSpecialService.updateOffrespeciale(this.serviceUpdate).subscribe(
+            this.offreSpecialService.updateOffrespeciale(this.serviceUpdate, this.imageUpload).subscribe(
                 (response: HttpResponseApi) => {
                     console.log(response)
                     if (response.message == "error" && response.status == 422) {
@@ -91,7 +90,7 @@ export class ReadService implements OnInit {
         }
         else {
             this.loadingButtonUpdate = true;
-            this.serviceService.updateService(this.serviceUpdate).subscribe(
+            this.serviceService.updateService(this.serviceUpdate, this.imageUpload).subscribe(
                 (response: HttpResponseApi) => {
                     console.log(response)
                     if (response.message == "error" && response.status == 422) {

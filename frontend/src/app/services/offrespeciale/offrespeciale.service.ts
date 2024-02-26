@@ -59,18 +59,24 @@ export class OffrespecialeService {
         return this.http.post<HttpResponseApi>(url, body, httpOptions);
     }
 
-    updateOffrespeciale(offrespeciale: Offrespeciale): Observable<HttpResponseApi> {
+    updateOffrespeciale(offrespeciale: Offrespeciale, image: any): Observable<HttpResponseApi> {
         let url = BASE_URL + "/offrespeciale/update";
         let token = this.getToken();
         console.log(token)
         const httpOptions = {
             headers: new HttpHeaders({
-                'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`
             })
         };
-        let body = JSON.stringify(offrespeciale);
-        return this.http.put<HttpResponseApi>(url, body, httpOptions);
+
+        const formData: FormData = new FormData();
+        formData.append('offrespeciale', JSON.stringify(offrespeciale));
+        if (image) {
+            formData.append('image', image, image.name);
+        }
+
+        httpOptions.headers.set('Content-Type', 'multipart/form-data');
+        return this.http.put<HttpResponseApi>(url, formData, httpOptions);
     }
 
     deleteOffrespeciale(offrespeciale: Offrespeciale): Observable<HttpResponseApi> {

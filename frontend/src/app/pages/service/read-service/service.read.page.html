@@ -95,7 +95,7 @@
           ><tr>
             <td>
               <img
-                [src]="static_url + service.image"
+                [src]="service.image"
                 alt="Aucune image"
                 style="width: 100px; height: 100px"
               />
@@ -291,6 +291,7 @@
                 </div>
                 <div class="inputContainer">
                   <p-fileUpload
+                    name="image"
                     [multiple]="false"
                     accept="image/*"
                     [maxFileSize]="1000000"

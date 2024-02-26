@@ -10,7 +10,7 @@ router.use(testToken);
 
 router.post("/create", upload, createService);
 router.post("/read", readService);
-router.put("/update", updateService);
+router.put("/update", upload, updateService);
 router.delete("/delete", deleteService);
 
 module.exports = getRouter(express, router, '/service');

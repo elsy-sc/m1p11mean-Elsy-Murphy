@@ -10,7 +10,7 @@ router.use(testToken);
 
 router.post("/create", upload, createOffrespeciale);
 router.post("/read", readOffrespeciale);
-router.put("/update", updateOffrespeciale);
+router.put("/update", upload, updateOffrespeciale);
 router.delete("/delete", deleteOffrespeciale);
 
 module.exports = getRouter(express, router, '/offrespeciale');

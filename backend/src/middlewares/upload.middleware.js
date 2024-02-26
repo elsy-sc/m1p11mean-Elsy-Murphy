@@ -1,8 +1,5 @@
 const multer = require('multer');
-const { getStorage } = require("../utils/upload.middleware.util");
-const storage = getStorage(process.env.IMAGE_SERVICE_DIRECTORY|| 'public/images/services', 'image');
-const uploadFunction = multer({ storage: storage });
-const httpUtil = require("../utils/http.util");
+const uploadFunction = multer({ storage: multer.memoryStorage() });
 
 async function upload(req, res, next) {
     uploadFunction.single('image')(req, res, function (err) {
@@ -10,7 +7,10 @@ async function upload(req, res, next) {
             httpUtil.sendJson(res, null, 500, "Erreur lors de l'upload de l'image.");
         }
         if (req.file) {
-            req.body.imageDB = (process.env.IMAGE_SERVICE_DIRECTORY || 'public/images/services') + '/' + req.file.filename;
+            const base64Image = req.file.buffer.toString('base64');
+            const mimeType = req.file.mimetype;
+            const fullBase64Image = `data:${mimeType};base64,${base64Image}`;
+            req.body.imageDB = fullBase64Image;
         }
         next();
     });
