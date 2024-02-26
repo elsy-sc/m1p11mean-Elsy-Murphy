@@ -38,6 +38,7 @@ import { ProfilModule } from './pages/profil/profil.module';
 import { CreateHorrairetravailModule } from './pages/horrairetravail/create-horrairetravail/horrairetravail-create.module';
 import { ReadHorrairetravailModule } from './pages/horrairetravail/read-horrairetravail/horrairetravail-read.module';
 import { InscriptionModule } from './pages/inscription/inscription.module';
+import { OffrespecialNotificationModule } from './pages/service/notification/offrespeciale.notification.module';
 
 @NgModule({
   declarations: [
@@ -78,7 +79,8 @@ import { InscriptionModule } from './pages/inscription/inscription.module';
     ReadSuiviEmployeRendezVousEmployeModule,
     ProfilModule,
     CreateHorrairetravailModule,
-    ReadHorrairetravailModule
+    ReadHorrairetravailModule,
+    OffrespecialNotificationModule
   ],
   providers: [
     provideHttpClient(withFetch()),

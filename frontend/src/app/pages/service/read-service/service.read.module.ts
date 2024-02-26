@@ -32,7 +32,7 @@ import { FileUploadModule } from "primeng/fileupload";
         InputTextareaModule,
         DialogModule,
         LabelInputModule,
-        FileUploadModule
+        FileUploadModule    
     ]
 })
 export class ReadServiceModule { }

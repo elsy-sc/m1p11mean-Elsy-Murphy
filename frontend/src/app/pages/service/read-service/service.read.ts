@@ -1,12 +1,12 @@
 import { MessageService } from "primeng/api";
 import { HttpResponseApi } from "../../../interfaces/http/HttpResponseApi";
-import { Component, OnInit } from "@angular/core";
-import { Service } from "../../../models/service.model";
+import { AfterViewInit, Component, OnInit } from "@angular/core";
 import { ServiceService } from "../../../services/service/service.service";
 import { CategorieService } from "../../../models/categorieservice.model";
 import { CategorieServiceService } from "../../../services/categorieservice/categorieservice.service";
 import { OffrespecialeService } from "../../../services/offrespeciale/offrespeciale.service";
 import { Offrespeciale } from "../../../models/offrespeciale.model";
+import { SocketService } from "../../../services/offrespeciale/offrespeciale.notification";
 @Component({
     selector: "read-service",
     templateUrl: "./service.read.page.html",
@@ -123,6 +123,14 @@ export class ReadService implements OnInit {
         this.getServices();
         this.getServiceCategories();
     }
+
+    // ngAfterViewInit() {
+    //     this.socketService.connect();
+    //     this.socketService.getNotification().subscribe((data: any) => {
+    //         console.log(data);
+    //         this.messageService.add({ severity: "info", summary: "Une nouvelle service a été ajoutée : " + data.nom, detail: data.descriptionoffrespeciale, life: 10000}); 
+    //     });
+    // }
 
     constructor(private offreSpecialService: OffrespecialeService, private messageService: MessageService, private servicecategorieService: CategorieServiceService, private serviceService: ServiceService) {
 
