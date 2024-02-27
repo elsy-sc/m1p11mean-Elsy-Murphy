@@ -33,7 +33,7 @@
             <td>
               <p-dropdown
                 [options]="employes"
-                [(ngModel)]="service.employe"
+                [(ngModel)]="service.idemploye"
                 optionLabel="nom"
                 optionValue="_id"
                 placeholder="Choisir un employé"
@@ -44,7 +44,7 @@
             </td>
             <td>
               <p-calendar
-                [(ngModel)]="service.date"
+                [(ngModel)]="service.dateheurerendezvous"
                 [showIcon]="true"
                 [showTime]="true"
                 [hourFormat]="'24'"
@@ -59,7 +59,7 @@
                   icon="pi pi-check"
                   class="p-button-rounded p-button-success mr-2"
                   label="Réserver"
-                  (click)="reserver()"
+                  (click)="reserver(service)"
                 ></button>
               </div>
             </td>

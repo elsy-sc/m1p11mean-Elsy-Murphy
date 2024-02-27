@@ -77,6 +77,15 @@ export class SuiviEmployeRendezVousService {
         return this.http.delete<HttpResponseApi>(url, httpOptions);
     }
 
-    
+    prendreRendezvous(rendezvous: SuiviEmployeRendezVous): Observable<HttpResponseApi> {
+        let url = BASE_URL + "/suiviemployerendezvous/prendreRendezvous";
+        const httpOptions = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json'
+            })
+        };
+        let body = JSON.stringify(rendezvous);
+        return this.http.post<HttpResponseApi>(url, body, httpOptions);
+    }
 
 }

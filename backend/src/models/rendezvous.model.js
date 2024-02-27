@@ -3,10 +3,11 @@ const { TableObject } = require("../beans/tableobject.bean");
 const { getNonEmptyObject } = require("../utils/object.util");
 
 class Rendezvous extends TableObject {
-    constructor(idclient, idservice, dateheurerendezvous) {
+    constructor(idclient, idservice, dateheurerendezvous, dateheurevalidation) {
         super();
         this.idclient = idclient;
         this.idservice = idservice;
+        this.dateheurevalidation = dateheurevalidation;
         this.dateheurerendezvous = getNonEmptyObject(dateheurerendezvous);
         this.linkedTableId = [
             {
@@ -70,6 +71,7 @@ class Rendezvous extends TableObject {
         }
         await super.update(connection, {_state: -1}, afterWhereString);
     }
+
 }
 
 exports.Rendezvous = Rendezvous;

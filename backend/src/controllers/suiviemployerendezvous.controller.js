@@ -1,3 +1,6 @@
+const { Date } = require("../beans/date.bean.util");
+const { Employe } = require("../models/employe.model");
+const { Rendezvous } = require("../models/rendezvous.model");
 const { SuiviEmployeRendezvous } = require("../models/suiviemployerendezvous.model");
 const { getMongoDBDatabase } = require("../utils/db.util");
 const httpUtil = require("../utils/http.util");
@@ -92,14 +95,45 @@ async function deleteSuiviEmployeRendezvous(req, res) {
             httpUtil.sendJson(res, null, 200, "OK");        
         });
     } catch (error) {
-        httpUtil.sendJson(res, null, error.status || error.statusCode || 500, error.message);    }
+        httpUtil.sendJson(res, null, error.status || error.statusCode || 500, error.message);    
+    }
 }
 
-async function prendreRendezvous(req, res){
-    
-}
+async function prendreRendezvous(req, res) {
+    const db = await getMongoDBDatabase();
+    try {
+      const rendezvous = new SuiviEmployeRendezvous(
+        req.body?.idemploye);
+        rendezvous.setIdclient(req.body?.idclient);
+        rendezvous.setIdservice(req.body?.idservice);
+        rendezvous.dateheurerendezvous = (req.body?.dateheurerendezvous ? new Date(req.body?.dateheurerendezvous).date : undefined);
+
+        if (rendezvous.dateheurerendezvous != null) {
+            let employesDisponibleParHoraire = await Employe.getEmployeDisponibleParRapportHorairetravail(db, rendezvous.dateheurerendezvous);
+            let rendezVousValideApresDateNonTermine = await SuiviEmployeRendezvous.getRendezvousValideApresDateEtNonTermine(db, rendezvous.dateheurerendezvous);
+            for (let i = 0; i < employesDisponibleParHoraire.length; i++) {
+                for (let j = 0; j < rendezVousValideApresDateNonTermine.length; j++) {
+                    if (employesDisponibleParHoraire[i]._id == rendezVousValideApresDateNonTermine[j].idemploye) {
+                        
+                    }
+                }
+            }
+        }
+        
+        httpUtil.sendJson(res, rendezvous.getSanitizedObject(), 201, "OK");
+    } catch (error) {
+      httpUtil.sendJson(
+        res,
+        null,
+        error.status || error.statusCode || 500,
+        error.message
+      );
+    }
+  }
+  
 
 exports.createSuiviEmployeRendezvous = createSuiviEmployeRendezvous;
 exports.readSuiviEmployeRendezvous = readSuiviEmployeRendezvous;
 exports.updateSuiviEmployeRendezvous = updateSuiviEmployeRendezvous;
 exports.deleteSuiviEmployeRendezvous = deleteSuiviEmployeRendezvous;
+exports.prendreRendezvous = prendreRendezvous;

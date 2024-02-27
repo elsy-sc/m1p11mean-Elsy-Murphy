@@ -2,11 +2,10 @@ const { Date } = require("../beans/date.bean.util");
 const { Rendezvous } = require("./rendezvous.model");
 
 class SuiviEmployeRendezvous extends Rendezvous {
-    constructor(idemploye, dateheuredebutsuivi, dateheurefinsuivi, dateheurevalidation) {
+    constructor(idemploye, dateheuredebutsuivi, dateheurefinsuivi) {
         super();
         this.tableName = "rendezvous";
         this.idemploye = idemploye;
-        this.dateheurevalidation = dateheurevalidation;
         this.dateheuredebutsuivi = dateheuredebutsuivi;
         this.dateheurefinsuivi = dateheurefinsuivi;
         this.linkedTableId ?
@@ -55,6 +54,19 @@ class SuiviEmployeRendezvous extends Rendezvous {
         else {
             this.dateheurefinsuivi = dateheurefinsuivi;
         }
+    }
+
+    static async getRendezvousValideApresDateEtNonTermine(db, stringTimestamp) {
+        let date = new Date(stringTimestamp);
+        let rendezvous = new Rendezvous();
+        let query = {
+            $and: [
+                { dateheurevalidation: { $gte: date.date } },
+                { _state: 1 },
+                { dateheurefinsuivi: { $ne: null } }
+            ]
+        };
+        return await rendezvous.read(db, query);
     }
 
 }
