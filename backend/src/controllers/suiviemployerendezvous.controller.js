@@ -1,9 +1,12 @@
 const { Date } = require("../beans/date.bean.util");
 const { Employe } = require("../models/employe.model");
+const { HoraireTravail } = require("../models/horairetravail.model");
 const { Rendezvous } = require("../models/rendezvous.model");
+const { Service } = require("../models/service.model");
 const { SuiviEmployeRendezvous } = require("../models/suiviemployerendezvous.model");
 const { getMongoDBDatabase } = require("../utils/db.util");
 const httpUtil = require("../utils/http.util");
+const moment = require("moment");
 
 async function createSuiviEmployeRendezvous(req, res) {
     const db = await getMongoDBDatabase();
@@ -107,20 +110,31 @@ async function prendreRendezvous(req, res) {
         rendezvous.setIdclient(req.body?.idclient);
         rendezvous.setIdservice(req.body?.idservice);
         rendezvous.dateheurerendezvous = (req.body?.dateheurerendezvous ? new Date(req.body?.dateheurerendezvous).date : undefined);
-
-        if (rendezvous.dateheurerendezvous != null) {
-            let employesDisponibleParHoraire = await Employe.getEmployeDisponibleParRapportHorairetravail(db, rendezvous.dateheurerendezvous);
-            let rendezVousValideApresDateNonTermine = await SuiviEmployeRendezvous.getRendezvousValideApresDateEtNonTermine(db, rendezvous.dateheurerendezvous);
-            for (let i = 0; i < employesDisponibleParHoraire.length; i++) {
-                for (let j = 0; j < rendezVousValideApresDateNonTermine.length; j++) {
-                    if (employesDisponibleParHoraire[i]._id == rendezVousValideApresDateNonTermine[j].idemploye) {
-                        
-                    }
-                }
-            }
-        }
         
-        httpUtil.sendJson(res, rendezvous.getSanitizedObject(), 201, "OK");
+        if (rendezvous.dateheurerendezvous != null) {
+            let employeDisponibilite = await Employe.getEmployeDisponibleParRapportRendezvous(db, rendezvous.dateheurerendezvous);
+            let service = new Service();
+            service._id = req.body?.idservice;
+            service = (await service.read(db))[0];
+            
+            for (let i = 0; i < employeDisponibilite.length; i++) {
+                /// la requete est a corriger car c'est faux
+                let datefinheurerendezvous = moment(rendezvous.dateheurerendezvous).add(service.duree, "hours").format("YYYY-MM-DD HH:mm");
+                let horaireTravail = new HoraireTravail();
+                horaireTravail.idemploye = employeDisponibilite[i]._id;
+                let result = horaireTravail.read(db, {
+                    $and: [
+                        { heures: { $gte: rendezvous.dateheurerendezvous } },
+                        { heures: { $lte: datefinheurerendezvous } }
+                    ] 
+                });
+                httpUtil.sendJson(res, result, 201, "OK"); 
+            }
+
+            httpUtil.sendJson(res, service, 201, "OK");
+        }
+        httpUtil.sendJson(res, listeDatetoCheckDisponibilite, 201, "OK");
+        
     } catch (error) {
       httpUtil.sendJson(
         res,

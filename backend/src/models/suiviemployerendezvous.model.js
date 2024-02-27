@@ -58,12 +58,12 @@ class SuiviEmployeRendezvous extends Rendezvous {
 
     static async getRendezvousValideApresDateEtNonTermine(db, stringTimestamp) {
         let date = new Date(stringTimestamp);
-        let rendezvous = new Rendezvous();
+        let rendezvous = new SuiviEmployeRendezvous();
         let query = {
             $and: [
                 { dateheurevalidation: { $gte: date.date } },
                 { _state: 1 },
-                { dateheurefinsuivi: { $ne: null } }
+                { dateheurefinsuivi: { $eq: null } }
             ]
         };
         return await rendezvous.read(db, query);

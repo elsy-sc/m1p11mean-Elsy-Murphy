@@ -1,19 +1,10 @@
 const { HoraireTravail } = require("./horairetravail.model");
+const { SuiviEmployeRendezvous } = require("./suiviemployerendezvous.model");
 const { Utilisateur } = require("./utilisateur.model");
 const moment = require("moment");
 
 class Employe extends Utilisateur {
-  constructor(
-    nom,
-    prenom,
-    email,
-    datenaissance,
-    numerotelephone,
-    motdepasse,
-    role,
-    cin,
-    numerocartebancaire
-  ) {
+  constructor(nom, prenom, email, datenaissance, numerotelephone, motdepasse, role, cin, numerocartebancaire) {
     super(nom, prenom, email, datenaissance, numerotelephone, motdepasse, role);
     this.tableName = "utilisateur";
     this.cin =
@@ -57,8 +48,7 @@ class Employe extends Utilisateur {
   static async getEmployeDisponibleParRapportHorairetravail(
     db,
     stringTimestamp
-  ) {
-    let employeResult = [];
+  ) { // employe disponible
     let date = moment(stringTimestamp).format("HH:mm");
     let day = moment(stringTimestamp).day();
     let horairetravail = new HoraireTravail();
@@ -83,6 +73,73 @@ class Employe extends Utilisateur {
     };
     return await horairetravail.read(db, query);
   }
+
+  static async getEmployeServiceHorairetravailDatedebutrendezvousDisponible(db, dateheurerendezvous) {
+    let employeServiceHorairetravailDatedebutrendezvousDisponible = [];
+    let horaireemployesDisponibleParHoraire = await Employe.getEmployeDisponibleParRapportHorairetravail(db, dateheurerendezvous);
+    let rendezVousValideApresDateNonTermine = await SuiviEmployeRendezvous.getRendezvousValideApresDateEtNonTermine(db, dateheurerendezvous);
+      for (let i = 0; i < horaireemployesDisponibleParHoraire.length; i++) {
+        for (let j = 0; j < rendezVousValideApresDateNonTermine.length; j++) {
+          if (horaireemployesDisponibleParHoraire[i].idemploye == rendezVousValideApresDateNonTermine[j].idemploye) {
+              const horaireTravail = horaireemployesDisponibleParHoraire[i];
+              const service = rendezVousValideApresDateNonTermine[j].service;
+              const employe = horaireTravail.Employe;
+              const dateheuredebutrendezvous = rendezVousValideApresDateNonTermine[j].dateheurerendezvous;
+              employeServiceHorairetravailDatedebutrendezvousDisponible.push({employe, service, horaireTravail, dateheuredebutrendezvous});
+          }
+        }
+      }
+      return employeServiceHorairetravailDatedebutrendezvousDisponible;
+  }
+
+  static async getNonDisponibiliteEmployeParRapportRendezvous(db, dateheurerendezvous) { // employe non disponible
+      let employeServiceHorairetravailDatedebutrendezvousDisponible = await Employe.getEmployeServiceHorairetravailDatedebutrendezvousDisponible(db, dateheurerendezvous);
+      let listeEmployeNonDisponible = [];
+      for (let i = 0; i < employeServiceHorairetravailDatedebutrendezvousDisponible.length; i++) {
+          let dateheuredebutrendezvousService = employeServiceHorairetravailDatedebutrendezvousDisponible[i].dateheuredebutrendezvous;
+          let dureeservice = employeServiceHorairetravailDatedebutrendezvousDisponible[i].service[0].duree;
+          let dateheurefinrendezvousService = moment(dateheuredebutrendezvousService).add(dureeservice, 'hours').format('YYYY-MM-DD HH:mm:ss');
+          if (moment(dateheurerendezvous, moment(dateheurerendezvous).add(dureeservice, 'hours').format('YYYY-MM-DD HH:mm:ss')).isBetween(dateheuredebutrendezvousService, dateheurefinrendezvousService)) {
+              listeEmployeNonDisponible.push(employeServiceHorairetravailDatedebutrendezvousDisponible[i].horaireTravail.Employe);
+          }          
+      }
+    return listeEmployeNonDisponible;
+  }
+
+  static async getEmployeDisponibleParRapportRendezvous(db, dateheurerendezvous) {
+    let employeServiceHorairetravailDatedebutrendezvousDisponible = await Employe.getEmployeServiceHorairetravailDatedebutrendezvousDisponible(db, dateheurerendezvous);
+    let listeEmployeDisponible = [];
+    let listeEmployeNonDisponible = await Employe.getNonDisponibiliteEmployeParRapportRendezvous(db, dateheurerendezvous);
+    for (let i = 0; i < employeServiceHorairetravailDatedebutrendezvousDisponible.length; i++) {
+      let employe = employeServiceHorairetravailDatedebutrendezvousDisponible[i].employe;
+      let trouve = false;
+      for (let j = 0; j < listeEmployeNonDisponible.length; j++) {
+        if (employe._id == listeEmployeNonDisponible[j]._id) {
+          trouve = true;
+          break;
+        }
+      }
+      if (!trouve) {
+        listeEmployeDisponible.push(employe);
+      }
+    }
+    
+    let listeEmployeDisponibleNonRepete = [];
+    for (let i = 0; i < listeEmployeDisponible.length; i++) {
+      let trouve = false;
+      for (let j = 0; j < listeEmployeDisponibleNonRepete.length; j++) {
+        if (listeEmployeDisponible[i]._id == listeEmployeDisponibleNonRepete[j]._id) {
+          trouve = true;
+          break;
+        }
+      }
+      if (!trouve) {
+        listeEmployeDisponibleNonRepete.push(listeEmployeDisponible[i]);
+      }
+    }
+    return listeEmployeDisponibleNonRepete;
+  }
+
 }
 
 exports.Employe = Employe;
