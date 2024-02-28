@@ -8,6 +8,7 @@ const express = require("express");
 const { startServerWithNotificationOffreSpecial } = require('./src/utils/notificationoffrespecial.util');
 const { getMongoDBDatabase } = require('./src/utils/db.util');
 const app = express();
+require('moment/locale/fr');
 
 app.use(cors());
 const port = process.env.PORT|| 3000;

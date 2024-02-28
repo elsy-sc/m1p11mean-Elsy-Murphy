@@ -1,4 +1,5 @@
 const { Rendezvous } = require("../models/rendezvous.model");
+const { Utilisateur } = require("../models/utilisateur.model");
 const { getMongoDBDatabase } = require("../utils/db.util");
 const httpUtil = require("../utils/http.util");
 
@@ -370,6 +371,27 @@ async function beneficeNetParJour(req, res) {
     }
 }
 
+async function rappelRendezvous(req, res) {
+    const db = await getMongoDBDatabase();
+    try {
+        const utilisateur = new Utilisateur(req.body?.nom, req.body?.prenom, req.body?.email, req.body?.datenaissance, req.body?.numerotelephone, req.body?.motdepasse, req.body?.role);
+        utilisateur._id = req.body?._id;
+
+        // setInterval(async () => {
+            await Rendezvous.checkAndSendReminders(db, utilisateur);
+        // }, 1000);
+        
+        httpUtil.sendJson(res, null, 200, "OK");
+    } catch (error) {
+        httpUtil.sendJson(
+            res,
+            null,
+            error.status || error.statusCode || 500,
+            error.message
+        );
+    }
+}
+
 exports.createRendezvous = createRendezvous;
 exports.readRendezvous = readRendezvous;
 exports.updateRendezvous = updateRendezvous;
@@ -378,3 +400,4 @@ exports.nombreRendezVousParMois = nombreRendezVousParMois;
 exports.nombrenombreRendezVousParJour = nombrenombreRendezVousParJour;
 exports.beneficeNetParMois = beneficeNetParMois;
 exports.beneficeNetParJour = beneficeNetParJour;
+exports.rappelRendezvous = rappelRendezvous;
