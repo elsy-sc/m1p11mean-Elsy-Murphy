@@ -37,6 +37,8 @@ import { CalendarModule } from "primeng/calendar";
         LabelInputModule,
         DataViewModule,
         DragDropModule,
+        CalendarModule,
+        DialogModule,
         CalendarModule
     ]
 })

@@ -18,6 +18,8 @@ import { response } from "express";
 })
 export class ReadSuiviEmployeRendezVousEmploye implements OnInit {
 
+    dropOccurred: boolean = false;
+
     nonCommences: SuiviEmployeRendezVous[] = [];
     enCours: SuiviEmployeRendezVous[] = [];
     termines: SuiviEmployeRendezVous[] = [];
@@ -26,6 +28,14 @@ export class ReadSuiviEmployeRendezVousEmploye implements OnInit {
     draggedRendezVousEnCour: SuiviEmployeRendezVous | undefined | null;
     draggedRendezVousTermine: SuiviEmployeRendezVous | undefined | null;
     dragged: SuiviEmployeRendezVous | undefined | null;
+
+    toDrop: SuiviEmployeRendezVous[] = [];
+
+    showCommencePopup: boolean = false;
+    dateheurecommencement: string = '';
+
+    showTerminePopup: boolean = false;
+    dateheurefin: string = '';
 
 
     constructor(private suiviEmployeRendezvousService: SuiviEmployeRendezVousService, private messageService: MessageService) { }
@@ -77,22 +87,46 @@ export class ReadSuiviEmployeRendezVousEmploye implements OnInit {
     }
 
     dragEnd() {
-        this.draggedRendezVousNonCommence = null;
-        this.draggedRendezVousEnCour = null;
-        this.draggedRendezVousTermine = null;
-        this.dragged = undefined;
+        if (!this.dropOccurred) {
+            this.dropOccurred = false;
+            this.draggedRendezVousNonCommence = null;
+            this.draggedRendezVousEnCour = null;
+            this.draggedRendezVousTermine = null;
+            this.dragged = undefined;
+            this.toDrop = [];
+            this.dateheurecommencement = '';
+            this.dateheurefin = '';
+        }
     }
 
-    drop(toDrop: SuiviEmployeRendezVous[]) {
+    drop(toDrop: SuiviEmployeRendezVous[], commence: boolean = false, termine: boolean = false) {
+        this.dropOccurred = true;
+        if (commence) {
+            this.showCommencePopup = true;
+        }
+        if (termine) {
+            this.showTerminePopup = true;
+        }
+        this.toDrop = toDrop;
+    }
+
+    ValidDrop() {
+        this.showCommencePopup = false;
+        this.showTerminePopup = false;
+
+        console.log(this.toDrop);
+        console.log(this.draggedRendezVousNonCommence);
+
+
         if (this.draggedRendezVousNonCommence) {
-            if (toDrop !== this.nonCommences) {
+            if (this.toDrop !== this.nonCommences) {
                 this.dragged = this.draggedRendezVousNonCommence;
 
-                if (toDrop === this.enCours) {
+                if (this.toDrop === this.enCours) {
                     delete this.dragged.client;
                     delete this.dragged.service;
                     delete this.dragged.employe;
-                    this.dragged.dateheuredebutsuivi = new Date().date;
+                    this.dragged.dateheuredebutsuivi = (this.dateheurecommencement != '') ? new Date(this.dateheurecommencement).date : new Date().date;
                     this.suiviEmployeRendezvousService.updateSuiviEmployeRendezVous(this.dragged).subscribe(
                         (response) => {
                             if (response.status == 200) {
@@ -102,7 +136,7 @@ export class ReadSuiviEmployeRendezVousEmploye implements OnInit {
                     );
                 }
 
-                if (toDrop === this.termines) {
+                if (this.toDrop === this.termines) {
                     if (!this.dragged.dateheuredebutsuivi) {
                         this.messageService.add({ severity: "error", summary: "Erreur", detail: "Ce rendez-vous ne peut être terminé parce qu'il n'est pas encore commencé !!!", life: 5000 });
                     }
@@ -111,14 +145,14 @@ export class ReadSuiviEmployeRendezVousEmploye implements OnInit {
             }
         }
         if (this.draggedRendezVousEnCour) {
-            if (toDrop !== this.enCours) {
+            if (this.toDrop !== this.enCours) {
                 this.dragged = this.draggedRendezVousEnCour;
                 delete this.dragged.client;
                 delete this.dragged.service;
                 delete this.dragged.employe;
 
-                if (toDrop === this.termines) {
-                    this.dragged.dateheurefinsuivi = new Date().date;
+                if (this.toDrop === this.termines) {
+                    this.dragged.dateheurefinsuivi = (this.dateheurefin != '') ? new Date(this.dateheurefin).date : new Date().date;
                 }
 
                 this.suiviEmployeRendezvousService.updateSuiviEmployeRendezVous(this.dragged).subscribe(
@@ -139,6 +173,18 @@ export class ReadSuiviEmployeRendezVousEmploye implements OnInit {
             return (service.prix * service.commission) / 100;
         }
         return 0;
+    }
+
+    CancelCommenceRendezVous() {
+        this.showCommencePopup = false;
+        this.dropOccurred = false;
+        this.dragEnd();
+    }
+
+    CancelTermineRendezVous() {
+        this.showTerminePopup = false;
+        this.dropOccurred = false;
+        this.dragEnd();
     }
 
 }
