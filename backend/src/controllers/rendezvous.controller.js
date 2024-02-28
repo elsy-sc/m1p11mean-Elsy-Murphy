@@ -202,9 +202,179 @@ async function nombrenombreRendezVousParJour(req, res) {
     }
 }
 
+async function beneficeNetParMois(req, res) {
+    const db = await getMongoDBDatabase();
+    try {
+        const rendezvous = new Rendezvous();
+
+        const aggregate = [
+            {
+                $addFields: {
+                    dateConvertie: {
+                        $dateFromString: {
+                            dateString: "$dateheurerendezvous",
+                            format: "%Y-%m-%d %H:%M:%S"
+                        }
+                    }
+                }
+            },
+            {
+                $match: {
+                    $and: [
+                        { _state: 1 },
+                        {
+                            $expr: {
+                                $eq: [{ $year: '$dateConvertie' }, parseInt(req.body?.annee)]
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                $lookup: {
+                    from: "service",
+                    localField: "idservice",
+                    foreignField: "_id",
+                    as: "service"
+                }
+            },
+            {
+                $unwind: "$service"
+            },
+            {
+                $project: {
+                    month: { $month: "$dateConvertie" },
+                    prix: { $toInt: "$service.prix" },
+                    poucentageCommission: { $ifNull: [{ $toDouble: "$service.commission" }, 0] },
+                    commission: {
+                        $multiply: [
+                            { $toInt: "$service.prix" },
+                            {
+                                $divide: [
+                                    { $ifNull: [{ $toDouble: "$service.commission" }, 0] },
+                                    100
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                $project: {
+                    month: 1,
+                    totalPrice: { $subtract: ["$prix", "$commission"] }
+                }
+            },
+            {
+                $group: {
+                    _id: "$month",
+                    total: { $sum: "$totalPrice" }
+                }
+            }
+        ];
+
+        rendezvous.readWithAggregate(db, aggregate).then(
+            (result) => {
+                httpUtil.sendJson(res, result, 200, "ok");
+            }
+        );
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+async function beneficeNetParJour(req, res) {
+    const db = await getMongoDBDatabase();
+    try {
+        const rendezvous = new Rendezvous();
+
+        const aggregate = [
+            {
+                $addFields: {
+                    dateConvertie: {
+                        $dateFromString: {
+                            dateString: "$dateheurerendezvous",
+                            format: "%Y-%m-%d %H:%M:%S"
+                        }
+                    }
+                }
+            },
+            {
+                $match: {
+                    $and: [
+                        { _state: 1 },
+                        {
+                            dateConvertie: {
+                                $gte: new Date(req.body.debut + "T00:00:00Z"),
+                                $lte: new Date(req.body.fin + "T23:59:59Z")
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                $lookup: {
+                    from: "service",
+                    localField: "idservice",
+                    foreignField: "_id",
+                    as: "service"
+                }
+            },
+            {
+                $unwind: "$service"
+            },
+            {
+                $project: {
+                    date: {
+                        $dateToString: {
+                            format: "%Y-%m-%d",
+                            date: "$dateConvertie"
+                        }
+                    },
+                    prix: { $toInt: "$service.prix" },
+                    poucentageCommission: { $ifNull: [{ $toDouble: "$service.commission" }, 0] },
+                    commission: {
+                        $multiply: [
+                            { $toInt: "$service.prix" },
+                            {
+                                $divide: [
+                                    { $ifNull: [{ $toDouble: "$service.commission" }, 0] },
+                                    100
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                $project: {
+                    date: 1,
+                    totalPrice: { $subtract: ["$prix", "$commission"] }
+                }
+            },
+            {
+                $group: {
+                    _id: "$date",
+                    total: { $sum: "$totalPrice" }
+                }
+            }
+        ];
+
+        rendezvous.readWithAggregate(db, aggregate).then(
+            (result) => {
+                httpUtil.sendJson(res, result, 200, "ok");
+            }
+        );
+    } catch (error) {
+        console.error(error);
+    }
+}
+
 exports.createRendezvous = createRendezvous;
 exports.readRendezvous = readRendezvous;
 exports.updateRendezvous = updateRendezvous;
 exports.deleteRendezvous = deleteRendezvous;
 exports.nombreRendezVousParMois = nombreRendezVousParMois;
 exports.nombrenombreRendezVousParJour = nombrenombreRendezVousParJour;
+exports.beneficeNetParMois = beneficeNetParMois;
+exports.beneficeNetParJour = beneficeNetParJour;

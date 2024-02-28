@@ -3,14 +3,14 @@ import { response } from 'express';
 import { StatistiqueService } from '../../../services/statistique/statistique.service';
 
 @Component({
-  selector: 'app-nombre-reservation',
-  templateUrl: './nombre-reservation.component.html',
-  styleUrl: './nombre-reservation.component.css'
+  selector: 'app-benefice-net',
+  templateUrl: './benefice-net.component.html',
+  styleUrl: './benefice-net.component.css'
 })
-export class NombreReservation implements OnInit {
+export class BeneficeNet implements OnInit {
 
-  barData: any;
-  barOptions: any;
+  lineDataMois: any;
+  lineOptionsMois: any;
 
   lineData: any;
   lineOptions: any;
@@ -34,20 +34,20 @@ export class NombreReservation implements OnInit {
       'mois',
       'jour'
     ];
-    this.getNombreReservationParMois();
+    this.getBeneficeNetParMois();
   }
 
-  initBarCharts() {
+  initLinehartsMois() {
     const documentStyle = getComputedStyle(document.documentElement);
     const textColor = documentStyle.getPropertyValue('--text-color');
     const textColorSecondary = documentStyle.getPropertyValue('--text-color-secondary');
     const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
 
-    this.barData = {
+    this.lineDataMois = {
       labels: ['Janvier', 'Fevrier', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Aout', 'Septembre', 'Octobre', 'Novembre', 'Decembre'],
       datasets: [
         {
-          label: 'Nombre de reservation',
+          label: 'Benefice Net',
           backgroundColor: documentStyle.getPropertyValue('--primary-500'),
           borderColor: documentStyle.getPropertyValue('--primary-500'),
           data: this.dataMois
@@ -55,7 +55,7 @@ export class NombreReservation implements OnInit {
       ]
     };
 
-    this.barOptions = {
+    this.lineOptionsMois = {
       plugins: {
         legend: {
           labels: {
@@ -66,13 +66,10 @@ export class NombreReservation implements OnInit {
       scales: {
         x: {
           ticks: {
-            color: textColorSecondary,
-            font: {
-              weight: 500
-            }
+            color: textColorSecondary
           },
           grid: {
-            display: false,
+            color: surfaceBorder,
             drawBorder: false
           }
         },
@@ -100,7 +97,7 @@ export class NombreReservation implements OnInit {
       labels: this.lineLabel,
       datasets: [
         {
-          label: 'Nombre reservation',
+          label: 'Benefice Net',
           data: this.dataJour,
           fill: false,
           backgroundColor: documentStyle.getPropertyValue('--primary-500'),
@@ -141,13 +138,13 @@ export class NombreReservation implements OnInit {
     };
   }
 
-  getNombreReservationParMois() {
-    this.statistiqueService.readNombreReservationParMois(this.annee).subscribe(
+  getBeneficeNetParMois() {
+    this.statistiqueService.readBeneficeNetParMois(this.annee).subscribe(
       (response) => {
-        response.data?.forEach(nombrereservation => {
-          this.dataMois[nombrereservation._id - 1] = nombrereservation.nombrereservation;
+        response.data?.forEach(beneficeNet => {
+          this.dataMois[beneficeNet._id - 1] = beneficeNet.total;
         });
-        this.initBarCharts();
+        this.initLinehartsMois();
       },
       (error) => {
         console.error(error);
@@ -170,13 +167,13 @@ export class NombreReservation implements OnInit {
   }
 
 
-  getNombreReservationParJour() {
-    this.statistiqueService.readNombreReservationParJour(this.debut, this.fin).subscribe(
+  getBeneficeNetParJour() {
+    this.statistiqueService.readBeneficeNetParJour(this.debut, this.fin).subscribe(
       (response) => {
-        this.generateMissingDates(this.debut,this.fin);
-        response.data?.forEach(nombrereservation => {
-          const index = this.lineLabel.findIndex(label => label === nombrereservation._id);
-          this.dataJour[index] = nombrereservation.nombrereservation;
+        this.generateMissingDates(this.debut, this.fin);
+        response.data?.forEach(beneficeNet => {
+          const index = this.lineLabel.findIndex(label => label === beneficeNet._id);
+          this.dataJour[index] = beneficeNet.total;
         });
         this.initLineCharts();
       },
@@ -189,14 +186,14 @@ export class NombreReservation implements OnInit {
   onAnneeChange() {
     this.dataMois = new Array(12).fill(0);
     this.annee = new Date(this.annee).getFullYear().toString();
-    this.getNombreReservationParMois();
+    this.getBeneficeNetParMois();
   }
 
   onDateEntreChange() {
     this.lineLabel = [];
     this.dataJour = [];
-    if (this.debut && this.fin  && this.debut.trim() != '' && this.fin.trim() != '') {
-      this.getNombreReservationParJour();
+    if (this.debut && this.fin && this.debut.trim() != '' && this.fin.trim() != '') {
+      this.getBeneficeNetParJour();
     }
   }
 

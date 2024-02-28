@@ -40,6 +40,7 @@ import { ReadHorrairetravailModule } from './pages/horrairetravail/read-horraire
 import { InscriptionModule } from './pages/inscription/inscription.module';
 import { OffrespecialNotificationModule } from './pages/service/notification/offrespeciale.notification.module';
 import { NombreReservationModule } from './pages/statistiques/nombre-reservation/nombre-reservation.module';
+import { BeneficeNetModule } from './pages/statistiques/benefice-net/benefice-net.module';
 
 @NgModule({
   declarations: [
@@ -82,7 +83,8 @@ import { NombreReservationModule } from './pages/statistiques/nombre-reservation
     CreateHorrairetravailModule,
     ReadHorrairetravailModule,
     OffrespecialNotificationModule,
-    NombreReservationModule
+    NombreReservationModule,
+    BeneficeNetModule
   ],
   providers: [
     provideHttpClient(withFetch()),

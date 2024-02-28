@@ -1,13 +1,13 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
-import { HttpResponseApi } from "../../../interfaces/http/HttpResponseApi";
-import { BASE_URL } from "../../../utils/constante.util";
+import { HttpResponseApi } from "../../interfaces/http/HttpResponseApi";
+import { BASE_URL } from "../../utils/constante.util";
 
 @Injectable({
     providedIn: "root"
 })
-export class NombreReservationService {
+export class StatistiqueService {
 
     constructor(private http: HttpClient) { }
 
@@ -37,6 +37,32 @@ export class NombreReservationService {
             })
         };
         let body = {annee: annee};
+        return this.http.post<HttpResponseApi>(url, body, httpOptions);
+    }
+
+    readBeneficeNetParMois (annee: string): Observable<HttpResponseApi> {
+        let url = BASE_URL + "/rendezvous/beneficenetparmois";
+        let token = this.getToken();
+        const httpOptions = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            })
+        };
+        let body = {annee: annee};
+        return this.http.post<HttpResponseApi>(url, body, httpOptions);
+    }
+
+    readBeneficeNetParJour (debut: string|undefined, fin: string|undefined): Observable<HttpResponseApi> {
+        let url = BASE_URL + "/rendezvous/beneficenetparjour";
+        let token = this.getToken();
+        const httpOptions = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            })
+        };
+        let body = {debut: debut,fin: fin};
         return this.http.post<HttpResponseApi>(url, body, httpOptions);
     }
 

@@ -84,6 +84,10 @@ class TableObject {
         return await connection.collection(this.tableName).aggregate(aggregation).toArray();
     }
 
+    async readWithAggregate (connection,aggregate) {
+        return await connection.collection(this.tableName).aggregate(aggregate).toArray();
+    }
+
     async update(connection, setObject, afterWhereString, afterSetString) {
         let whereObject = this.getSanitizedObject();
         if (this._id) whereObject._id = this._id;

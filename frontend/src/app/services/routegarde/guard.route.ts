@@ -22,6 +22,7 @@ export class AuthGuard implements CanActivate {
           const requiredRole = next.data['role'] as number;
           if (requiredRole) {
             if (user.role == requiredRole) {
+              console.log("kaka");
               return true;
             } else {
               this.router.navigate(['/']);

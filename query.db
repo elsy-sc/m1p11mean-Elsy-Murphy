@@ -50,6 +50,19 @@ db.rendezvous.aggregate([
     }
   },
   {
+    $match: {
+      $and: [
+        {_state: 1},
+        {
+          dateConvertie: {
+            $gte: ISODate("2024-01-01T00:00:00Z"),
+            $lte: ISODate("2024-01-31T23:59:59Z")
+          }
+        }  
+      ]
+    }
+  },
+  {
     $group: {
       _id: {
         $dateToString: {
@@ -62,16 +75,140 @@ db.rendezvous.aggregate([
   }
 ])
 
-{
+----------- benefice net (sans depense) par mois en une année ----------------
+db.rendezvous.aggregate([
+  {
+    $addFields: {
+      dateConvertie: {
+        $dateFromString: {
+          dateString: "$dateheurerendezvous",
+          format: "%Y-%m-%d %H:%M:%S"
+        }
+      }
+    }
+  },
+  {
     $match: {
       $and: [
-        {_state: 1},
+        { _state: 1},
+        { 
+          $expr: {
+            $eq: [{ $year: '$dateConvertie' },  2024]
+          }
+        }
+      ]
+    }
+  },
+  {
+    $lookup: {
+      from: "service",
+      localField: "idservice",
+      foreignField: "_id",
+      as: "service"
+    }
+  },
+  {
+    $unwind: "$service"
+  },
+  {
+    $project: {
+      month: { $month: "$dateConvertie" },
+      prix: { $toInt: "$service.prix" },
+      poucentageCommission: { $ifNull: [{ $toDouble :"$service.commission"}, 0] },
+      commission: {
+        $multiply: [
+          { $toInt: "$service.prix" },
+          { $divide: [
+              { $ifNull: [{ $toDouble :"$service.commission"}, 0] }, 
+              100
+            ]
+          }
+        ]
+      }
+    }
+  },
+  {
+    $project: {
+      month: 1,
+      totalPrice: { $subtract: ["$prix", "$commission"] }
+    }
+  },
+  {
+      $group: {
+        _id: "$month",
+        total: { $sum: "$totalPrice" }
+      }
+  }
+])
+
+------- benefice net par jour entre deux date --------------------------------------------
+db.rendezvous.aggregate([
+  {
+    $addFields: {
+      dateConvertie: {
+        $dateFromString: {
+          dateString: "$dateheurerendezvous",
+          format: "%Y-%m-%d %H:%M:%S"
+        }
+      }
+    }
+  },
+  {
+    $match: {
+      $and: [
+        { _state: 1},
         {
           dateConvertie: {
             $gte: ISODate("2024-01-01T00:00:00Z"),
-            $lte: ISODate("2024-01-31T23:59:59Z")
+            $lte: ISODate("2024-02-29T23:59:59Z")
           }
-        }  
+        }
       ]
     }
+  },
+  {
+    $lookup: {
+      from: "service",
+      localField: "idservice",
+      foreignField: "_id",
+      as: "service"
+    }
+  },
+  {
+    $unwind: "$service"
+  },
+  {
+    $project: {
+      date: {
+        $dateToString: {
+          format: "%Y-%m-%d",
+          date: "$dateConvertie"
+        }
+      },
+      prix: { $toInt: "$service.prix" },
+      poucentageCommission: { $ifNull: [{ $toDouble :"$service.commission"}, 0] },
+      commission: {
+        $multiply: [
+          { $toInt: "$service.prix" },
+          { $divide: [
+              { $ifNull: [{ $toDouble :"$service.commission"}, 0] }, 
+              100
+            ]
+          }
+        ]
+      }
+    }
+  },
+  {
+    $project: {
+      date: 1,
+      totalPrice: { $subtract: ["$prix", "$commission"] }
+    }
+  },
+  {
+      $group: {
+        _id: "$date",
+        total: { $sum: "$totalPrice" }
+      }
   }
+])

@@ -215,8 +215,13 @@ export class AppMenuComponent implements OnInit {
                             items: [
                                 {
                                     label: 'Nombre de reservation',
-                                    icon: 'pi pi-list',
+                                    icon: 'pi pi-fw pi-chart-bar',
                                     routerLink: ['statistique/nombrereservation']
+                                },
+                                {
+                                    label: 'Benefice Net',
+                                    icon: 'pi pi-fw pi-chart-line',
+                                    routerLink: ['statistique/beneficenet']
                                 }
                             ]
                         }
