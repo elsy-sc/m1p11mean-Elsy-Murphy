@@ -79,4 +79,17 @@ export class StatistiqueService {
         return this.http.post<HttpResponseApi>(url, body, httpOptions);
     }
 
+    readDepenseParMois (annee: string) {
+        let url = BASE_URL + "/depense/depenseparmois";
+        let token = this.getToken();
+        const httpOptions = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            })
+        };
+        let body = {annee: annee};
+        return this.http.post<HttpResponseApi>(url, body, httpOptions);
+    }
+
 }
