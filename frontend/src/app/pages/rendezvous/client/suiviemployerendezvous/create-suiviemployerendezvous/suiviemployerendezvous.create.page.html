@@ -45,10 +45,10 @@
                 [options]="employes"
                 optionLabel="nom"
                 optionValue="_id"
-                [showClear]="true"
+                [showClear]="false"
                 appendTo="body"
-                [filter]="true"
-                emptyMessage="Aucun employé trouvé"
+                [filter]="true" 
+                emptyMessage="Aucun employé disponible"
                 (onChange)="onEmployeChange($event)"
               ></p-dropdown>
             </td>
