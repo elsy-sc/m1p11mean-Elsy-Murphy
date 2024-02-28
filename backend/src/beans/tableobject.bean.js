@@ -29,7 +29,7 @@ class TableObject {
         await connection.collection(this.tableName).insertOne(this.getSanitizedObject());
     }
 
-    async read(connection, afterWhereString, afterGroupByString, afterAddFieldsString) {
+    async read(connection, afterWhereString) {
         let whereObject = this.getSanitizedObject();
         if (this._id) whereObject._id = this._id;
         if (this._state) whereObject._state = this._state;
@@ -37,7 +37,6 @@ class TableObject {
         if (afterWhereString) combinedWhere = combineObject(combinedWhere, afterWhereString);
         if (this.linkedTableId.length > 0) {
             return await connection.collection(this.tableName).aggregate([
-                afterAddFieldsString ? { $addFields: afterAddFieldsString } : {},
                 { $match: combinedWhere },
                 ...this.linkedTableId.map((linkedTable) => {
                     return {
@@ -49,7 +48,6 @@ class TableObject {
                         },
                     };
                 }),
-                afterGroupByString ? { $group: afterGroupByString } : {},
             ]).toArray();
         }
         return await connection.collection(this.tableName).find(combinedWhere).toArray();

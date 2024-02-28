@@ -99,9 +99,9 @@ class Employe extends Utilisateur {
           let dateheuredebutrendezvousService = employeServiceHorairetravailDatedebutrendezvousDisponible[i].dateheuredebutrendezvous;
           let dureeservice = employeServiceHorairetravailDatedebutrendezvousDisponible[i].service[0].duree;
           let dateheurefinrendezvousService = moment(dateheuredebutrendezvousService).add(dureeservice, 'hours').format('YYYY-MM-DD HH:mm:ss');
-          if (moment(dateheurerendezvous, moment(dateheurerendezvous).add(dureeservice, 'hours').format('YYYY-MM-DD HH:mm:ss')).isBetween(dateheuredebutrendezvousService, dateheurefinrendezvousService)) {
-              listeEmployeNonDisponible.push(employeServiceHorairetravailDatedebutrendezvousDisponible[i].horaireTravail.Employe);
-          }          
+          if (moment(dateheurerendezvous, 'HH:mm').isBetween(moment(dateheuredebutrendezvousService, 'HH:mm'), moment(dateheurefinrendezvousService, 'HH:mm'))) {
+              listeEmployeNonDisponible.push(employeServiceHorairetravailDatedebutrendezvousDisponible[i].employe);
+          }
       }
     return listeEmployeNonDisponible;
   }
@@ -138,6 +138,27 @@ class Employe extends Utilisateur {
       }
     }
     return listeEmployeDisponibleNonRepete;
+  }
+
+  static async getEmployeDisponible(db, dateheurerendezvous) {
+    let employeResult = [];
+    let horaireTravailEmployeDisponible = await Employe.getEmployeDisponibleParRapportHorairetravail(db, dateheurerendezvous);
+    let employeNonDisponible = await Employe.
+    getNonDisponibiliteEmployeParRapportRendezvous(db, dateheurerendezvous);
+    for (let i = 0; i < horaireTravailEmployeDisponible.length; i++) {  
+      let trouve = false;
+      for (let j = 0; j < employeNonDisponible.length; j++) {
+        if (horaireTravailEmployeDisponible[i].Employe._id == employeNonDisponible[j]._id) {
+          trouve = true;
+          break;
+        }
+      }
+      if (!trouve) {
+        employeResult.push(horaireTravailEmployeDisponible[i].Employe);
+      }
+    }
+    console.log(employeResult)
+    return employeResult;
   }
 
 }

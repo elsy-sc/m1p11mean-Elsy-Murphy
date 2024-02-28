@@ -102,48 +102,112 @@ async function deleteSuiviEmployeRendezvous(req, res) {
     }
 }
 
+async function prendreEmployeDisponible(req, res) {
+    const db = await getMongoDBDatabase();
+    try {
+        let employeDisponibilite = await Employe.getEmployeDisponible(db, new Date(req.body?.dateheurerendezvous).date);
+        return httpUtil.sendJson(res, employeDisponibilite, 200, "OK");
+    } catch (error) {
+        return httpUtil.sendJson(res, null, error.status || error.statusCode || 500, error.message);
+    }
+}
+
 async function prendreRendezvous(req, res) {
     const db = await getMongoDBDatabase();
+    let responseSent = false; 
     try {
       const rendezvous = new SuiviEmployeRendezvous(
         req.body?.idemploye);
         rendezvous.setIdclient(req.body?.idclient);
         rendezvous.setIdservice(req.body?.idservice);
         rendezvous.dateheurerendezvous = (req.body?.dateheurerendezvous ? new Date(req.body?.dateheurerendezvous).date : undefined);
+        rendezvous.idemploye = req.body?.idemploye;
         
         if (rendezvous.dateheurerendezvous != null) {
-            let employeDisponibilite = await Employe.getEmployeDisponibleParRapportRendezvous(db, rendezvous.dateheurerendezvous);
+            let employeDisponibilite = await Employe.getEmployeDisponible(db, rendezvous.dateheurerendezvous);
             let service = new Service();
             service._id = req.body?.idservice;
             service = (await service.read(db))[0];
-            
-            for (let i = 0; i < employeDisponibilite.length; i++) {
-                /// la requete est a corriger car c'est faux
-                let datefinheurerendezvous = moment(rendezvous.dateheurerendezvous).add(service.duree, "hours").format("YYYY-MM-DD HH:mm");
-                let horaireTravail = new HoraireTravail();
-                horaireTravail.idemploye = employeDisponibilite[i]._id;
-                let result = horaireTravail.read(db, {
-                    $and: [
-                        { heures: { $gte: rendezvous.dateheurerendezvous } },
-                        { heures: { $lte: datefinheurerendezvous } }
-                    ] 
-                });
-                httpUtil.sendJson(res, result, 201, "OK"); 
+
+            if (rendezvous.idemploye == null) {
+                responseSent = true;
+                return httpUtil.sendJson(res, null, 401, "Employé obligatoire");
             }
 
-            httpUtil.sendJson(res, service, 201, "OK");
-        }
-        httpUtil.sendJson(res, listeDatetoCheckDisponibilite, 201, "OK");
+            else if (employeDisponibilite.length == 0) {
+                if (!responseSent) {
+                    responseSent = true;
+                    return httpUtil.sendJson(res, null, 401, "Employé non disponible");
+                }
+            }
+
+            else {
+                for (let i = 0; i < employeDisponibilite.length; i++) {                      
+                    if (employeDisponibilite[i][0]._id == rendezvous.idemploye) {
+                        let datefinheurerendezvous = moment(rendezvous.dateheurerendezvous).add(service.duree, "hours").format("YYYY-MM-DD HH:mm");
+                        let dateheuredebutrendezvousHeure = moment(rendezvous.dateheurerendezvous).format("HH:mm");
+                        let datefinheurerendezvousHeure = moment(datefinheurerendezvous).format("HH:mm");
         
+                        let horaireTravail = new HoraireTravail();
+                        horaireTravail.idemploye = employeDisponibilite[i]._id;
+                        let result = await horaireTravail.read(db, {
+                            $and: [
+                            { jour: moment(rendezvous.dateheurerendezvous).day() },
+                            {
+                                $or: [
+                                {
+                                    heures: {
+                                    $elemMatch: {
+                                        debut: { $lte: dateheuredebutrendezvousHeure },
+                                        fin: { $gte: datefinheurerendezvousHeure }, 
+                                    },
+                                    },
+                                },
+                                {
+                                    heures: {
+                                    $elemMatch: {
+                                        debut: { $lte: dateheuredebutrendezvousHeure },
+                                        fin: { $gte: datefinheurerendezvousHeure },
+                                    },
+                                    },
+                                },
+                                ],
+                            }],
+                        }); 
+                        if (result.length > 0) {
+                            await rendezvous.create(db).then(() => {
+                                if (!responseSent) {
+                                    responseSent = true;
+                                    return httpUtil.sendJson(res, null, 201, "OK");
+                                }
+                            });
+                        }  
+                    }
+                }
+                if (!responseSent) {
+                    responseSent = true;
+                    return httpUtil.sendJson(res, null, 401, "Employé non disponible");
+                }
+            }
+        }
+        else {
+            if (!responseSent) {
+                responseSent = true;
+                return httpUtil.sendJson(res, null, 401, "Date de rendez-vous obligatoire");
+            }
+        }
     } catch (error) {
-      httpUtil.sendJson(
-        res,
-        null,
-        error.status || error.statusCode || 500,
-        error.message
-      );
+        if (!responseSent) {
+            responseSent = true;
+            return httpUtil.sendJson(
+              res,
+              null,
+              error.status || error.statusCode || 500,
+              error.message
+            );
+        }
     }
-  }
+}
   
 
 exports.createSuiviEmployeRendezvous = createSuiviEmployeRendezvous;
@@ -151,3 +215,4 @@ exports.readSuiviEmployeRendezvous = readSuiviEmployeRendezvous;
 exports.updateSuiviEmployeRendezvous = updateSuiviEmployeRendezvous;
 exports.deleteSuiviEmployeRendezvous = deleteSuiviEmployeRendezvous;
 exports.prendreRendezvous = prendreRendezvous;
+exports.prendreEmployeDisponible = prendreEmployeDisponible;

@@ -23,33 +23,34 @@
         ><ng-template pTemplate="header"
           ><tr>
             <th style="min-width: 12rem">Service</th>
-            <th style="min-width: 12rem">Employe</th>
             <th style="min-width: 12rem">Date de réservation</th>
+            <th style="min-width: 12rem">Employe</th>
             <th style="min-width: 12rem">Action</th>
           </tr></ng-template
         ><ng-template pTemplate="body" let-service
           ><tr>
             <td>{{service.nom}} <br/><br/> <strong>{{service.prix}} Ar</strong> </td>
             <td>
-              <p-dropdown
-                [options]="employes"
-                [(ngModel)]="service.idemploye"
-                optionLabel="nom"
-                optionValue="_id"
-                placeholder="Choisir un employé"
-                [showClear]="true"
-                appendTo="body"
-                [filter]="true"
-              ></p-dropdown>
-            </td>
-            <td>
+
               <p-calendar
-                [(ngModel)]="service.dateheurerendezvous"
                 [showIcon]="true"
                 [showTime]="true"
                 [hourFormat]="'24'"
                 appendTo="body"
+                (onSelect)="getEmployes($event)"
               ></p-calendar>
+            </td>
+            <td>
+              <p-dropdown
+                [options]="employes"
+                optionLabel="nom"
+                optionValue="_id"
+                [showClear]="true"
+                appendTo="body"
+                [filter]="true"
+                emptyMessage="Aucun employé trouvé"
+                (onChange)="onEmployeChange($event)"
+              ></p-dropdown>
             </td>
             <td>
               <div class="flex">

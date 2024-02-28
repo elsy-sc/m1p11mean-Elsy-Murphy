@@ -78,7 +78,7 @@ export class AppMenuComponent implements OnInit {
                                 routerLink: ['rendezvous/client/create']
                             },
                             {
-                                label: 'Rendez-vous employe',
+                                label: 'Rendez-vous client',
                                 icon: 'pi pi-fw pi-list',
                                 routerLink: ['rendezvous/client/read']
                             }

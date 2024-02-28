@@ -11,8 +11,7 @@ import { EmployeService } from "../../../../../services/employe/employe.service"
 import { ServiceService } from "../../../../../services/service/service.service";
 import { CategorieService } from "../../../../../models/categorieservice.model";
 import { Offrespeciale } from "../../../../../models/offrespeciale.model";
-import { RendezvousService } from "../../../../../services/rendezvous/rendezvous.service";
-import { Rendezvous } from "../../../../../models/rendezvous.model";
+import { Date } from "../../../../../beans/date.bean.util";
 @Component({
     selector: "create-suiviemployerendezvous",
     templateUrl: "./suiviemployerendezvous.create.page.html",
@@ -47,11 +46,12 @@ export class CreateSuiviEmployeRendezVous implements OnInit {
         this.isLoading = true;
         this.suiviemployerendezvousService.prendreRendezvous(this.suiviemployerendezvous).subscribe(
             (response: HttpResponseApi) => {
+                console.log(response);
                 if (response.message == "error" && response.status == 422) {
                     this.errors = response.data;
                     this.isLoading = false;
                 } else if (response.status == 201) {
-                    // this.router.navigate(["/beauty-salon/rendezvous/employe/read"]);
+                    this.router.navigate(["/beauty-salon/rendezvous/client/read"]);
                 } else {
                     this.isLoading = false;
                     this.messageService.add({ severity: "error", summary: "Erreur", detail: response.message });
@@ -74,20 +74,26 @@ export class CreateSuiviEmployeRendezVous implements OnInit {
             const user = JSON.parse(userStorage);
             this.suiviemployerendezvous.idclient = user._id;
         }
-        console.log(this.suiviemployerendezvous);
-        this.getEmployes();
         this.getServices();
     }
 
-    getEmployes() {
-        this.employeService.readEmploye(new Employe()).subscribe((response: HttpResponseApi) => {
+    getEmployes(event: any) {
+        console.log(event);
+        console.log( new Date(event).date);
+        const dateheurerendezvous = new Date(event).date;  
+        this.suiviemployerendezvous.dateheurerendezvous = dateheurerendezvous;
+        this.suiviemployerendezvousService.prendreEmployeDisponible(dateheurerendezvous).subscribe((response: HttpResponseApi) => {
+            console.log(response)
             if (response.data) {
-                const employeNull = new Employe();
-                employeNull.nom = "Aucun employe";
-                employeNull._id = undefined;
-                this.employes = [employeNull, ...response.data];
+                const flattenedData = response.data.flat();
+                this.employes = flattenedData;
             }
         });
+    }
+
+    onEmployeChange(event: any) {
+        console.log(event.value);
+        this.suiviemployerendezvous.idemploye = event.value;
     }
 
     getServices() {
@@ -103,9 +109,7 @@ export class CreateSuiviEmployeRendezVous implements OnInit {
     }
 
     reserver(service: SuiviEmployeRendezVous) {
-        this.suiviemployerendezvous.idservice = service._id;
-        this.suiviemployerendezvous.idemploye = service.idemploye;
-        this.suiviemployerendezvous.dateheurerendezvous = service.dateheurerendezvous;
+        this.suiviemployerendezvous.idservice = service._id
         this.showConfirmService = true;
     }
 
