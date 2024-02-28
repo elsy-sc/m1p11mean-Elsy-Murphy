@@ -24,6 +24,7 @@ import { Profil } from './pages/profil/profil';
 import { CreateHorraireTravail } from './pages/horrairetravail/create-horrairetravail/horrairetravail-create.component';
 import { ReadHorrairetravail } from './pages/horrairetravail/read-horrairetravail/horrairetravail-read.component';
 import { InscriptionComponent } from './pages/inscription/inscription.component';
+import { NombreReservation } from './pages/statistiques/nombre-reservation/nombre-reservation.component';
 
 const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -31,25 +32,23 @@ const routes: Routes = [
   {
     path: 'beauty-salon' , component: AppLayoutComponent,
     children: [
-      {path:'service/read' , component: ReadService},
-      {path:'service/create' , component: CreateService},
-      {path:'categorieservice/read' , component: ReadCategorieService},
-      {path:'categorieservice/create' , component: CreateCategorieService},
-      {path:'employe/read' , component: ReadEmploye},
-      {path:'employe/create' , component: CreateEmploye},
-      {path:'typedepense/read' , component: ReadTypeDepense},
-      {path:'typedepense/create' , component: CreateTypeDepense},
-      {path:'depense/read' , component: ReadDepense},
-      {path:'depense/create' , component: CreateDepense},
-      {path:'rendezvous/client/read' , component: ReadSuiviEmployeRendezVous},
-      {path: 'rendezvous/client/create' , component: CreateSuiviEmployeRendezVous},
-      {path: 'rendezvous/employe/read', component: ReadSuiviEmployeRendezVousEmploye},
-      {path:'profil' , component: Profil},
-      {path:'horrairetravail/create' , component: CreateHorraireTravail},
-      {path:'horrairetravail/read' , component: ReadHorrairetravail},
-      // {path:'' , component: ListeUtilisateurComponent, canActivate: [AuthGuard]},
-      // {path:'test' , component: ListeUtilisateurComponent, canActivate: [AuthGuard]},
-      // {path:'utilisateur/create' , component: CreateUtilisateurComponent, canActivate: [AuthGuard]},
+      {path:'service/read' , component: ReadService , canActivate: [AuthGuard], data:{role: 0}},
+      {path:'service/create' , component: CreateService , canActivate: [AuthGuard], data:{role: 0}},
+      {path:'categorieservice/read' , component: ReadCategorieService , canActivate: [AuthGuard], data:{role: 0}},
+      {path:'categorieservice/create' , component: CreateCategorieService , canActivate: [AuthGuard], data:{role: 0}},
+      {path:'employe/read' , component: ReadEmploye, canActivate: [AuthGuard], data:{role: 0}},
+      {path:'employe/create' , component: CreateEmploye, canActivate: [AuthGuard], data:{role: 0}},
+      {path:'typedepense/read' , component: ReadTypeDepense, canActivate: [AuthGuard], data:{role: 0}},
+      {path:'typedepense/create' , component: CreateTypeDepense, canActivate: [AuthGuard], data:{role: 0}},
+      {path:'depense/read' , component: ReadDepense, canActivate: [AuthGuard], data:{role: 0}},
+      {path:'depense/create' , component: CreateDepense, canActivate: [AuthGuard], data:{role: 0}},
+      {path:'rendezvous/client/read' , component: ReadSuiviEmployeRendezVous, canActivate: [AuthGuard], data:{role: 2}},
+      {path: 'rendezvous/client/create' , component: CreateSuiviEmployeRendezVous, canActivate: [AuthGuard], data:{role: 2}},
+      {path: 'rendezvous/employe/read', component: ReadSuiviEmployeRendezVousEmploye, canActivate: [AuthGuard], data:{role: 1}},
+      {path:'profil' , component: Profil, canActivate: [AuthGuard]},
+      {path:'horrairetravail/create' , component: CreateHorraireTravail, canActivate: [AuthGuard], data:{role: 1}},
+      {path:'horrairetravail/read' , component: ReadHorrairetravail, canActivate: [AuthGuard], data:{role: 1}},
+      {path:'statistique/nombrereservation' , component: NombreReservation, canActivate: [AuthGuard], data:{role: 0}},
     ]
   }
 ];

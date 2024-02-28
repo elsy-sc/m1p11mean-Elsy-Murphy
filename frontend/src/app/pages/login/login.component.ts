@@ -41,6 +41,14 @@ export class LoginComponent implements OnInit,AfterViewInit {
 
     ngOnInit(): void {
         this.utilisateur = new Utilisateur();
+        this.utilisateurService.setUserConnecteInStorage();
+        this.utilisateurService.utilisateurConnecte.subscribe(
+            (user) => {
+                if (user) {
+                    this.router.navigate(['/beauty-salon']);
+                }
+            }
+        );
     }
 
     ngAfterViewInit(): void {

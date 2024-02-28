@@ -82,5 +82,5 @@ export class Service extends TableObject{
         this.idcategorieservice = idcategorieservice;
         this.image = image;
     }
-    
+
 }
