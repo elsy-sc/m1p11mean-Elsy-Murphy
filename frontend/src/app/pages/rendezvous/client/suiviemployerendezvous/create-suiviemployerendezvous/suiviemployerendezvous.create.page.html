@@ -31,11 +31,11 @@
           ><tr>
             <td>{{service.nom}} <br/><br/> <strong>{{service.prix}} Ar</strong> </td>
             <td>
-
               <p-calendar
                 [showIcon]="true"
                 [showTime]="true"
                 [hourFormat]="'24'"
+                [readonlyInput]="true"
                 appendTo="body"
                 (onSelect)="getEmployes($event)"
               ></p-calendar>

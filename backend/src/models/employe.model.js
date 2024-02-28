@@ -157,7 +157,6 @@ class Employe extends Utilisateur {
         employeResult.push(horaireTravailEmployeDisponible[i].Employe);
       }
     }
-    console.log(employeResult)
     return employeResult;
   }
 
