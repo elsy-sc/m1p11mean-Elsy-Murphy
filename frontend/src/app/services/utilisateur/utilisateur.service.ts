@@ -63,6 +63,7 @@ export class UtilisateurService {
   removeUserConnecte(): void {
     if (typeof window !== 'undefined') {
       localStorage.removeItem("user");
+      this.utilisateurConnecteSubject.next(undefined);
     }
   }
 
