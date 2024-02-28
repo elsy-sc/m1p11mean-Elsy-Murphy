@@ -1,8 +1,7 @@
+import { formatDate } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { response } from 'express';
 import { StatistiqueService } from '../../../services/statistique/statistique.service';
-import { format } from 'date-fns';
-import { fr } from 'date-fns/locale';
 
 @Component({
   selector: 'app-benefice-net',
@@ -28,6 +27,8 @@ export class BeneficeNet implements OnInit {
   annee: string = new Date().getFullYear().toString();
 
   dataMois: any[] = new Array(12).fill(0);
+  dataDepenseMois: any[] | undefined = [];
+  dataBeneficeWithDepenseMois: any[] | undefined = [];
 
   constructor(private statistiqueService: StatistiqueService) { }
 
@@ -36,7 +37,8 @@ export class BeneficeNet implements OnInit {
       'mois',
       'jour'
     ];
-    this.getBeneficeNetParMois();
+    this.getDepenseParMois();
+    this.getBeneficeParMois();
   }
 
   initLinehartsMois() {
@@ -49,10 +51,22 @@ export class BeneficeNet implements OnInit {
       labels: ['Janvier', 'Fevrier', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Aout', 'Septembre', 'Octobre', 'Novembre', 'Decembre'],
       datasets: [
         {
-          label: 'Benefice Net',
+          label: 'Benefice (sans dépenses)',
           backgroundColor: documentStyle.getPropertyValue('--primary-500'),
           borderColor: documentStyle.getPropertyValue('--primary-500'),
           data: this.dataMois
+        },
+        {
+          label: 'Depense',
+          backgroundColor: documentStyle.getPropertyValue('--pink-500'),
+          borderColor: documentStyle.getPropertyValue('--pink-500'),
+          data: this.dataDepenseMois
+        },
+        {
+          label: 'Benefice (avec dépenses)',
+          backgroundColor: documentStyle.getPropertyValue('--green-500'),
+          borderColor: documentStyle.getPropertyValue('--green-500'),
+          data: this.dataBeneficeWithDepenseMois
         }
       ]
     };
@@ -140,11 +154,17 @@ export class BeneficeNet implements OnInit {
     };
   }
 
-  getBeneficeNetParMois() {
+  getBeneficeParMois() {
     this.statistiqueService.readBeneficeNetParMois(this.annee).subscribe(
       (response) => {
         response.data?.forEach(beneficeNet => {
           this.dataMois[beneficeNet._id - 1] = beneficeNet.total;
+        });
+        this.dataBeneficeWithDepenseMois = this.dataMois.map((element, index) => {
+          if (this.dataDepenseMois && this.dataDepenseMois[index]) {
+            return element - this.dataDepenseMois[index];
+          }
+          return element;
         });
         this.initLinehartsMois();
       },
@@ -160,7 +180,7 @@ export class BeneficeNet implements OnInit {
     const end = new Date(endDate);
 
     while (currentDate <= end) {
-      dates.push(format(currentDate, 'dd MMMM yyyy', { locale: fr }));
+      dates.push(formatDate(currentDate, 'd MMMM yyyy', 'fr'));
       currentDate.setDate(currentDate.getDate() + 1);
     }
 
@@ -168,6 +188,16 @@ export class BeneficeNet implements OnInit {
     this.dataJour = new Array(this.lineLabel.length).fill(0);
   }
 
+  getDepenseParMois () {
+    this.statistiqueService.readDepenseParMois(this.annee).subscribe(
+      (response) => {
+        this.dataDepenseMois = response.data;
+      },
+      (error) => {
+        console.error(error);
+      }
+    )
+  }
 
   getBeneficeNetParJour() {
     this.statistiqueService.readBeneficeNetParJour(this.debut, this.fin).subscribe(
@@ -175,7 +205,7 @@ export class BeneficeNet implements OnInit {
         this.generateMissingDates(this.debut, this.fin);
         response.data?.forEach(beneficeNet => {
           const date = new Date(beneficeNet._id);
-          const index = this.lineLabel.findIndex(label => label === format(date, 'dd MMMM yyyy', { locale: fr }));
+          const index = this.lineLabel.findIndex(label => label === formatDate(date, 'd MMMM yyyy', 'fr'));
           this.dataJour[index] = beneficeNet.total;
         });
         this.initLineCharts();
@@ -189,7 +219,8 @@ export class BeneficeNet implements OnInit {
   onAnneeChange() {
     this.dataMois = new Array(12).fill(0);
     this.annee = new Date(this.annee).getFullYear().toString();
-    this.getBeneficeNetParMois();
+    this.getDepenseParMois();
+    this.getBeneficeParMois();
   }
 
   onDateEntreChange() {

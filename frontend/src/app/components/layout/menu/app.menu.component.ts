@@ -175,22 +175,22 @@ export class AppMenuComponent implements OnInit {
                             label: 'Depense',
                             routerLink: ['/beauty-salon/'],
                             items: [
-                                {
-                                    label: 'Type de depense',
-                                    icon: 'pi pi-list',
-                                    items: [
-                                        {
-                                            label: 'ajouter',
-                                            icon: 'pi pi-fw pi-plus',
-                                            routerLink: ['typedepense/create']
-                                        },
-                                        {
-                                            label: 'liste',
-                                            icon: 'pi pi-fw pi-list',
-                                            routerLink: ['typedepense/read']
-                                        }
-                                    ]
-                                },
+                                // {
+                                //     label: 'Type de depense',
+                                //     icon: 'pi pi-list',
+                                //     items: [
+                                //         {
+                                //             label: 'ajouter',
+                                //             icon: 'pi pi-fw pi-plus',
+                                //             routerLink: ['typedepense/create']
+                                //         },
+                                //         {
+                                //             label: 'liste',
+                                //             icon: 'pi pi-fw pi-list',
+                                //             routerLink: ['typedepense/read']
+                                //         }
+                                //     ]
+                                // },
                                 {
                                     label: 'Depense',
                                     icon: 'pi pi-list',
@@ -219,7 +219,7 @@ export class AppMenuComponent implements OnInit {
                                     routerLink: ['statistique/nombrereservation']
                                 },
                                 {
-                                    label: "Chiffre d'affaires",
+                                    label: "Bénéfices",
                                     icon: 'pi pi-fw pi-chart-line',
                                     routerLink: ['statistique/beneficenet']
                                 }

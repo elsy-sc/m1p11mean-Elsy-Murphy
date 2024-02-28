@@ -212,3 +212,58 @@ db.rendezvous.aggregate([
       }
   }
 ])
+
+
+---------------------- depense par mois en une année ----------------------------
+db.depense.aggregate([
+  {
+    $addFields: {
+      dateConvertie: {
+        $dateFromString: {
+          dateString: "$datedepense",
+          format: "%Y-%m-%d"
+        }
+      }
+    }
+  },
+  {
+    $match: {
+      $and: [
+        { _state: 1},
+        { 
+          $expr: {
+            $eq: [{ $year: '$dateConvertie' },  2024]
+          }
+        }
+      ]
+    }
+  },
+  {
+    $lookup: {
+      from: "typedepense",
+      localField: "idtypedepense",
+      foreignField: "_id",
+      as: "type"
+    }
+  },
+  {
+    $unwind: "$type"
+  },
+  {
+    $group: {
+      _id: {
+        month: { $month: "$dateConvertie" },
+        type: "$type.nom"
+      },
+      montant: { $sum: { $toDouble: "$montant" } }
+    }
+  },
+  {
+    $project: {
+      _id: 0,
+      month: "$_id.month",
+      type: "$_id.type",
+      montant: 1
+    }
+  }
+])
