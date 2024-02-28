@@ -80,19 +80,27 @@ class Rendezvous extends TableObject {
     }
 
     static async checkAndSendReminders(db, client) {
-        const now = moment();
+        const now = moment().format('YYYY-MM-DD HH:mm:ss');
         const rendezvous = new Rendezvous();
         rendezvous.idclient = client._id;
-        // const appointments = await rendezvous.read(db, { dateheurerendezvous: { $gte: now } });
-        const appointments = await rendezvous.read(db);
-        appointments.forEach(appointment => {
-            // if (now.isSame(moment(appointment.dateheurerendezvous).clone().subtract(5, 'minutes'), 'minute')) {
-                Rendezvous.sendMailReminder(appointment, client);
-            //}
+        const appointments = await rendezvous.read(db, { 
+            $and: [
+                { dateheurerendezvous: { $gte: now } },
+                { dateheurevalidation: { $ne: null } }
+            ]
         });
+        let reminder = [];
+        appointments.forEach(appointment => {  
+            if (moment(appointment.dateheurerendezvous).diff(moment(), 'minutes') < 5) {
+                reminder.push(appointment);
+            }            
+        });
+        return reminder;
     }
     
     static async sendMailReminder(appointment, client) {
+        appointment = JSON.parse(appointment);
+        client = JSON.parse(client);
         const email = new Email();
         email.receiver = client.email;
         email.setSubject("Rappel de rendez-vous");
@@ -102,7 +110,7 @@ class Rendezvous extends TableObject {
                 Bonjour ${client.prenom} ${client.nom},
             </p>
             <p style="font-size: 16px; color: #555; margin-bottom: 15px;">
-                Ceci est un rappel pour votre rendez-vous du <strong style="color: #007bff;">${moment(appointment.dateheurerendezvous).format('dddd D MMMM YYYY')}</strong> à <strong style="color: #007bff;">${moment(appointment.dateheurerendezvous).format('HH')} heure(s) ${moment(appointment.dateheurerendezvous).format('mm') } minute(s) </strong> pour le service <strong style="color: #007bff;">"${appointment.service[0].nom}"</strong>
+                Ceci est un rappel pour votre rendez-vous du <strong style="color: #007bff;">${moment(appointment.dateheurerendezvous).format('dddd D MMMM YYYY')}</strong> à <strong style="color: #007bff;">${moment(appointment.dateheurerendezvous).format('HH')} heure(s) ${moment(appointment.dateheurerendezvous).format('mm') } minute(s) </strong> pour le service <strong style="color: #007bff;">"${appointment?.service[0].nom}"</strong>
             </p>
             ${appointment.service[0].image ? `<img src="${appointment.service[0].image}" alt="Service image" style="max-width: 100%; height: auto; border-radius: 10px; margin-top: 15px;"/>` : ''}
             <p style="font-size: 16px; color: #555; margin-bottom: 15px;">
@@ -119,8 +127,6 @@ class Rendezvous extends TableObject {
 
         await email.sendMail();
     }
-
-    // setTimeout(, timeout);
 }
 
 exports.Rendezvous = Rendezvous;

@@ -75,4 +75,28 @@ export class RendezvousService {
         return this.http.delete<HttpResponseApi>(url, httpOptions);
     }
 
+    rappelerRendezvous(): Observable<HttpResponseApi> {
+        let url = BASE_URL + "/rendezvous/rappelRendezvous";
+        const httpOptions = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${this.getToken()}`
+            })
+        };
+        let body = this.getUserConnecte();
+        return this.http.post<HttpResponseApi>(url, body, httpOptions);
+    }
+
+    sendMailRappelRendezvous(rendezvous: Rendezvous): Observable<HttpResponseApi> {
+        let url = BASE_URL + "/rendezvous/sendMailRappelRendezvous";
+        const httpOptions = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${this.getToken()}`
+            })
+        };
+        let body = {appointment: JSON.stringify(rendezvous), client: this.getUserConnecte()};
+        return this.http.post<HttpResponseApi>(url, body, httpOptions);
+    }
+
 }
