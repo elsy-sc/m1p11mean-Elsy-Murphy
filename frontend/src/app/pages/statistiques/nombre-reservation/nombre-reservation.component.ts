@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { response } from 'express';
 import { StatistiqueService } from '../../../services/statistique/statistique.service';
+import { format } from 'date-fns';
+import { fr } from 'date-fns/locale';
 
 @Component({
   selector: 'app-nombre-reservation',
@@ -161,7 +163,7 @@ export class NombreReservation implements OnInit {
     const end = new Date(endDate);
 
     while (currentDate <= end) {
-      dates.push(currentDate.toISOString().split('T')[0]);
+      dates.push(format(currentDate, 'dd MMMM yyyy', { locale: fr }));
       currentDate.setDate(currentDate.getDate() + 1);
     }
 
@@ -175,7 +177,8 @@ export class NombreReservation implements OnInit {
       (response) => {
         this.generateMissingDates(this.debut,this.fin);
         response.data?.forEach(nombrereservation => {
-          const index = this.lineLabel.findIndex(label => label === nombrereservation._id);
+          const date = new Date(nombrereservation._id);
+          const index = this.lineLabel.findIndex(label => label === format(date, 'dd MMMM yyyy', { locale: fr }));
           this.dataJour[index] = nombrereservation.nombrereservation;
         });
         this.initLineCharts();

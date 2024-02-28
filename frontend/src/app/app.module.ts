@@ -41,6 +41,10 @@ import { InscriptionModule } from './pages/inscription/inscription.module';
 import { OffrespecialNotificationModule } from './pages/service/notification/offrespeciale.notification.module';
 import { NombreReservationModule } from './pages/statistiques/nombre-reservation/nombre-reservation.module';
 import { BeneficeNetModule } from './pages/statistiques/benefice-net/benefice-net.module';
+import { registerLocaleData } from '@angular/common';
+import localeFr from '@angular/common/locales/fr';
+
+registerLocaleData(localeFr);
 
 @NgModule({
   declarations: [

@@ -49,7 +49,7 @@
                         <td>{{depense.description}} <br /><br />
                             <strong>{{depense.montant}} Ar</strong>
                         </td>
-                        <td>{{depense.datedepense}}</td>
+                        <td>{{depense.datedepense| date:'d MMMM y' : '':'fr'}}</td>
                         <td>
                             <div class="flex"><button pButton pRipple icon="pi pi-pencil"
                                     class="p-button-rounded p-button-success mr-2" label="Modifier"
