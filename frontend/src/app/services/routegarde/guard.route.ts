@@ -20,12 +20,15 @@ export class AuthGuard implements CanActivate {
           return false;
         } else {
           const requiredRole = next.data['role'] as number;
-          if (user.role == requiredRole) {
-            return true;       
-          } else {
-            this.router.navigate(['/']);
-            return false;
+          if (requiredRole) {
+            if (user.role == requiredRole) {
+              return true;
+            } else {
+              this.router.navigate(['/']);
+              return false;
+            }
           }
+          return true;
         }
       })
     );

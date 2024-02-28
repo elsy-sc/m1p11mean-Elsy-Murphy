@@ -45,7 +45,7 @@ const routes: Routes = [
       {path:'rendezvous/client/read' , component: ReadSuiviEmployeRendezVous, canActivate: [AuthGuard], data:{role: 2}},
       {path: 'rendezvous/client/create' , component: CreateSuiviEmployeRendezVous, canActivate: [AuthGuard], data:{role: 2}},
       {path: 'rendezvous/employe/read', component: ReadSuiviEmployeRendezVousEmploye, canActivate: [AuthGuard], data:{role: 1}},
-      {path:'profil' , component: Profil},
+      {path:'profil' , component: Profil, canActivate: [AuthGuard]},
       {path:'horrairetravail/create' , component: CreateHorraireTravail, canActivate: [AuthGuard], data:{role: 1}},
       {path:'horrairetravail/read' , component: ReadHorrairetravail, canActivate: [AuthGuard], data:{role: 1}},
       {path:'statistique/nombrereservation' , component: NombreReservation, canActivate: [AuthGuard], data:{role: 0}},
