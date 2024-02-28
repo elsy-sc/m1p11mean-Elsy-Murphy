@@ -112,6 +112,7 @@ export class ReadService implements OnInit {
                 }
             )
         }
+        this.imageUpload = null;
     }
 
     onInput() {

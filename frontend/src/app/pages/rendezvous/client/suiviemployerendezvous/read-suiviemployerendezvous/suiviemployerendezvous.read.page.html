@@ -7,66 +7,12 @@
         <p-toast></p-toast>
         <ng-template pTemplate="caption">
           <p-accordion>
-            <!-- <p-accordionTab
+          <p-accordionTab
               header="Recherche"
               [selected]="false"
               class="line-height-3 m-0"
             >
-              <div class="flex flex-column gap-2 container">
-                <div class="labelContainer">
-                  <label class="label">Service</label>
-                </div>
-                <div class="inputContainer">
-                  <div class="grid formgrid">
-                    <div class="inputContainer">
-                      <p-dropdown
-                        [(ngModel)]="suiviemployerendezvousSearch.idservice"
-                        (ngModelChange)="rechercher()"
-                        name="idservice"
-                        [options]="services"
-                        [showClear]="true"
-                        optionLabel="nom"
-                        optionValue="_id"
-                      ></p-dropdown>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="flex flex-column gap-2 container">
-                <div class="labelContainer">
-                  <label class="label">Employe</label>
-                </div>
-                <div class="inputContainer">
-                  <div class="grid formgrid">
-                    <div class="inputContainer">
-                      <p-dropdown
-                        [(ngModel)]="suiviemployerendezvousSearch.idemploye"
-                        (ngModelChange)="rechercher()"
-                        name="idemploye"
-                        [options]="employes"
-                        [showClear]="true"
-                        optionLabel="nom"
-                        optionValue="_id"
-                      ></p-dropdown>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <LabelInput
-                label="Date et heure du rendez-vous"
-                type="datetime-local"
-                name="dateheurerendezvous"
-                [(ngModel)]="suiviemployerendezvousSearch.dateheurerendezvous"
-                (input)="rechercher()"
-              />
-              <LabelInput
-              label="Date et heure de validation"
-              type="datetime-local"
-              name="dateheurevalidation"
-              [(ngModel)]="suiviemployerendezvousSearch.dateheurevalidation"
-              (input)="rechercher()"
-            />
-            </p-accordionTab> -->
+            </p-accordionTab>
           </p-accordion>
 
         </ng-template>
