@@ -9,11 +9,13 @@
             <h5>Non commencé</h5>
             <p-dataView *ngIf="nonCommences && nonCommences.length > 0" [value]="nonCommences">
               <ng-template let-nonCommences pTemplate="listItem">
-                <div *ngFor="let nonCommence of nonCommences" class="card col-12" pDraggable (onDragStart)="dragStartNonCommence(nonCommence)" (onDragEnd)="dragEnd()">
+                <div *ngFor="let nonCommence of nonCommences" class="card col-12" pDraggable
+                  (onDragStart)="dragStartNonCommence(nonCommence)" (onDragEnd)="dragEnd()">
                   <div class=""><strong>date heure rendezvous :</strong>{{nonCommence.dateheurerendezvous}}</div>
                   <div class="flex flex-column md:flex-row align-items-center p-3 w-full">
                     <div class="flex-1 flex flex-column align-items-center text-center md:text-left">
-                      <img [src]="nonCommence.service[0].image" [alt]="" class="my-4 md:my-0 w-9 md:w-10rem shadow-2 mr-5 mb-2" />
+                      <img [src]="nonCommence.service[0].image" [alt]=""
+                        class="my-4 md:my-0 w-9 md:w-10rem shadow-2 mr-5 mb-2" />
                       <div class="mb-2 mt-3 text-1xl">{{nonCommence.service[0].nom}}</div>
                       <div class="mb-2  font-bold">{{getMontantCommission(nonCommence.service[0])+" Ar"}}</div>
                       <div class="flex align-items-center">
@@ -29,11 +31,12 @@
           </div>
         </div>
         <div class="col-4 md:col-4">
-          <div class="card" pDroppable (onDrop)="drop(enCours)">
+          <div class="card" pDroppable (onDrop)="drop(enCours,true)">
             <h5>En cours</h5>
             <p-dataView *ngIf="enCours && enCours.length > 0" [value]="enCours">
               <ng-template let-enCours pTemplate="listItem">
-                <div *ngFor="let enCour of enCours" class="card col-12" pDraggable (onDragStart)="dragStartEnCour(enCour)" (onDragEnd)="dragEnd()">
+                <div *ngFor="let enCour of enCours" class="card col-12" pDraggable
+                  (onDragStart)="dragStartEnCour(enCour)" (onDragEnd)="dragEnd()">
                   <div class=""><strong>date heure commencement : </strong>{{enCour.dateheuredebutsuivi}}</div>
                   <div class="flex flex-column md:flex-row align-items-center p-3 w-full">
                     <div class="flex-1 flex flex-column align-items-center text-center md:text-left">
@@ -53,16 +56,17 @@
           </div>
         </div>
         <div class="col-4 md:col-4">
-          <div class="card"  pDroppable (onDrop)="drop(termines)">
+          <div class="card" pDroppable (onDrop)="drop(termines,false,true)">
             <h5>Terminé</h5>
-            <p-dataView *ngIf="termines && termines.length > 0" [value]="termines" >
+            <p-dataView *ngIf="termines && termines.length > 0" [value]="termines">
               <ng-template let-termines pTemplate="listItem">
                 <div *ngFor="let termine of termines" class="card col-12">
                   <div class=""><strong>date heure debut : </strong>{{termine.dateheuredebutsuivi}}</div>
                   <div class=""><strong>date heure fin : </strong>{{termine.dateheurefinsuivi}}</div>
                   <div class="flex flex-column md:flex-row align-items-center p-3 w-full">
                     <div class="flex-1 flex flex-column align-items-center text-center md:text-left">
-                      <img [src]="termine.service[0].image" [alt]="" class="my-4 md:my-0 w-9 md:w-10rem shadow-2 mr-5 mb-2" />
+                      <img [src]="termine.service[0].image" [alt]=""
+                        class="my-4 md:my-0 w-9 md:w-10rem shadow-2 mr-5 mb-2" />
                       <div class="mb-2 mt-3 text-1xl">{{termine.service[0].nom}}</div>
                       <div class="mb-2  font-bold">{{termine.service[0].prix+" Ar"}}</div>
                       <div class="flex align-items-center mt-2">
@@ -79,5 +83,38 @@
         </div>
       </div>
     </div>
+
+    <p-dialog [(visible)]="showCommencePopup" (onHide)="CancelCommenceRendezVous()" header="Commencé le rendez-vous"
+      [modal]="true" [style]="{width: '450px'}" class="p-fluid">
+      <ng-template pTemplate="content">
+        <label>Date et heure de commencement</label>
+        <p-calendar placeholder="Date et heure actuel" [(ngModel)]="dateheurecommencement" [readonlyInput]="true" [showIcon]="true" [showTime]="true" [hourFormat]="'24'"
+          appendTo="body">
+        </p-calendar>
+      </ng-template>
+      <ng-template pTemplate="footer">
+        <button pButton pRipple label="Annuler" icon="pi pi-times" class="p-button-text"
+          (click)="CancelCommenceRendezVous()"></button>
+        <button pButton pRipple label="Valider" icon="pi pi-check" class="p-button-text"
+          (click)="ValidDrop()"></button>
+      </ng-template>
+    </p-dialog>
+
+    <p-dialog [(visible)]="showTerminePopup" (onHide)="CancelTermineRendezVous()" header="Terminé le rendez-vous"
+      [modal]="true" [style]="{width: '450px'}" class="p-fluid">
+      <ng-template pTemplate="content">
+        <label>Date et heure fin</label>
+        <p-calendar placeholder="Date et heure actuel" [(ngModel)]="dateheurefin" [readonlyInput]="true" [showIcon]="true" [showTime]="true" [hourFormat]="'24'"
+          appendTo="body">
+        </p-calendar>
+      </ng-template>
+      <ng-template pTemplate="footer">
+        <button pButton pRipple label="Annuler" icon="pi pi-times" class="p-button-text"
+          (click)="CancelTermineRendezVous()"></button>
+        <button pButton pRipple label="Valider" icon="pi pi-check" class="p-button-text"
+          (click)="ValidDrop()"></button>
+      </ng-template>
+    </p-dialog>
+
   </div>
 </div>

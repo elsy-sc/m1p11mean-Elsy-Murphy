@@ -59,7 +59,7 @@ export class AppMenuComponent implements OnInit {
                                     routerLink: ['rendezvous/employe/read']
                                 },
                                 {
-                                    label: 'Suivi des tâches',
+                                    label: 'Suivi des tâches effectués ',
                                     icon: 'pi pi-fw pi-list'
                                 }
                             ]
