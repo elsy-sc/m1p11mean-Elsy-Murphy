@@ -3,3 +3,75 @@ db.categorieservice.createIndex({"nom": 1},{unique:true})
 db.service.createIndex({"nom": 1},{unique:true})
 db.utilisateur.createIndex({"email": 1},{unique:true})
 db.typedepense.createIndex({"nom": 1},{unique:true})
+
+--- statistique -------
+----- nombre de reservation par mois en une année --------
+db.rendezvous.aggregate([
+  {
+    $addFields: {
+      convertedDate: {
+        $dateFromString: {
+          dateString: '$dateheurerendezvous',
+          format: '%Y-%m-%d %H:%M:%S'
+        }
+      }
+    }
+  },
+  {
+    $match: {
+      $and: [
+        { _state: 1},
+        { 
+          $expr: {
+            $eq: [{ $year: '$convertedDate' },  2024] // 2024 est le parametre de l'annee
+          }
+        }
+      ]
+    }
+  },
+  {
+    $group: {
+      _id: { $month: '$convertedDate' },
+      nombrereservation: { $sum:   1 }
+    }
+  }
+]);
+
+----------- nombre de reservation par jour (entre deux dates) ---------------
+db.rendezvous.aggregate([
+  {
+    $addFields: {
+      dateConvertie: {
+        $dateFromString: {
+          dateString: "$dateheurerendezvous",
+          format: "%Y-%m-%d %H:%M:%S"
+        }
+      }
+    }
+  },
+  {
+    $group: {
+      _id: {
+        $dateToString: {
+          format: "%Y-%m-%d",
+          date: "$dateConvertie"
+        }
+      },
+      nombrereservation: { $sum:  1 }
+    }
+  }
+])
+
+{
+    $match: {
+      $and: [
+        {_state: 1},
+        {
+          dateConvertie: {
+            $gte: ISODate("2024-01-01T00:00:00Z"),
+            $lte: ISODate("2024-01-31T23:59:59Z")
+          }
+        }  
+      ]
+    }
+  }

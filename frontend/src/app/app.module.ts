@@ -39,10 +39,11 @@ import { CreateHorrairetravailModule } from './pages/horrairetravail/create-horr
 import { ReadHorrairetravailModule } from './pages/horrairetravail/read-horrairetravail/horrairetravail-read.module';
 import { InscriptionModule } from './pages/inscription/inscription.module';
 import { OffrespecialNotificationModule } from './pages/service/notification/offrespeciale.notification.module';
+import { NombreReservationModule } from './pages/statistiques/nombre-reservation/nombre-reservation.module';
 
 @NgModule({
   declarations: [
-    App,
+    App
   ],
   imports: [
     BrowserModule,
@@ -80,7 +81,8 @@ import { OffrespecialNotificationModule } from './pages/service/notification/off
     ProfilModule,
     CreateHorrairetravailModule,
     ReadHorrairetravailModule,
-    OffrespecialNotificationModule
+    OffrespecialNotificationModule,
+    NombreReservationModule
   ],
   providers: [
     provideHttpClient(withFetch()),

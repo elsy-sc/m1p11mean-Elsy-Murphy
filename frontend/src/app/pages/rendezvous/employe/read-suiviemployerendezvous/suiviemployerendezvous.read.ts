@@ -134,4 +134,11 @@ export class ReadSuiviEmployeRendezVousEmploye implements OnInit {
         this.dragEnd();
     }
 
+    getMontantCommission(service: Service): number {
+        if (service && service.prix && service.commission) {
+            return (service.prix * service.commission) / 100;
+        }
+        return 0;
+    }
+
 }

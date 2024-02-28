@@ -3,11 +3,10 @@ const { TableObject } = require("../beans/tableobject.bean");
 const { getNonEmptyObject } = require("../utils/object.util");
 
 class Rendezvous extends TableObject {
-    constructor(idclient, idservice, dateheurerendezvous, dateheurevalidation) {
+    constructor(idclient, idservice, dateheurerendezvous) {
         super();
         this.idclient = idclient;
         this.idservice = idservice;
-        this.dateheurevalidation = dateheurevalidation;
         this.dateheurerendezvous = getNonEmptyObject(dateheurerendezvous);
         this.linkedTableId = [
             {
@@ -65,13 +64,17 @@ class Rendezvous extends TableObject {
         return await super.read(connection, afterWhereString);
     }
 
+    async readWithAddFieldAndGroupBy(connection, afterWhereString, afterGroupByString, afterAddFieldsString, state = 1) {
+        this._state = state;
+        return await super.readWithAddFieldAndGroupBy(connection,afterWhereString,afterGroupByString, afterAddFieldsString);
+    }
+
     async delete (connection, afterWhereString) {
         if (this._id == null || this._id == undefined || this._id.trim() == ""){
             throw new Error("L'id du rendezvous est obligatoire");
         }
         await super.update(connection, {_state: -1}, afterWhereString);
     }
-
 }
 
 exports.Rendezvous = Rendezvous;

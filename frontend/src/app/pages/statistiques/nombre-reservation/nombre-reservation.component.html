@@ -1,0 +1,35 @@
+<div class="grid p-fluid">
+    <div class="col-12 lg:col-9">
+        <div class="card">
+            <h5>Nombre de reservation</h5>
+            <div class="flex flex-column gap-2 container">
+                <div class="labelContainer"><label class="label">Par : </label></div>
+                <div class="inputContainer">
+                    <div class="grid formgrid">
+                        <div class="inputContainer">
+                            <p-dropdown name="type" [(ngModel)]="type" [options]="types"></p-dropdown>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="type == 'mois'" class="labelContainer"><label for="">Année : </label></div>
+                <div *ngIf="type == 'mois'" class="inputContainer">
+                    <p-calendar inputId="year" [(ngModel)]="annee" view="year" dateFormat="yy" (ngModelChange)="onAnneeChange()"></p-calendar>
+                </div>
+                <div *ngIf="type == 'jour'" class="labelContainer"><label for="">Date entre : </label></div>
+                <div *ngIf="type == 'jour'" class="inputContainer">
+                    <div class="formgroup-inline">
+                        <div class="field">
+                            <input pInputText name="debut" [(ngModel)]="debut" type="date" name="debut" (input)="onDateEntreChange()" />
+                        </div>
+                        <div class="field">
+                            <input pInputText name="fin" [(ngModel)]="fin" type="date" name="fin" (input)="onDateEntreChange()" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <p-chart *ngIf="type == 'mois'" type="bar" [data]="barData" [options]="barOptions"></p-chart>
+            <p-chart *ngIf="type == 'jour' && debut && fin" type="line" [data]="lineData" [options]="lineOptions"></p-chart>
+            <h5 *ngIf="type == 'jour' && (!debut || !fin)">Veuillez entre l'intervalle de date</h5>
+        </div>
+    </div>
+</div>

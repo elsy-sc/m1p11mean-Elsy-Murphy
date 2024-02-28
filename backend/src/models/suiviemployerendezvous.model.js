@@ -2,12 +2,13 @@ const { Date } = require("../beans/date.bean.util");
 const { Rendezvous } = require("./rendezvous.model");
 
 class SuiviEmployeRendezvous extends Rendezvous {
-    constructor(idemploye, dateheuredebutsuivi, dateheurefinsuivi) {
+    constructor(idemploye, dateheuredebutsuivi, dateheurefinsuivi, dateheurevalidation) {
         super();
         this.tableName = "rendezvous";
         this.idemploye = idemploye;
         this.dateheuredebutsuivi = dateheuredebutsuivi;
         this.dateheurefinsuivi = dateheurefinsuivi;
+        this.dateheurevalidation = dateheurevalidation;
         this.linkedTableId ?
             this.linkedTableId = [
                 ...this.linkedTableId,

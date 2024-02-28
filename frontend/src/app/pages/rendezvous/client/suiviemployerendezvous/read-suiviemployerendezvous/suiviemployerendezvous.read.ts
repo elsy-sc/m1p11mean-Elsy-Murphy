@@ -62,35 +62,28 @@ export class ReadSuiviEmployeRendezVous implements OnInit {
 
 
     ValidUpdateSuiviEmployeRendezVous() {
-        if (this.suiviemployerendezvousUpdate.dateheurevalidation != null) {
-            this.showUpdatePopup = false;
-            this.messageService.add({ severity: "error", summary: "Erreur", detail: "Rendez-vous déjà validé" });
-        }
-        else {
-            this.loadingButtonUpdate = true;
-            this.suiviemployerendezvousUpdate.dateheurevalidation = new Date().date;
-            this.suiviemployerendezvousService.updateSuiviEmployeRendezVous(this.suiviemployerendezvousUpdate).subscribe(
-                (response: HttpResponseApi) => {
-                    console.log(response)
-                    if (response.message == "error" && response.status == 422) {
-                        this.errorsUpdate = response.data;
-                        this.loadingButtonUpdate = false;
-                    } else if (response.status == 200) {
-                        this.getSuiviEmployeRendezVouss();
-                        this.showUpdatePopup = false;
-                        this.loadingButtonUpdate = false;
-                        this.messageService.add({ severity: "success", summary: "Succès", detail: "Validation du rendez-vous effectuée avec succès" });
-                    } else {
-                        this.loadingButtonUpdate = false;
-                        this.messageService.add({ severity: "error", summary: "Erreur", detail: response.message });
-                    }
-                },
-                (error) => {
+        this.loadingButtonUpdate = true;
+        this.suiviemployerendezvousUpdate.dateheurevalidation = new Date().date;
+        this.suiviemployerendezvousService.updateSuiviEmployeRendezVous(this.suiviemployerendezvousUpdate).subscribe(
+            (response: HttpResponseApi) => {
+                if (response.message == "error" && response.status == 422) {
+                    this.errorsUpdate = response.data;
                     this.loadingButtonUpdate = false;
-                    console.error(error);
+                } else if (response.status == 200) {
+                    this.getSuiviEmployeRendezVouss();
+                    this.showUpdatePopup = false;
+                    this.loadingButtonUpdate = false;
+                    this.messageService.add({ severity: "success", summary: "Succès", detail: "Validation du rendez-vous effectuée avec succès" });
+                } else {
+                    this.loadingButtonUpdate = false;
+                    this.messageService.add({ severity: "error", summary: "Erreur", detail: response.message });
                 }
-            )
-        }
+            },
+            (error) => {
+                this.loadingButtonUpdate = false;
+                console.error(error);
+            }
+        )
     }
 
     onInput() {
