@@ -219,7 +219,7 @@ export class AppMenuComponent implements OnInit {
                                     routerLink: ['statistique/nombrereservation']
                                 },
                                 {
-                                    label: 'Benefice Net',
+                                    label: "Chiffre d'affaires",
                                     icon: 'pi pi-fw pi-chart-line',
                                     routerLink: ['statistique/beneficenet']
                                 }
