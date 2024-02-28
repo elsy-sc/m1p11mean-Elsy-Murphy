@@ -19,6 +19,7 @@ SECRET_TOKEN_KEY=[secret_token_key]
 EMAIL_SERVICE=[email_service]
 EMAIL_USERNAME=[email_username]
 EMAIL_PASSWORD=[email_password]
+FRONTEND_URL=[frontend_url]
 ```
 
 # Usage

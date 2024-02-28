@@ -43,6 +43,7 @@ import { NombreReservationModule } from './pages/statistiques/nombre-reservation
 import { BeneficeNetModule } from './pages/statistiques/benefice-net/benefice-net.module';
 import { registerLocaleData } from '@angular/common';
 import localeFr from '@angular/common/locales/fr';
+import { RendezvousRappelModule } from './pages/rendezvous/rappel/rendezvous.rappel.module';
 
 registerLocaleData(localeFr);
 
@@ -88,7 +89,8 @@ registerLocaleData(localeFr);
     ReadHorrairetravailModule,
     OffrespecialNotificationModule,
     NombreReservationModule,
-    BeneficeNetModule
+    BeneficeNetModule,
+    RendezvousRappelModule
   ],
   providers: [
     provideHttpClient(withFetch()),

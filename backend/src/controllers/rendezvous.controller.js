@@ -376,11 +376,22 @@ async function rappelRendezvous(req, res) {
     try {
         const utilisateur = new Utilisateur(req.body?.nom, req.body?.prenom, req.body?.email, req.body?.datenaissance, req.body?.numerotelephone, req.body?.motdepasse, req.body?.role);
         utilisateur._id = req.body?._id;
+        let rendezvousReminder = await Rendezvous.checkAndSendReminders(db, utilisateur); 
+        httpUtil.sendJson(res, rendezvousReminder, 200, "OK");
+    } catch (error) {
+        httpUtil.sendJson(
+            res,
+            null,
+            error.status || error.statusCode || 500,
+            error.message
+        );
+    }
+}
 
-        // setInterval(async () => {
-            await Rendezvous.checkAndSendReminders(db, utilisateur);
-        // }, 1000);
-        
+async function sendMailRappel(req, res) {
+    const db = await getMongoDBDatabase();
+    try {
+        Rendezvous.sendMailReminder(req.body.appointment, req.body.client);
         httpUtil.sendJson(res, null, 200, "OK");
     } catch (error) {
         httpUtil.sendJson(
@@ -401,3 +412,4 @@ exports.nombrenombreRendezVousParJour = nombrenombreRendezVousParJour;
 exports.beneficeNetParMois = beneficeNetParMois;
 exports.beneficeNetParJour = beneficeNetParJour;
 exports.rappelRendezvous = rappelRendezvous;
+exports.sendMailRappel = sendMailRappel;

@@ -1,6 +1,6 @@
 const express = require("express"); 
 const { getRouter } = require("../utils/route.express.util");
-const { createRendezvous, readRendezvous, updateRendezvous, deleteRendezvous, nombreRendezVousParMois, nombrenombreRendezVousParJour, beneficeNetParMois, beneficeNetParJour, rappelRendezvous } = require("../controllers/rendezvous.controller");
+const { createRendezvous, readRendezvous, updateRendezvous, deleteRendezvous, nombreRendezVousParMois, nombrenombreRendezVousParJour, beneficeNetParMois, beneficeNetParJour, rappelRendezvous, sendMailRappel } = require("../controllers/rendezvous.controller");
 const { testToken } = require("../middlewares/tokenobject.middleware");
 const router = express.Router();
 
@@ -15,5 +15,6 @@ router.post("/nombrenombrerendezvousparjour", nombrenombreRendezVousParJour);
 router.post("/beneficenetparmois", beneficeNetParMois);
 router.post("/beneficenetparjour", beneficeNetParJour);
 router.post("/rappelRendezvous", rappelRendezvous);
+router.post("/sendMailRappelRendezvous", sendMailRappel);
 
 module.exports = getRouter(express, router, '/rendezvous');
