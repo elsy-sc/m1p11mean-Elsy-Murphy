@@ -22,6 +22,10 @@ import { MessageService } from 'primeng/api';
 })
 export class LoginComponent implements OnInit, AfterViewInit {
 
+
+    types: string[] = []; 
+    type: string = 'Manager';
+    
     isLoading: boolean = false;
     utilisateur!: Utilisateur;
     emailError: string | undefined;
@@ -31,16 +35,31 @@ export class LoginComponent implements OnInit, AfterViewInit {
     numeroCarteBancaire: string | undefined;
     employeListe: Employe[] = [];
 
-    rechercher() {
-
-    }
-
-
-
     constructor(public layoutService: LayoutService, private utilisateurService: UtilisateurService, private router: Router, private route: ActivatedRoute, private messageService: MessageService) { }
+
+    changeType () {
+        if (this.type == 'Manager') {
+            this.utilisateur.email = "jc@gmail.com";
+            this.utilisateur.motdepasse = "jc";
+        }
+        if (this.type == 'Employe') {
+            this.utilisateur.email = "jeanne.rasoa@gmail.com";
+            this.utilisateur.motdepasse = "jeanne";
+        }
+        if (this.type == 'Client') {
+            this.utilisateur.email = "jean.dupont@example.com";
+            this.utilisateur.motdepasse = "password456";
+        }
+    }
 
     ngOnInit(): void {
         this.utilisateur = new Utilisateur();
+        this.types = [
+            'Manager',
+            'Employe',
+            'Client'
+        ];
+        this.changeType();
         this.utilisateurService.setUserConnecteInStorage();
         this.utilisateurService.utilisateurConnecte.subscribe(
             (user) => {
