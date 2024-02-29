@@ -4,6 +4,7 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { HttpResponseApi } from "../../interfaces/http/HttpResponseApi";
 import { BASE_URL } from "../../utils/constante.util";
+import { Date } from "../../beans/date.bean.util";
 @Injectable({
     providedIn: "root"
 })
@@ -77,6 +78,27 @@ export class SuiviEmployeRendezVousService {
         return this.http.delete<HttpResponseApi>(url, httpOptions);
     }
 
-    
+    prendreRendezvous(rendezvous: SuiviEmployeRendezVous): Observable<HttpResponseApi> {
+        let url = BASE_URL + "/suiviemployerendezvous/prendreRendezvous";
+        const httpOptions = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json'
+            })
+        };
+        let body = JSON.stringify(rendezvous);
+        return this.http.post<HttpResponseApi>(url, body, httpOptions);
+    }
+
+    prendreEmployeDisponible(dateheurerendezvous: string|undefined): Observable<HttpResponseApi> {
+        let url = BASE_URL + "/suiviemployerendezvous/prendreEmployeDisponible";
+        const httpOptions = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json'
+            })
+        };
+        let body = JSON.stringify({dateheurerendezvous});
+        return this.http.post<HttpResponseApi>(url, body, httpOptions);
+    }
+
 
 }

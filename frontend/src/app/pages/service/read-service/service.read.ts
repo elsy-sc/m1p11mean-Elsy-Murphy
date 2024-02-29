@@ -1,13 +1,12 @@
 import { MessageService } from "primeng/api";
 import { HttpResponseApi } from "../../../interfaces/http/HttpResponseApi";
-import { Component, OnInit } from "@angular/core";
-import { Service } from "../../../models/service.model";
+import { AfterViewInit, Component, OnInit } from "@angular/core";
 import { ServiceService } from "../../../services/service/service.service";
 import { CategorieService } from "../../../models/categorieservice.model";
 import { CategorieServiceService } from "../../../services/categorieservice/categorieservice.service";
 import { OffrespecialeService } from "../../../services/offrespeciale/offrespeciale.service";
 import { Offrespeciale } from "../../../models/offrespeciale.model";
-import { STATIC_URL } from "../../../utils/constante.util";
+import { SocketService } from "../../../services/offrespeciale/offrespeciale.notification";
 @Component({
     selector: "read-service",
     templateUrl: "./service.read.page.html",
@@ -33,12 +32,11 @@ export class ReadService implements OnInit {
     isSpecial: boolean = false;
 
     imageUpload: any;
-    static_url = STATIC_URL + '/';
-
-
+    imageUploadInit: any;
     
     
     onSelect(event: any) {
+        this.imageUploadInit = null;
         this.serviceUpdate.image = event.files[0].name;
         this.imageUpload = event.files[0];
     }
@@ -52,6 +50,7 @@ export class ReadService implements OnInit {
         this.updateIsSpecial(service);
         this.showUpdatePopup = true;
         this.serviceUpdate = Object.assign({}, service);
+        this.imageUploadInit = this.serviceUpdate.image;
     }
 
     CancelUpdateService() {
@@ -67,7 +66,7 @@ export class ReadService implements OnInit {
     ValidUpdateService() {
         if (this.isSpecial) {
             this.loadingButtonUpdate = true;
-            this.offreSpecialService.updateOffrespeciale(this.serviceUpdate).subscribe(
+            this.offreSpecialService.updateOffrespeciale(this.serviceUpdate, this.imageUpload).subscribe(
                 (response: HttpResponseApi) => {
                     console.log(response)
                     if (response.message == "error" && response.status == 422) {
@@ -91,7 +90,7 @@ export class ReadService implements OnInit {
         }
         else {
             this.loadingButtonUpdate = true;
-            this.serviceService.updateService(this.serviceUpdate).subscribe(
+            this.serviceService.updateService(this.serviceUpdate, this.imageUpload).subscribe(
                 (response: HttpResponseApi) => {
                     console.log(response)
                     if (response.message == "error" && response.status == 422) {
@@ -113,6 +112,7 @@ export class ReadService implements OnInit {
                 }
             )
         }
+        this.imageUpload = null;
     }
 
     onInput() {
@@ -125,14 +125,21 @@ export class ReadService implements OnInit {
         this.getServiceCategories();
     }
 
+    // ngAfterViewInit() {
+    //     this.socketService.connect();
+    //     this.socketService.getNotification().subscribe((data: any) => {
+    //         console.log(data);
+    //         this.messageService.add({ severity: "info", summary: "Une nouvelle service a été ajoutée : " + data.nom, detail: data.descriptionoffrespeciale, life: 10000}); 
+    //     });
+    // }
+
     constructor(private offreSpecialService: OffrespecialeService, private messageService: MessageService, private servicecategorieService: CategorieServiceService, private serviceService: ServiceService) {
 
     }
 
     getServices() {
-        
         this.offreSpecialService.readOffrespeciale(this.serviceSearch).subscribe((response: HttpResponseApi) => {
-            
+            console.log(response);
             if (response.data) {
                 this.services = response.data;
             }

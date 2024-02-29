@@ -45,6 +45,7 @@ export class SuiviEmployeRendezVous extends Rendezvous{
     dateheurefinsuivi?: string;
     dateheurevalidation?: string;
     employe?: Employe;
+    montantcommission?: number;
 
     constructor(idemploye?: string, dateheuredebutsuivi?: string, dateheurefinsuivi?: string, dateheurevalidation?: string) {
         super();

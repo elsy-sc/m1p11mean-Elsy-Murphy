@@ -38,10 +38,20 @@ import { ProfilModule } from './pages/profil/profil.module';
 import { CreateHorrairetravailModule } from './pages/horrairetravail/create-horrairetravail/horrairetravail-create.module';
 import { ReadHorrairetravailModule } from './pages/horrairetravail/read-horrairetravail/horrairetravail-read.module';
 import { InscriptionModule } from './pages/inscription/inscription.module';
+import { OffrespecialNotificationModule } from './pages/service/notification/offrespeciale.notification.module';
+import { NombreReservationModule } from './pages/statistiques/nombre-reservation/nombre-reservation.module';
+import { BeneficeNetModule } from './pages/statistiques/benefice-net/benefice-net.module';
+import { registerLocaleData } from '@angular/common';
+import localeFr from '@angular/common/locales/fr';
+import { RendezvousRappelModule } from './pages/rendezvous/rappel/rendezvous.rappel.module';
+import { SuiviTacheEffectueModule } from './pages/suivitacheeffectue/suivi-tache-effectue.module';
+import { MoyenneTempsTravailEmployeModule } from './pages/statistiques/moyenne-temps-travail-employe/moyenne-temps-travail-employe.module';
+
+registerLocaleData(localeFr);
 
 @NgModule({
   declarations: [
-    App,
+    App
   ],
   imports: [
     BrowserModule,
@@ -78,7 +88,13 @@ import { InscriptionModule } from './pages/inscription/inscription.module';
     ReadSuiviEmployeRendezVousEmployeModule,
     ProfilModule,
     CreateHorrairetravailModule,
-    ReadHorrairetravailModule
+    ReadHorrairetravailModule,
+    OffrespecialNotificationModule,
+    NombreReservationModule,
+    BeneficeNetModule,
+    RendezvousRappelModule,
+    SuiviTacheEffectueModule,
+    MoyenneTempsTravailEmployeModule
   ],
   providers: [
     provideHttpClient(withFetch()),

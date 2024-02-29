@@ -1,0 +1,43 @@
+<p-toast></p-toast>
+<div class="grid">
+    <div class="col-12">
+        <div class="card">
+            <h5>Temps moyen de travail pour chaque employé</h5>
+            <p-table [value]="moyennetempsdetravailemployes" [paginator]="true" [rows]="3">
+                <ng-template pTemplate="caption">
+                    <p-accordion [activeIndex]="0">
+                        <p-accordionTab header="Recherche" [selected]="false" class="line-height-3 m-0">
+                            <div class="labelContainer"><label for="">Date entre : </label></div>
+                            <div class="inputContainer">
+                                <div class="formgroup-inline">
+                                    <div class="field">
+                                        <input pInputText name="datedebut" [(ngModel)]="datedebut" type="date" name="debut"
+                                            (input)="getMoyenneTempsTravailEmploye()" />
+                                    </div>
+                                    <div class="field">
+                                        <input pInputText name="datefin" [(ngModel)]="datefin" type="date" name="fin"
+                                            (input)="getMoyenneTempsTravailEmploye()" />
+                                    </div>
+                                </div>
+                            </div>
+                        </p-accordionTab>
+                    </p-accordion>
+                </ng-template>
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th style="min-width: 12rem">Nom</th>
+                        <th style="min-width: 12rem">Prenom</th>
+                        <th style="min-width: 12rem">Temps (en heure)</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-moyennetempsdetravailemploye>
+                    <tr>
+                        <td>{{moyennetempsdetravailemploye.employe.nom}}</td>
+                        <td>{{moyennetempsdetravailemploye.employe.prenom}}</td>
+                        <td><strong>{{moyennetempsdetravailemploye.moyenneTempsTravail || '0'}}</strong></td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+</div>

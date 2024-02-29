@@ -2,11 +2,11 @@ const { Service } = require("../models/service.model");
 const { getMongoDBDatabase } = require("../utils/db.util");
 const httpUtil = require("../utils/http.util");
 
-async function createService(req,res, next) {
+async function createService(req, res, next) {
     const db = await getMongoDBDatabase();
     let errors = [];
     try {        
-        const serviceBody = JSON.parse(req.body?.service|| {});
+        const serviceBody = JSON.parse(req.body?.service|| "{}");
         const service = new Service(null, null, serviceBody.description, null, null, serviceBody.commission);
         service.setIdcategorieservice(serviceBody.idcategorieservice);
         service.setNom(serviceBody.nom);
@@ -48,18 +48,20 @@ async function readService(req, res) {
     }
 }
 
-async function updateService(req, res) {
+async function updateService(req, res, next) {
     const db = await getMongoDBDatabase();
     let errorsUpdate = [];
     try {
+        const serviceBody = JSON.parse(req.body?.service|| "{}");
         const serviceWhere = new Service();
-        serviceWhere._id = req.body?._id;
+        serviceWhere._id = serviceBody?._id;
 
-        const serviceSet = new Service(null, null, req.body?.description, null, null, req.body?.commission);
-        serviceSet.setIdcategorieservice(req.body?.idcategorieservice);
-        serviceSet.setNom(req.body?.nom);
-        serviceSet.setPrix(req.body?.prix);
-        serviceSet.setDuree(req.body?.duree);
+        const serviceSet = new Service(null, null, serviceBody?.description, null, null, serviceBody?.commission);
+        serviceSet.setIdcategorieservice(serviceBody?.idcategorieservice);
+        serviceSet.setNom(serviceBody?.nom);
+        serviceSet.setPrix(serviceBody?.prix);
+        serviceSet.setDuree(serviceBody?.duree);
+        serviceSet.image = req.body?.imageDB;
 
         await serviceWhere.update(db, serviceSet).then(() => {
             httpUtil.sendJson(res, null, 200, "OK");        

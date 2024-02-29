@@ -2,20 +2,27 @@ require('dotenv').config();
 const jsonUtil = require("./src/utils/json.express.util");
 const routeUtil = require("./src/utils/route.express.util");
 const routes = require("./src/routes/index.route");
-const { startMongoDBDatabase } = require('./src/utils/db.util');
+// const { startMongoDBDatabase } = require('./src/utils/db.util');
 const cors = require('cors');
 const express = require("express");
+const { startServerWithNotificationOffreSpecial } = require('./src/utils/notificationoffrespecial.util');
+const { getMongoDBDatabase } = require('./src/utils/db.util');
 const app = express();
+require('moment/locale/fr');
+
 app.use(cors());
-const path = require('path');
 const port = process.env.PORT|| 3000;
 
 jsonUtil.enableJson(app, express);
 routeUtil.setStaticFolder(app, express, 'public');
-// app.use('/public', express.static(path.join(__dirname, 'public')));
 routeUtil.loadRoutes(app, routes);
 
+// (async () => {
+//     await startMongoDBDatabase();
+//     app.listen(port, () => console.log("Listening on port", port, "..."));
+// })();
+
 (async () => {
-    await startMongoDBDatabase();
-    app.listen(port, () => console.log("Listening on port", port, "..."));
+    const db = await getMongoDBDatabase();
+    startServerWithNotificationOffreSpecial(app, port, db);
 })();

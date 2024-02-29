@@ -1,6 +1,12 @@
+const { Date } = require("../beans/date.bean.util");
+const { Employe } = require("../models/employe.model");
+const { HoraireTravail } = require("../models/horairetravail.model");
+const { Rendezvous } = require("../models/rendezvous.model");
+const { Service } = require("../models/service.model");
 const { SuiviEmployeRendezvous } = require("../models/suiviemployerendezvous.model");
 const { getMongoDBDatabase } = require("../utils/db.util");
 const httpUtil = require("../utils/http.util");
+const moment = require("moment");
 
 async function createSuiviEmployeRendezvous(req, res) {
     const db = await getMongoDBDatabase();
@@ -55,7 +61,7 @@ async function updateSuiviEmployeRendezvous(req, res) {
         const suiviemployerendezvousWhere = new SuiviEmployeRendezvous();
         suiviemployerendezvousWhere._id = req.body?._id;
 
-        const suiviemployerendezvousSet = new SuiviEmployeRendezvous(null, null, req.body?.dateheurefinsuivi, req.body?.dateheurevalidation);
+        const suiviemployerendezvousSet = new SuiviEmployeRendezvous(null, req.body.dateheuredebutsuivi, req.body?.dateheurefinsuivi, req.body?.dateheurevalidation);
         suiviemployerendezvousSet.setIdemploye(req.body?.idemploye);
         suiviemployerendezvousSet.setIdclient(req.body?.idclient);
         suiviemployerendezvousSet.setIdservice(req.body?.idservice);
@@ -92,14 +98,152 @@ async function deleteSuiviEmployeRendezvous(req, res) {
             httpUtil.sendJson(res, null, 200, "OK");        
         });
     } catch (error) {
-        httpUtil.sendJson(res, null, error.status || error.statusCode || 500, error.message);    }
+        httpUtil.sendJson(res, null, error.status || error.statusCode || 500, error.message);    
+    }
 }
 
-async function prendreRendezvous(req, res){
-    
+async function prendreEmployeDisponible(req, res) {
+    const db = await getMongoDBDatabase();
+    try {
+        let employeDisponibilite = await Employe.getEmployeDisponible(db, new Date(req.body?.dateheurerendezvous).date);
+        return httpUtil.sendJson(res, employeDisponibilite, 200, "OK");
+    } catch (error) {
+        return httpUtil.sendJson(res, null, error.status || error.statusCode || 500, error.message);
+    }
 }
+
+async function prendreRendezvous(req, res) {
+    const db = await getMongoDBDatabase();
+    let responseSent = false; 
+    try {
+      const rendezvous = new SuiviEmployeRendezvous(
+        req.body?.idemploye);
+        rendezvous.setIdclient(req.body?.idclient);
+        rendezvous.setIdservice(req.body?.idservice);
+        rendezvous.dateheurerendezvous = (req.body?.dateheurerendezvous ? new Date(req.body?.dateheurerendezvous).date : undefined);
+        rendezvous.idemploye = req.body?.idemploye;
+        
+        if (rendezvous.dateheurerendezvous != null) {
+            let employeDisponibilite = await Employe.getEmployeDisponible(db, rendezvous.dateheurerendezvous);
+            let service = new Service();
+            service._id = req.body?.idservice;
+            service = (await service.read(db))[0];
+
+            if (rendezvous.idemploye == null) {
+                responseSent = true;
+                return httpUtil.sendJson(res, null, 401, "Employé obligatoire");
+            }
+
+            else if (employeDisponibilite.length == 0) {
+                if (!responseSent) {
+                    responseSent = true;
+                    return httpUtil.sendJson(res, null, 401, "Employé non disponible");
+                }
+            }
+
+            else {
+                for (let i = 0; i < employeDisponibilite.length; i++) {                      
+                    if (employeDisponibilite[i][0]._id == rendezvous.idemploye) {
+                        let datefinheurerendezvous = moment(rendezvous.dateheurerendezvous).add(service.duree, "hours").format("YYYY-MM-DD HH:mm");
+                        let dateheuredebutrendezvousHeure = moment(rendezvous.dateheurerendezvous).format("HH:mm");
+                        let datefinheurerendezvousHeure = moment(datefinheurerendezvous).format("HH:mm");
+        
+                        let horaireTravail = new HoraireTravail();
+                        horaireTravail.idemploye = employeDisponibilite[i]._id;
+                        let result = await horaireTravail.read(db, {
+                            $and: [
+                            { jour: moment(rendezvous.dateheurerendezvous).day() },
+                            {
+                                $or: [
+                                {
+                                    heures: {
+                                    $elemMatch: {
+                                        debut: { $lte: dateheuredebutrendezvousHeure },
+                                        fin: { $gte: datefinheurerendezvousHeure }, 
+                                    },
+                                    },
+                                },
+                                {
+                                    heures: {
+                                    $elemMatch: {
+                                        debut: { $lte: dateheuredebutrendezvousHeure },
+                                        fin: { $gte: datefinheurerendezvousHeure },
+                                    },
+                                    },
+                                },
+                                ],
+                            }],
+                        }); 
+                        if (result.length > 0) {
+                            await rendezvous.create(db).then(() => {
+                                if (!responseSent) {
+                                    responseSent = true;
+                                    return httpUtil.sendJson(res, null, 201, "OK");
+                                }
+                            });
+                        }  
+                    }
+                }
+                if (!responseSent) {
+                    responseSent = true;
+                    return httpUtil.sendJson(res, null, 401, "Employé non disponible");
+                }
+            }
+        }
+        else {
+            if (!responseSent) {
+                responseSent = true;
+                return httpUtil.sendJson(res, null, 401, "Date de rendez-vous obligatoire");
+            }
+        }
+    } catch (error) {
+        if (!responseSent) {
+            responseSent = true;
+            return httpUtil.sendJson(
+              res,
+              null,
+              error.status || error.statusCode || 500,
+              error.message
+            );
+        }
+    }
+}
+
+async function getMoyenneHeureTravailParEmployeParDate(req, res){
+    const db = await getMongoDBDatabase();
+    try {
+        let AllEmploye = await new Employe().read(db);
+        await SuiviEmployeRendezvous.getMoyenneHeureTravailParEmployeParDate(db, req.body?.datedebut, req.body?.datefin).then((result) => {
+
+            // if the allemploye is not in the result then we add it to the result with moyenheuretravail = 0 and nombreRendezvous = 0
+            AllEmploye.forEach(employe => {
+                let employeExist = false;
+                result.forEach(element => {
+                    if (element.employe._id == employe._id) {
+                        employeExist = true;
+                    }
+                });
+                if (!employeExist) {
+                    result.push({
+                        employe: employe,
+                        moyenneheuretravail: 0,
+                        nombrerendezvous: 0
+                    });
+                }
+            });
+
+            httpUtil.sendJson(res, result, 200, "OK");
+        });
+    } catch (error) {
+        return httpUtil.sendJson(res, null, error.status || error.statusCode || 500, error.message);
+    }
+}
+  
 
 exports.createSuiviEmployeRendezvous = createSuiviEmployeRendezvous;
 exports.readSuiviEmployeRendezvous = readSuiviEmployeRendezvous;
 exports.updateSuiviEmployeRendezvous = updateSuiviEmployeRendezvous;
 exports.deleteSuiviEmployeRendezvous = deleteSuiviEmployeRendezvous;
+exports.prendreRendezvous = prendreRendezvous;
+exports.prendreEmployeDisponible = prendreEmployeDisponible;
+exports.getMoyenneHeureTravailParEmployeParDate = getMoyenneHeureTravailParEmployeParDate;

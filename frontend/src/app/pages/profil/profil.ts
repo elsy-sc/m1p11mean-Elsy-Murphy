@@ -14,7 +14,7 @@ import { Utilisateur } from "../../models/utilisateur.model";
 export class Profil implements OnInit {
 
     isLoading: boolean = false;
-    utilisateur!: Employe;
+    utilisateur!: any;
     errors: any[] | undefined = [];
     showAddSoldePopup: boolean = false;
 
@@ -50,16 +50,18 @@ export class Profil implements OnInit {
     }
 
     ngOnInit(): void {
-        let utilisateur = this.utilisateurService.getUserConnecte();
-        if (utilisateur) {
-            this.utilisateur = JSON.parse(utilisateur);
-            if (this.utilisateur.solde == undefined) {
-                this.utilisateur.solde = 0;
+        this.utilisateurService.setUserConnecteInStorage();
+        this.utilisateurService.utilisateurConnecte.subscribe(
+            (user) => {
+                if (user) {
+                    this.utilisateur = user;
+                    if (this.utilisateur.solde == undefined) {
+                        this.utilisateur.solde = 0;
+                    }
+                    this.utilisateur.motdepasse = undefined;
+                }
             }
-            this.utilisateur.motdepasse = undefined;
-            console.log(this.utilisateur);
-            
-        }
+        );
     }
 
     CancelAddSolde() {

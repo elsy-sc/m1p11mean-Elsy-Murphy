@@ -49,7 +49,7 @@
                         <td>{{depense.description}} <br /><br />
                             <strong>{{depense.montant}} Ar</strong>
                         </td>
-                        <td>{{depense.datedepense}}</td>
+                        <td>{{depense.datedepense| date:'d MMMM y' : '':'fr'}}</td>
                         <td>
                             <div class="flex"><button pButton pRipple icon="pi pi-pencil"
                                     class="p-button-rounded p-button-success mr-2" label="Modifier"
@@ -82,12 +82,12 @@
                         </div>
                     </div>
                 </div>
-                <p *ngIf="errorsUpdate && errorsUpdate[0]?.field ==='idtypedepense'" class="text-danger">
+                <p *ngIf="errorsUpdate && errorsUpdate[0]?.field ==='idtypedepense'" style="color: red;">
                     {{errorsUpdate[0]?.message}}</p>
                 <LabelInput label="Montant (en Ar)" type="number" name="montant"
                     [ngClass]="{'ng-dirty ng-invalid' : errorsUpdate && errorsUpdate[0]?.field ==='montant'} "
                     (input)="onInput()" [(ngModel)]="depenseUpdate.montant" />
-                <p *ngIf="errorsUpdate && errorsUpdate[0]?.field ==='montant'" class="text-danger">
+                <p *ngIf="errorsUpdate && errorsUpdate[0]?.field ==='montant'" style="color: red;">
                     {{errorsUpdate[0]?.message}}</p>
                 <div class="flex flex-column gap-2 container">
                     <div class="labelContainer"><label for="textarea" class="label">Description</label></div>
@@ -96,12 +96,12 @@
                                 [ngClass]="{'ng-dirty ng-invalid' : errorsUpdate && errorsUpdate[0]?.field ==='description'} "
                                 (input)="onInput()" [(ngModel)]="depenseUpdate.description"></textarea></span></div>
                 </div>
-                <p *ngIf="errorsUpdate && errorsUpdate[0]?.field ==='description'" class="text-danger">
+                <p *ngIf="errorsUpdate && errorsUpdate[0]?.field ==='description'" style="color: red;">
                     {{errorsUpdate[0]?.message}}</p>
                 <LabelInput label="Date du depense" type="date" name="datedepense"
                     [ngClass]="{'ng-dirty ng-invalid' : errorsUpdate && errorsUpdate[0]?.field ==='datedepense'} "
                     (input)="onInput()" [(ngModel)]="depenseUpdate.datedepense" />
-                <p *ngIf="errorsUpdate && errorsUpdate[0]?.field ==='datedepense'" class="text-danger">
+                <p *ngIf="errorsUpdate && errorsUpdate[0]?.field ==='datedepense'" style="color: red;">
                     {{errorsUpdate[0]?.message}}</p>
             </ng-template>
             <ng-template pTemplate="footer">

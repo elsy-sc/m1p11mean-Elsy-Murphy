@@ -6,7 +6,7 @@
                 <h5>Profil</h5>
                 <LabelInput label="Nom" type="text" name="nom" [(ngModel)]="utilisateur.nom" (input)="onInput()"
                     [ngClass]="{'ng-dirty ng-invalid' : errors && errors[0]?.field ==='nom'} " />
-                <p *ngIf="errors && errors[0]?.field === 'nom'" class="text-danger">{{errors[0]?.message}}</p>
+                <p *ngIf="errors && errors[0]?.field === 'nom'" style="color: red;">{{errors[0]?.message}}</p>
                 <div class="flex flex-column gap-2 container">
                     <div class="labelContainer"><label for="textarea" class="label">Prénom</label></div>
                     <div class="inputContainer"><span class="p-input-icon-left p-input-icon-right"><textarea id=textarea
@@ -15,35 +15,35 @@
                                 [ngClass]="{'ng-dirty ng-invalid' : errors && errors[0]?.field ==='prenom'} "></textarea></span>
                     </div>
                 </div>
-                <p *ngIf="errors && errors[0]?.field === 'prenom'" class="text-danger">{{errors[0]?.message}}</p>
+                <p *ngIf="errors && errors[0]?.field === 'prenom'" style="color: red;">{{errors[0]?.message}}</p>
                 <LabelInput label="Email" type="email" name="email" [(ngModel)]="utilisateur.email" (input)="onInput()"
                     [ngClass]="{'ng-dirty ng-invalid' : errors && errors[0]?.field ==='email'} " />
-                <p *ngIf="errors && errors[0]?.field === 'email'" class="text-danger">{{errors[0]?.message}}</p>
+                <p *ngIf="errors && errors[0]?.field === 'email'" style="color: red;">{{errors[0]?.message}}</p>
                 <LabelInput label="Date de naissance" type="date" name="datenaissance"
                     [(ngModel)]="utilisateur.datenaissance" (input)="onInput()"
                     [ngClass]="{'ng-dirty ng-invalid' : errors && errors[0]?.field ==='datenaissance'} " />
-                <p *ngIf="errors && errors[0]?.field === 'datenaissance'" class="text-danger">{{errors[0]?.message}}</p>
+                <p *ngIf="errors && errors[0]?.field === 'datenaissance'" style="color: red;">{{errors[0]?.message}}</p>
                 <LabelInput label="Numero de telephone" type="tel" name="numerotelephone"
                     [(ngModel)]="utilisateur.numerotelephone" (input)="onInput()"
                     [ngClass]="{'ng-dirty ng-invalid' : errors && errors[0]?.field ==='numerotelephone'} " />
-                <p *ngIf="errors && errors[0]?.field === 'numerotelephone'" class="text-danger">{{errors[0]?.message}}
+                <p *ngIf="errors && errors[0]?.field === 'numerotelephone'" style="color: red;">{{errors[0]?.message}}
                 </p>
-                <p *ngIf="errors && errors[0]?.field === 'role'" class="text-danger">{{errors[0]?.message}}</p>
+                <p *ngIf="errors && errors[0]?.field === 'role'" style="color: red;">{{errors[0]?.message}}</p>
                 <div *ngIf="utilisateur.cin && utilisateur.numerocartebancaire">
                     <LabelInput label="CIN" type="text" name="cin" [(ngModel)]="utilisateur.cin" (input)="onInput()"
                         [ngClass]="{'ng-dirty ng-invalid' : errors && errors[0]?.field ==='cin'} " />
-                    <p *ngIf="errors && errors[0]?.field === 'cin'" class="text-danger">{{errors[0]?.message}}</p>
+                    <p *ngIf="errors && errors[0]?.field === 'cin'" style="color: red;">{{errors[0]?.message}}</p>
                     <LabelInput label="Numero carte bancaire" type="text" name="numerocartebancaire"
                         [(ngModel)]="utilisateur.numerocartebancaire" (input)="onInput()"
                         [ngClass]="{'ng-dirty ng-invalid' : errors && errors[0]?.field ==='numerocartebancaire'} " />
-                    <p *ngIf="errors && errors[0]?.field === 'numerocartebancaire'" class="text-danger">
+                    <p *ngIf="errors && errors[0]?.field === 'numerocartebancaire'" style="color: red;">
                         {{errors[0]?.message}}</p>
                 </div>
                 <button pButton label="Modifier" [loading]="isLoading"></button>
             </form>
         </div>
     </div>
-    <div class="col-6 md:col-6" *ngIf="!utilisateur.cin && !utilisateur.numerocartebancaire" >
+    <div class="col-6 md:col-6" *ngIf="!utilisateur.cin && !utilisateur.numerocartebancaire && utilisateur.role == 2" >
         <div class="card p-fluid">
             <div class="flex flex-wrap gap-2">
                 <p style="font-size: 20px;">

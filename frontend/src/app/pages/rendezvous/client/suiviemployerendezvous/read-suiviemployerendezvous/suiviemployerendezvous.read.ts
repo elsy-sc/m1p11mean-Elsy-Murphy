@@ -1,6 +1,6 @@
 import { MessageService } from "primeng/api";
 import { HttpResponseApi } from "../../../../../interfaces/http/HttpResponseApi";
-import { Component, OnInit } from "@angular/core";
+import { AfterViewInit, Component, OnInit } from "@angular/core";
 import { SuiviEmployeRendezVous } from "../../../../../models/suiviemployerendezvous.model";
 import { SuiviEmployeRendezVousService } from "../../../../../services/suiviemployerendezvous/suiviemployerendezvous.service";
 import { Employe } from "../../../../../models/employe.model";
@@ -14,12 +14,13 @@ import { Paiement } from "../../../../../models/paiement.model";
 import { PaiementService } from "../../../../../services/paiement/paiement.service";
 import { response } from "express";
 import { UtilisateurService } from "../../../../../services/utilisateur/utilisateur.service";
+import { ActivatedRoute } from "@angular/router";
 @Component({
     selector: "read-suiviemployerendezvous",
     templateUrl: "./suiviemployerendezvous.read.page.html",
     styleUrls: ["./suiviemployerendezvous.read.page.css"]
 })
-export class ReadSuiviEmployeRendezVous implements OnInit {
+export class ReadSuiviEmployeRendezVous implements OnInit,AfterViewInit {
 
     suiviemployerendezvousSearch: SuiviEmployeRendezVous = new SuiviEmployeRendezVous();
     suiviemployerendezvouss: SuiviEmployeRendezVous[] = [];
@@ -62,35 +63,28 @@ export class ReadSuiviEmployeRendezVous implements OnInit {
 
 
     ValidUpdateSuiviEmployeRendezVous() {
-        if (this.suiviemployerendezvousUpdate.dateheurevalidation != null) {
-            this.showUpdatePopup = false;
-            this.messageService.add({ severity: "error", summary: "Erreur", detail: "Rendez-vous déjà validé" });
-        }
-        else {
-            this.loadingButtonUpdate = true;
-            this.suiviemployerendezvousUpdate.dateheurevalidation = new Date().date;
-            this.suiviemployerendezvousService.updateSuiviEmployeRendezVous(this.suiviemployerendezvousUpdate).subscribe(
-                (response: HttpResponseApi) => {
-                    console.log(response)
-                    if (response.message == "error" && response.status == 422) {
-                        this.errorsUpdate = response.data;
-                        this.loadingButtonUpdate = false;
-                    } else if (response.status == 200) {
-                        this.getSuiviEmployeRendezVouss();
-                        this.showUpdatePopup = false;
-                        this.loadingButtonUpdate = false;
-                        this.messageService.add({ severity: "success", summary: "Succès", detail: "Validation du rendez-vous effectuée avec succès" });
-                    } else {
-                        this.loadingButtonUpdate = false;
-                        this.messageService.add({ severity: "error", summary: "Erreur", detail: response.message });
-                    }
-                },
-                (error) => {
+        this.loadingButtonUpdate = true;
+        this.suiviemployerendezvousUpdate.dateheurevalidation = new Date().date;
+        this.suiviemployerendezvousService.updateSuiviEmployeRendezVous(this.suiviemployerendezvousUpdate).subscribe(
+            (response: HttpResponseApi) => {
+                if (response.message == "error" && response.status == 422) {
+                    this.errorsUpdate = response.data;
                     this.loadingButtonUpdate = false;
-                    console.error(error);
+                } else if (response.status == 200) {
+                    this.getSuiviEmployeRendezVouss();
+                    this.showUpdatePopup = false;
+                    this.loadingButtonUpdate = false;
+                    this.messageService.add({ severity: "success", summary: "Succès", detail: "Validation du rendez-vous effectuée avec succès" });
+                } else {
+                    this.loadingButtonUpdate = false;
+                    this.messageService.add({ severity: "error", summary: "Erreur", detail: response.message });
                 }
-            )
-        }
+            },
+            (error) => {
+                this.loadingButtonUpdate = false;
+                console.error(error);
+            }
+        )
     }
 
     onInput() {
@@ -110,7 +104,15 @@ export class ReadSuiviEmployeRendezVous implements OnInit {
         this.getSuiviEmployeRendezVouss();
     }
 
-    constructor(private suiviemployerendezvousService: SuiviEmployeRendezVousService, private messageService: MessageService, private employeService: EmployeService, private serviceService: ServiceService, private paiementService: PaiementService, private utilisateurSerivce: UtilisateurService) {
+    ngAfterViewInit(): void {
+        this.route.queryParamMap.subscribe(params => {     
+            if (params.get('message')) {
+                this.messageService.add({severity:"success", summary:"Succès", detail: params.get('message')?.toString()});
+            }
+        });
+    }
+
+    constructor(private suiviemployerendezvousService: SuiviEmployeRendezVousService, private messageService: MessageService, private employeService: EmployeService, private serviceService: ServiceService, private paiementService: PaiementService, private utilisateurSerivce: UtilisateurService, private route: ActivatedRoute) {
 
     }
 

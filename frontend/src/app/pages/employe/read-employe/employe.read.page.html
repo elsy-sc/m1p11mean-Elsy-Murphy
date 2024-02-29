@@ -64,7 +64,7 @@
                         <td>{{employe.nom}}</td>
                         <td>{{employe.prenom}}</td>
                         <td>{{employe.email}}</td>
-                        <td>{{employe.datenaissance}}</td>
+                        <td>{{employe.datenaissance| date:'d MMMM y' : '':'fr'}}</td>
                         <td>{{employe.numerotelephone}}</td>
                         <td>{{employe.cin}}</td>
                         <td>{{employe.numerocartebancaire}}</td>
@@ -88,7 +88,7 @@
                 <LabelInput label="Nom" type="text" name="nom"
                     [ngClass]="{'ng-dirty ng-invalid' : errorsUpdate && errorsUpdate[0]?.field ==='nom'} "
                     (input)="onInput()" [(ngModel)]="employeUpdate.nom" />
-                <p *ngIf="errorsUpdate && errorsUpdate[0]?.field ==='nom'" class="text-danger">
+                <p *ngIf="errorsUpdate && errorsUpdate[0]?.field ==='nom'" style="color: red;">
                     {{errorsUpdate[0]?.message}}</p>
                 <div class="flex flex-column gap-2 container">
                     <div class="labelContainer"><label for="textarea" class="label">Prénom</label></div>
@@ -97,22 +97,22 @@
                                 [ngClass]="{'ng-dirty ng-invalid' : errorsUpdate && errorsUpdate[0]?.field ==='prenom'} "
                                 (input)="onInput()" [(ngModel)]="employeUpdate.prenom"></textarea></span></div>
                 </div>
-                <p *ngIf="errorsUpdate && errorsUpdate[0]?.field ==='prenom'" class="text-danger">
+                <p *ngIf="errorsUpdate && errorsUpdate[0]?.field ==='prenom'" style="color: red;">
                     {{errorsUpdate[0]?.message}}</p>
                 <LabelInput label="Email" type="email" name="email"
                     [ngClass]="{'ng-dirty ng-invalid' : errorsUpdate && errorsUpdate[0]?.field ==='email'} "
                     (input)="onInput()" [(ngModel)]="employeUpdate.email" />
-                <p *ngIf="errorsUpdate && errorsUpdate[0]?.field ==='email'" class="text-danger">
+                <p *ngIf="errorsUpdate && errorsUpdate[0]?.field ==='email'" style="color: red;">
                     {{errorsUpdate[0]?.message}}</p>
                 <LabelInput label="Date de naissance" type="date" name="datenaissance"
                     [ngClass]="{'ng-dirty ng-invalid' : errorsUpdate && errorsUpdate[0]?.field ==='datenaissance'} "
                     (input)="onInput()" [(ngModel)]="employeUpdate.datenaissance" />
-                <p *ngIf="errorsUpdate && errorsUpdate[0]?.field ==='datenaissance'" class="text-danger">
+                <p *ngIf="errorsUpdate && errorsUpdate[0]?.field ==='datenaissance'" style="color: red;">
                     {{errorsUpdate[0]?.message}}</p>
                 <LabelInput label="Numero de telephone" type="tel" name="numerotelephone"
                     [ngClass]="{'ng-dirty ng-invalid' : errorsUpdate && errorsUpdate[0]?.field ==='numerotelephone'} "
                     (input)="onInput()" [(ngModel)]="employeUpdate.numerotelephone" />
-                <p *ngIf="errorsUpdate && errorsUpdate[0]?.field ==='numerotelephone'" class="text-danger">
+                <p *ngIf="errorsUpdate && errorsUpdate[0]?.field ==='numerotelephone'" style="color: red;">
                     {{errorsUpdate[0]?.message}}</p>
                 <!-- <div class="flex flex-column gap-2 container">
                     <div class="labelContainer"><label class="label">Role</label></div>
@@ -133,17 +133,17 @@
                         </div>
                     </div>
                 </div> -->
-                <p *ngIf="errorsUpdate && errorsUpdate[0]?.field ==='role'" class="text-danger">
+                <p *ngIf="errorsUpdate && errorsUpdate[0]?.field ==='role'" style="color: red;">
                     {{errorsUpdate[0]?.message}}</p>
                 <LabelInput label="CIN" type="text" name="cin"
                     [ngClass]="{'ng-dirty ng-invalid' : errorsUpdate && errorsUpdate[0]?.field ==='cin'} "
                     (input)="onInput()" [(ngModel)]="employeUpdate.cin" />
-                <p *ngIf="errorsUpdate && errorsUpdate[0]?.field ==='cin'" class="text-danger">
+                <p *ngIf="errorsUpdate && errorsUpdate[0]?.field ==='cin'" style="color: red;">
                     {{errorsUpdate[0]?.message}}</p>
                 <LabelInput label="Numero carte bancaire" type="text" name="numerocartebancaire"
                     [ngClass]="{'ng-dirty ng-invalid' : errorsUpdate && errorsUpdate[0]?.field ==='numerocartebancaire'} "
                     (input)="onInput()" [(ngModel)]="employeUpdate.numerocartebancaire" />
-                <p *ngIf="errorsUpdate && errorsUpdate[0]?.field ==='numerocartebancaire'" class="text-danger">
+                <p *ngIf="errorsUpdate && errorsUpdate[0]?.field ==='numerocartebancaire'" style="color: red;">
                     {{errorsUpdate[0]?.message}}</p>
             </ng-template>
             <ng-template pTemplate="footer">

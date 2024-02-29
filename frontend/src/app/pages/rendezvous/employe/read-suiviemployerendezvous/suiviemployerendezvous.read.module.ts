@@ -13,6 +13,10 @@ import { GenericPopupModule } from "../../../../components/generic-popup/generic
 import { FormsModule } from "@angular/forms";
 import { InputTextareaModule } from "primeng/inputtextarea";
 import { DialogModule } from "primeng/dialog";
+import {DataViewModule} from 'primeng/dataview';
+import { DragDropModule } from 'primeng/dragdrop';
+import { CalendarModule } from "primeng/calendar";
+
 @NgModule({
     declarations: [
         ReadSuiviEmployeRendezVousEmploye
@@ -30,7 +34,12 @@ import { DialogModule } from "primeng/dialog";
         GenericPopupModule,
         InputTextareaModule,
         DialogModule,
-        LabelInputModule
+        LabelInputModule,
+        DataViewModule,
+        DragDropModule,
+        CalendarModule,
+        DialogModule,
+        CalendarModule
     ]
 })
 export class ReadSuiviEmployeRendezVousEmployeModule { }

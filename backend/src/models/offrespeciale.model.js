@@ -3,8 +3,8 @@ const { getNonEmptyObject } = require("../utils/object.util");
 const Service = require("./service.model").Service;
 
 class Offrespeciale extends Service {
-    constructor(descriptionoffrespeciale, reductionoffrespeciale, dateheuredebutoffrespeciale, dateheurefinoffrespeciale, image) {
-        super();
+    constructor(descriptionoffrespeciale, reductionoffrespeciale, dateheuredebutoffrespeciale, dateheurefinoffrespeciale, image, idcategorieservice, nom, description, duree, prix, commission) {
+        super(idcategorieservice, nom, description, duree, prix, commission);
         this.tableName = "service";
         this.descriptionoffrespeciale = getNonEmptyObject(descriptionoffrespeciale);
         this.reductionoffrespeciale = getNonEmptyObject(reductionoffrespeciale);

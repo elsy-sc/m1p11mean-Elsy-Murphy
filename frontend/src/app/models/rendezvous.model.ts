@@ -46,14 +46,14 @@ export class Rendezvous extends TableObject {
         title: 'Date et heure du rendez-vous',
         type: 'simple'
     })
-    dateheurerendezvous?: Date;
+    dateheurerendezvous?: string;
 
 
     client?: Utilisateur;
     service?: Service[];
     paiement?: Paiement[];
 
-    constructor(idclient?: string, idservice?: string, dateheurerendezvous?: Date) {
+    constructor(idclient?: string, idservice?: string, dateheurerendezvous?: string) {
         super();
         this.idclient = idclient;
         this.idservice = idservice;

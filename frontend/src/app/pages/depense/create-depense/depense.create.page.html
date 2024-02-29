@@ -18,11 +18,11 @@
                         </div>
                     </div>
                 </div>
-                <p *ngIf="errors && errors[0]?.field === 'idtypedepense'" class="text-danger">{{errors[0]?.message}}</p>
+                <p *ngIf="errors && errors[0]?.field === 'idtypedepense'" style="color: red;">{{errors[0]?.message}}</p>
                 <LabelInput label="Montant (en Ar)" type="number" name="montant" [(ngModel)]="depense.montant"
                     (input)="onInput()"
                     [ngClass]="{'ng-dirty ng-invalid' : errors && errors[0]?.field ==='montant'} " />
-                <p *ngIf="errors && errors[0]?.field === 'montant'" class="text-danger">{{errors[0]?.message}}</p>
+                <p *ngIf="errors && errors[0]?.field === 'montant'" style="color: red;">{{errors[0]?.message}}</p>
                 <div class="flex flex-column gap-2 container">
                     <div class="labelContainer"><label for="textarea" class="label">Description</label></div>
                     <div class="inputContainer"><span class="p-input-icon-left p-input-icon-right"><textarea id=textarea
@@ -31,11 +31,11 @@
                                 [ngClass]="{'ng-dirty ng-invalid' : errors && errors[0]?.field ==='description'} "></textarea></span>
                     </div>
                 </div>
-                <p *ngIf="errors && errors[0]?.field === 'description'" class="text-danger">{{errors[0]?.message}}</p>
+                <p *ngIf="errors && errors[0]?.field === 'description'" style="color: red;">{{errors[0]?.message}}</p>
                 <LabelInput label="Date du depense" type="date" name="datedepense" [(ngModel)]="depense.datedepense"
                     (input)="onInput()"
                     [ngClass]="{'ng-dirty ng-invalid' : errors && errors[0]?.field ==='datedepense'} " />
-                <p *ngIf="errors && errors[0]?.field === 'datedepense'" class="text-danger">{{errors[0]?.message}}</p>
+                <p *ngIf="errors && errors[0]?.field === 'datedepense'" style="color: red;">{{errors[0]?.message}}</p>
                 <button pButton label="Ajouter" [loading]="isLoading"></button>
             </form>
         </div>

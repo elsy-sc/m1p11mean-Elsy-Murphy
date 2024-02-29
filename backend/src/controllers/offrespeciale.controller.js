@@ -6,7 +6,7 @@ async function createOffrespeciale(req, res, next) {
     const db = await getMongoDBDatabase();
     let errors = [];
     try {
-        const offrespecialeBody = JSON.parse(req.body?.offrespeciale);
+        const offrespecialeBody = JSON.parse(req.body?.offrespeciale || "{}");
         const offrespeciale = new Offrespeciale();
         offrespeciale.setDescriptionoffrespeciale(offrespecialeBody?.descriptionoffrespeciale);
         offrespeciale.setDateheuredebutoffrespeciale(offrespecialeBody?.dateheuredebutoffrespeciale);
@@ -17,6 +17,7 @@ async function createOffrespeciale(req, res, next) {
         offrespeciale.setDuree(offrespecialeBody?.duree);
         offrespeciale.setIdcategorieservice(offrespecialeBody?.idcategorieservice);
         offrespeciale.image = req.body?.imageDB;
+
         await offrespeciale.create(db).then(() => {
             httpUtil.sendJson(res, null, 201, "OK");        
         });
@@ -41,7 +42,11 @@ async function createOffrespeciale(req, res, next) {
 async function readOffrespeciale(req, res) {
     const db = await getMongoDBDatabase();
     try {
-        await new Offrespeciale(req.body?.descriptionoffrespeciale ? { $regex: new RegExp(req.body?.descriptionoffrespeciale, 'i')} : null).read(db).then((result) => {
+        const offrespeciale = new Offrespeciale(null, null, null, null, null, req.body?.idcategorieservice, req.body?.nom, req.body?.description, null, null, null);
+        if (offrespeciale.nom) {
+            offrespeciale.nom = { $regex: offrespeciale.nom, $options: 'i' };
+        }
+        await offrespeciale.read(db).then((result) => {
             httpUtil.sendJson(res, result, 200, "OK");
         });
     } catch (error) {
@@ -49,23 +54,25 @@ async function readOffrespeciale(req, res) {
     }
 }
 
-async function updateOffrespeciale(req, res) {
+async function updateOffrespeciale(req, res, next) {
     const db = await getMongoDBDatabase();
     let errorsUpdate = [];
     try {
+        const offrespecialeBody = JSON.parse(req.body?.offrespeciale|| "{}");
         const offrespecialeWhere = new Offrespeciale();
-        offrespecialeWhere._id = req.body?._id;
-
-        const offrespecialeSet = new Offrespeciale(null, req.body?.descriptionoffrespeciale, req.body?.idoffrespeciale);
-        offrespecialeSet.setDescriptionoffrespeciale(req.body?.descriptionoffrespeciale);
-        offrespecialeSet.setDateheuredebutoffrespeciale(req.body?.dateheuredebutoffrespeciale);
-        offrespecialeSet.setDateheurefinoffrespeciale(req.body?.dateheurefinoffrespeciale);
-        offrespecialeSet.setReductionoffrespeciale(req.body?.reductionoffrespeciale);
-        offrespecialeSet.setNom(req.body?.nom);
-        offrespecialeSet.setPrix(req.body?.prix);
-        offrespecialeSet.setDuree(req.body?.duree);
-        offrespecialeSet.setIdcategorieservice(req.body?.idcategorieservice);
-        offrespecialeSet._state = req.body?._state;
+        offrespecialeWhere._id = offrespecialeBody?._id;
+        
+        const offrespecialeSet = new Offrespeciale(null, offrespecialeBody?.descriptionoffrespeciale, offrespecialeBody?.idoffrespeciale);
+        offrespecialeSet.setDescriptionoffrespeciale(offrespecialeBody?.descriptionoffrespeciale);
+        offrespecialeSet.setDateheuredebutoffrespeciale(offrespecialeBody?.dateheuredebutoffrespeciale);
+        offrespecialeSet.setDateheurefinoffrespeciale(offrespecialeBody?.dateheurefinoffrespeciale);
+        offrespecialeSet.setReductionoffrespeciale(offrespecialeBody?.reductionoffrespeciale);
+        offrespecialeSet.setNom(offrespecialeBody?.nom);
+        offrespecialeSet.setPrix(offrespecialeBody?.prix);
+        offrespecialeSet.setDuree(offrespecialeBody?.duree);
+        offrespecialeSet.setIdcategorieservice(offrespecialeBody?.idcategorieservice);
+        offrespecialeSet._state = offrespecialeBody?._state;
+        offrespecialeSet.image = req.body?.imageDB;
 
         await offrespecialeWhere.update(db, offrespecialeSet).then(() => {
             httpUtil.sendJson(res, null, 200, "OK");        

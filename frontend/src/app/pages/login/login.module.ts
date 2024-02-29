@@ -10,6 +10,7 @@ import { RouterModule } from '@angular/router';
 import { AccordionModule } from 'primeng/accordion';
 import { TableModule } from 'primeng/table';
 import { ToastModule } from 'primeng/toast';
+import { DropdownModule } from 'primeng/dropdown';
 
 
 @NgModule({
@@ -23,7 +24,8 @@ import { ToastModule } from 'primeng/toast';
         RouterModule,
         AccordionModule,
         TableModule,
-        ToastModule
+        ToastModule,
+        DropdownModule
     ],
     declarations: [LoginComponent]
 })
