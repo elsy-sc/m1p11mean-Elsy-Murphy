@@ -1,5 +1,6 @@
 const { Date } = require("../beans/date.bean.util");
 const { Rendezvous } = require("./rendezvous.model");
+const moment = require("moment");
 
 class SuiviEmployeRendezvous extends Rendezvous {
     constructor(idemploye, dateheuredebutsuivi, dateheurefinsuivi, dateheurevalidation) {
@@ -70,6 +71,47 @@ class SuiviEmployeRendezvous extends Rendezvous {
         return await rendezvous.read(db, query);
     }
 
+    static async getMoyenneHeureTravailParEmployeParDate(db, stringDebutTimestamp, stringFinTimestamp) {
+        let debutDate = new Date(stringDebutTimestamp);
+        let finDate = new Date(stringFinTimestamp);
+        let rendezvous = new SuiviEmployeRendezvous();
+        let query = {
+            $and: [
+                { dateheurerendezvous: { $gte: debutDate.date } },
+                { dateheurerendezvous: { $lte: finDate.date } }
+            ]
+        };
+        let suiviemployerendezvous = await rendezvous.read(db, query);
+        let employes = [];
+        let moyenneHeureTravailParEmploye = [];
+        suiviemployerendezvous.forEach(element => {
+            console.log(element.employe);
+            if (employes.indexOf(element.idemploye) == -1) {
+                employes.push(element.idemploye);
+            }
+        });
+        employes.forEach(employe => {
+            let tempsTravail = 0;
+            let nombreRendezvous = 0;
+            suiviemployerendezvous.forEach(element => {
+                if (element.idemploye == employe) {
+                    if (element.dateheurefinsuivi && element.dateheuredebutsuivi) {
+                        /// difference date with moment js
+                        tempsTravail +=  moment(element.dateheurefinsuivi).diff(moment(element.dateheuredebutsuivi), 'hours');
+
+                        // tempsTravail += element.dateheurefinsuivi - element.dateheuredebutsuivi;
+                        nombreRendezvous++;
+                    }
+                }
+            });
+            moyenneHeureTravailParEmploye.push({
+                idemploye: employe,
+                tempsTravail: tempsTravail / nombreRendezvous
+            });
+        });
+        return moyenneHeureTravailParEmploye;
+    
+    }       
 }
 
 exports.SuiviEmployeRendezvous = SuiviEmployeRendezvous;
