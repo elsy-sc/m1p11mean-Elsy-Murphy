@@ -114,10 +114,6 @@ export class ReadSuiviEmployeRendezVousEmploye implements OnInit {
         this.showCommencePopup = false;
         this.showTerminePopup = false;
 
-        console.log(this.toDrop);
-        console.log(this.draggedRendezVousNonCommence);
-
-
         if (this.draggedRendezVousNonCommence) {
             if (this.toDrop !== this.nonCommences) {
                 this.dragged = this.draggedRendezVousNonCommence;
@@ -130,6 +126,7 @@ export class ReadSuiviEmployeRendezVousEmploye implements OnInit {
                     this.suiviEmployeRendezvousService.updateSuiviEmployeRendezVous(this.dragged).subscribe(
                         (response) => {
                             if (response.status == 200) {
+                                this.messageService.add({severity: "success",detail: "rendez-vous commencé avec succes"});
                                 this.getRendezVous();
                             }
                         }
@@ -158,6 +155,7 @@ export class ReadSuiviEmployeRendezVousEmploye implements OnInit {
                 this.suiviEmployeRendezvousService.updateSuiviEmployeRendezVous(this.dragged).subscribe(
                     (response) => {
                         if (response.status == 200) {
+                            this.messageService.add({severity: "success",detail: "rendez-vous terminé avec succes"});
                             this.getRendezVous();
                         }
                     }

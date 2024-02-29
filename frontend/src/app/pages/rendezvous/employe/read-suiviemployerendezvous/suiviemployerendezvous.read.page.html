@@ -11,7 +11,7 @@
               <ng-template let-nonCommences pTemplate="listItem">
                 <div *ngFor="let nonCommence of nonCommences" class="card col-12" pDraggable
                   (onDragStart)="dragStartNonCommence(nonCommence)" (onDragEnd)="dragEnd()">
-                  <div class=""><strong>date heure rendezvous :</strong>{{nonCommence.dateheurerendezvous}}</div>
+                  <div class=""><strong>date heure rendezvous :</strong>{{nonCommence.dateheurerendezvous | date:'d MMMM y, h:mm a' : '':'fr'}}</div>
                   <div class="flex flex-column md:flex-row align-items-center p-3 w-full">
                     <div class="flex-1 flex flex-column align-items-center text-center md:text-left">
                       <img [src]="nonCommence.service[0].image" [alt]=""
@@ -37,12 +37,12 @@
               <ng-template let-enCours pTemplate="listItem">
                 <div *ngFor="let enCour of enCours" class="card col-12" pDraggable
                   (onDragStart)="dragStartEnCour(enCour)" (onDragEnd)="dragEnd()">
-                  <div class=""><strong>date heure commencement : </strong>{{enCour.dateheuredebutsuivi}}</div>
+                  <div class=""><strong>date heure commencement : </strong>{{enCour.dateheuredebutsuivi| date:'d MMMM y, h:mm a' : '':'fr'}}</div>
                   <div class="flex flex-column md:flex-row align-items-center p-3 w-full">
                     <div class="flex-1 flex flex-column align-items-center text-center md:text-left">
                       <img [src]="enCour.service[0].image" [alt]="" class="my-4 md:my-0 w-9 md:w-10rem shadow-2 mr-5" />
                       <div class="mb-2 mt-3 text-1xl">{{enCour.service[0].nom}}</div>
-                      <div class="mb-2  font-bold">{{enCour.service[0].prix+" Ar"}}</div>
+                      <div class="mb-2  font-bold">{{getMontantCommission(enCour.service[0].prix)+" Ar"}}</div>
                       <div class="flex align-items-center mt-2">
                         <i class="pi pi-user mr-2"></i>
                         <span class="font-semibold">{{enCour.client[0].nom+"
@@ -61,8 +61,8 @@
             <p-dataView *ngIf="termines && termines.length > 0" [value]="termines">
               <ng-template let-termines pTemplate="listItem">
                 <div *ngFor="let termine of termines" class="card col-12">
-                  <div class=""><strong>date heure debut : </strong>{{termine.dateheuredebutsuivi}}</div>
-                  <div class=""><strong>date heure fin : </strong>{{termine.dateheurefinsuivi}}</div>
+                  <div class=""><strong>date heure debut : </strong>{{termine.dateheuredebutsuivi| date:'d MMMM y, h:mm a' : '':'fr'}}</div>
+                  <div class=""><strong>date heure fin : </strong>{{termine.dateheurefinsuivi| date:'d MMMM y, h:mm a' : '':'fr'}}</div>
                   <div class="flex flex-column md:flex-row align-items-center p-3 w-full">
                     <div class="flex-1 flex flex-column align-items-center text-center md:text-left">
                       <img [src]="termine.service[0].image" [alt]=""

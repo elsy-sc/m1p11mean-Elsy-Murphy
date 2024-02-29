@@ -403,6 +403,50 @@ async function sendMailRappel(req, res) {
     }
 }
 
+async function suiviTacheEffectues (req, res) {
+    const db = await getMongoDBDatabase();
+    try {
+        let rendezvous = new Rendezvous();
+        
+        const regex = new RegExp(`^${req.body?.date}`, 'i');
+
+        let query;
+        if (req.body?.date) {
+            query = {
+                $and: [
+                    {dateheurefinsuivi: { $ne: null }},
+                    {dateheurefinsuivi: { $regex: regex}}
+                ]
+            };
+        }  else {
+            query = {
+                $and: [
+                    {dateheurefinsuivi: { $ne: null }}
+                ]
+            };
+        }
+        
+        rendezvous.read(db,query).then((results) => {
+            results.forEach(result => {
+                if (result.service[0].commission) {
+                    const montantcommission = (parseInt(result.service[0].prix)*parseFloat(result.service[0].commission))/100;
+                    result.montantcommission = montantcommission;
+                } else {
+                    result.montantcommission = 0;
+                }
+            });
+            httpUtil.sendJson(res, results, 200, "ok");
+        });
+    } catch (error) {
+        httpUtil.sendJson(
+            res,
+            null,
+            error.status || error.statusCode || 500,
+            error.message
+        );
+    }
+}
+
 exports.createRendezvous = createRendezvous;
 exports.readRendezvous = readRendezvous;
 exports.updateRendezvous = updateRendezvous;
@@ -413,3 +457,4 @@ exports.beneficeNetParMois = beneficeNetParMois;
 exports.beneficeNetParJour = beneficeNetParJour;
 exports.rappelRendezvous = rappelRendezvous;
 exports.sendMailRappel = sendMailRappel;
+exports.suiviTacheEffectues = suiviTacheEffectues;

@@ -26,6 +26,7 @@ import { ReadHorrairetravail } from './pages/horrairetravail/read-horrairetravai
 import { InscriptionComponent } from './pages/inscription/inscription.component';
 import { NombreReservation } from './pages/statistiques/nombre-reservation/nombre-reservation.component';
 import { BeneficeNet } from './pages/statistiques/benefice-net/benefice-net.component';
+import { SuiviTacheEffectue } from './pages/suivitacheeffectue/suivi-tache-effectue.component';
 
 const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -49,6 +50,7 @@ const routes: Routes = [
       {path:'profil' , component: Profil, canActivate: [AuthGuard]},
       {path:'horrairetravail/create' , component: CreateHorraireTravail, canActivate: [AuthGuard], data:{role: 1}},
       {path:'horrairetravail/read' , component: ReadHorrairetravail, canActivate: [AuthGuard], data:{role: 1}},
+      {path:'suivitâcheeffectue', component: SuiviTacheEffectue, canActivate: [AuthGuard], data:{role: 1}},
       {path:'statistique/nombrereservation' , component: NombreReservation, canActivate: [AuthGuard], data:{role: 0}},
       {path:'statistique/beneficenet' , component: BeneficeNet, canActivate: [AuthGuard], data:{role: 0}},
     ]

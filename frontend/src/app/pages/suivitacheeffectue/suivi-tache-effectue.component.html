@@ -1,0 +1,48 @@
+<p-toast></p-toast>
+<div class="grid">
+    <div class="col-12">
+        <div class="card">
+            <h5>Tâches effectuées</h5>
+            <p-table [value]="tacheeffectues" [paginator]="true" [rows]="3">
+                <ng-template pTemplate="summary">
+                    <div>
+                        <h5>{{date | date:'d MMMM y' : '':'fr'}} ==> commission : {{totalmontant}} Ar</h5>
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="caption">
+                    <p-accordion>
+                        <p-accordionTab header="Recherche" [selected]="false" class="line-height-3 m-0">
+                            <div class="flex flex-column gap-2 container">
+                                <div class="labelContainer"><label class="label">Date</label></div>
+                                <div class="inputContainer">
+                                    <div class="grid formgrid">
+                                        <div class="inputContainer">
+                                            <input pInputText  type="date" name="date" [(ngModel)]="date" (input)="getSuiviTacheEffectue()" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </p-accordionTab>
+                    </p-accordion>
+                </ng-template>
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th style="min-width: 12rem">Service</th>
+                        <th style="min-width: 12rem">Client</th>
+                        <th style="min-width: 12rem">Date fin</th>
+                        <th style="min-width: 12rem">Commission</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-tacheeffectue>
+                    <tr>
+                        <td>{{tacheeffectue.service[0].nom}} <br /><br /> <strong>{{tacheeffectue.service[0].prix}}
+                                Ar</strong> </td>
+                        <td>{{tacheeffectue.client[0].nom+"  "+tacheeffectue.client[0].prenom}}</td>
+                        <td>{{tacheeffectue.dateheurefinsuivi | date:'d MMMM y' : '':'fr'}}</td>
+                        <td><strong>{{tacheeffectue.montantcommission}} Ar</strong></td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+</div>

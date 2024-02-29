@@ -60,7 +60,8 @@ export class AppMenuComponent implements OnInit {
                                 },
                                 {
                                     label: 'Suivi des tâches effectués ',
-                                    icon: 'pi pi-fw pi-list'
+                                    icon: 'pi pi-fw pi-list',
+                                    routerLink: ['suivitâcheeffectue']
                                 }
                             ]
                         },

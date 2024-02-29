@@ -26,7 +26,7 @@ class Rendezvous extends TableObject {
             },
             {
                 tableName: "paiement",
-                foreignField: "idrendezvous",
+                foreignField: "idrendezvous",   
                 localField: "_id",
                 as: "paiement",
             }
