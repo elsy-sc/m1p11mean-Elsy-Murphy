@@ -85,7 +85,6 @@ class SuiviEmployeRendezvous extends Rendezvous {
         let employes = [];
         let moyenneHeureTravailParEmploye = [];
         suiviemployerendezvous.forEach(element => {
-            console.log(element.employe);
             if (employes.indexOf(element.idemploye) == -1) {
                 employes.push(element.idemploye);
             }
@@ -94,19 +93,18 @@ class SuiviEmployeRendezvous extends Rendezvous {
             let tempsTravail = 0;
             let nombreRendezvous = 0;
             suiviemployerendezvous.forEach(element => {
+                console.log(element._id, employe, element.dateheurefinsuivi, element.dateheuredebutsuivi)
                 if (element.idemploye == employe) {
                     if (element.dateheurefinsuivi && element.dateheuredebutsuivi) {
-                        /// difference date with moment js
-                        tempsTravail +=  moment(element.dateheurefinsuivi).diff(moment(element.dateheuredebutsuivi), 'hours');
-
-                        // tempsTravail += element.dateheurefinsuivi - element.dateheuredebutsuivi;
+                        tempsTravail += (moment(element.dateheurefinsuivi).diff(moment(element.dateheuredebutsuivi)) / (1000 * 60 * 60));
                         nombreRendezvous++;
                     }
                 }
             });
             moyenneHeureTravailParEmploye.push({
                 idemploye: employe,
-                tempsTravail: tempsTravail / nombreRendezvous
+                moyenneTempsTravail: tempsTravail / nombreRendezvous,
+                nombreRendezvous: nombreRendezvous
             });
         });
         return moyenneHeureTravailParEmploye;
