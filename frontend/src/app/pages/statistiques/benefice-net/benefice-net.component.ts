@@ -10,6 +10,8 @@ import { StatistiqueService } from '../../../services/statistique/statistique.se
 })
 export class BeneficeNet implements OnInit {
 
+  isLoading: boolean = false;
+
   lineDataMois: any;
   lineOptionsMois: any;
 
@@ -188,10 +190,12 @@ export class BeneficeNet implements OnInit {
   }
 
   getDepenseParMois () {
+    this.isLoading = true;
     this.statistiqueService.readDepenseParMois(this.annee).subscribe(
       (response) => {
         this.dataDepenseMois = response.data;
         this.getBeneficeParMois();
+        this.isLoading = false;
       },
       (error) => {
         console.error(error);

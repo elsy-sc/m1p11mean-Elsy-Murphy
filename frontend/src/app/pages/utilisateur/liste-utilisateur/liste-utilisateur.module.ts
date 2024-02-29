@@ -12,6 +12,7 @@ import { GenericPopupModule } from '../../../components/generic-popup/generic-po
 import { FormsModule } from '@angular/forms';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { DialogModule } from 'primeng/dialog';
+import { LoadingModule } from '../../../components/loading/loading.module';
 
 
 @NgModule({
@@ -31,6 +32,7 @@ import { DialogModule } from 'primeng/dialog';
     GenericPopupModule,
     InputTextareaModule,
     DialogModule,
+    LoadingModule
   ]
 })
 export class ListeUtilisateurModule { }

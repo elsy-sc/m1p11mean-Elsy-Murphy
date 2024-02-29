@@ -97,9 +97,11 @@ export class CreateSuiviEmployeRendezVous implements OnInit {
     }
 
     getServices() {
+        this.isLoading = true;
         this.serviceService.readService(this.serviceSearch).subscribe((response: HttpResponseApi) => {
             if (response.data) {
                 this.services = response.data;
+                this.isLoading = false;
             }
         });
     }

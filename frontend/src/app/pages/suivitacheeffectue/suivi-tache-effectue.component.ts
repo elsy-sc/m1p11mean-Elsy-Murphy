@@ -11,6 +11,7 @@ import { SuiviTacheEffectueService } from '../../services/suivitacheeffectue/sui
   styleUrl: './suivi-tache-effectue.component.css'
 })
 export class SuiviTacheEffectue implements OnInit, AfterViewInit {
+  isLoading: boolean = false;
 
   date: string = new Date().date.split(" ")[0];
   tacheeffectues: SuiviEmployeRendezVous[] = [];
@@ -27,11 +28,13 @@ export class SuiviTacheEffectue implements OnInit, AfterViewInit {
   }
 
   getSuiviTacheEffectue() {
+    this.isLoading = true;
     this.suivitacheffectueservice.readSuiviTacheEffectue(this.date).subscribe(
       (response) => {
         if (response.data) {
           this.tacheeffectues = response.data;
           this.totalmontant = this.tacheeffectues.reduce((somme, item) => somme + (item.montantcommission || 0), 0);
+          this.isLoading = false;
         }
       },
       (error) => {

@@ -94,7 +94,7 @@ registerLocaleData(localeFr);
     BeneficeNetModule,
     RendezvousRappelModule,
     SuiviTacheEffectueModule,
-    MoyenneTempsTravailEmployeModule
+    MoyenneTempsTravailEmployeModule,
   ],
   providers: [
     provideHttpClient(withFetch()),

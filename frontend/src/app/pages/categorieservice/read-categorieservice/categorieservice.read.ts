@@ -9,6 +9,7 @@ import { CategorieServiceService } from "../../../services/categorieservice/cate
     styleUrls: ["./categorieservice.read.page.css"]
 })
 export class ReadCategorieService implements OnInit {
+    isLoading: boolean = false;
 
     categorieserviceSearch: CategorieService = new CategorieService();
     categorieservices: CategorieService[] = [];
@@ -77,10 +78,11 @@ export class ReadCategorieService implements OnInit {
     }
 
     getCategorieServices() {
-
+        this.isLoading = true;
         this.categorieserviceService.readCategorieService(this.categorieserviceSearch).subscribe((response: HttpResponseApi) => {
             if (response.data) {
                 this.categorieservices = response.data;
+                this.isLoading = false;
             }
         });
     }

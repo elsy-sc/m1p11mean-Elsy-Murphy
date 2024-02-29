@@ -14,6 +14,7 @@ import { FormsModule } from "@angular/forms";
 import { InputTextareaModule } from "primeng/inputtextarea";
 import { DialogModule } from "primeng/dialog";
 import { CalendarModule } from "primeng/calendar";
+import { LoadingModule } from "../../../../../components/loading/loading.module";
 @NgModule({
     declarations: [
         ReadSuiviEmployeRendezVous
@@ -32,7 +33,8 @@ import { CalendarModule } from "primeng/calendar";
         InputTextareaModule,
         DialogModule,
         LabelInputModule,
-        CalendarModule
+        CalendarModule,
+        LoadingModule
     ]
 })
 export class ReadSuiviEmployeRendezVousModule { }

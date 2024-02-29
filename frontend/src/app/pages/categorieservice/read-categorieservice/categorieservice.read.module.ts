@@ -13,6 +13,7 @@ import { GenericPopupModule } from "../../../components/generic-popup/generic-po
 import { FormsModule } from "@angular/forms";
 import { InputTextareaModule } from "primeng/inputtextarea";
 import { DialogModule } from "primeng/dialog";
+import { LoadingModule } from "../../../components/loading/loading.module";
 @NgModule({
 declarations: [
 ReadCategorieService
@@ -30,7 +31,8 @@ ToastModule,
 GenericPopupModule,
 InputTextareaModule,
 DialogModule,
-LabelInputModule
+LabelInputModule,
+LoadingModule
 ]
 })
 export class ReadCategorieServiceModule { }

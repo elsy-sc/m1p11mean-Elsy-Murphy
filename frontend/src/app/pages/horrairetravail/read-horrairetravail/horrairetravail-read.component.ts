@@ -13,6 +13,7 @@ import { HorraireTravailService } from '../../../services/horrairetravail/horrai
 })
 export class ReadHorrairetravail implements OnInit,AfterViewInit {
 
+  isLoading: boolean = false;
   horraireTravail!: HorraireTravail;
 
   horairetravailDelete: HorraireTravail = new HorraireTravail();
@@ -63,10 +64,11 @@ export class ReadHorrairetravail implements OnInit,AfterViewInit {
 
 
   getHoraireTravail() {
-
+    this.isLoading = true;
     this.horraireTravailSerice.readHorraireTravail(this.horraireTravail).subscribe((response: HttpResponseApi) => {
       if (response.data) {
         this.horraireTravails = response.data;
+        this.isLoading = false;
       }
     });
   }

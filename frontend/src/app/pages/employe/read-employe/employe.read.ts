@@ -11,6 +11,8 @@ import { Router } from "@angular/router";
 })
 export class ReadEmploye implements OnInit {
 
+    isLoading: boolean = false;
+
     employeSearch: Employe = new Employe();
     employes: Employe[] = [];
 
@@ -79,10 +81,11 @@ export class ReadEmploye implements OnInit {
     }
 
     getEmployes() {
-
+        this.isLoading = true;
         this.employeService.readEmploye(this.employeSearch).subscribe((response: HttpResponseApi) => {
             if (response.data) {
                 this.employes = response.data;
+                this.isLoading = false;
             }
         });
     }

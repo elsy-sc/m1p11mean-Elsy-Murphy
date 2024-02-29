@@ -22,6 +22,8 @@ import { ActivatedRoute } from "@angular/router";
 })
 export class ReadSuiviEmployeRendezVous implements OnInit,AfterViewInit {
 
+    isLoading: boolean = false;
+
     suiviemployerendezvousSearch: SuiviEmployeRendezVous = new SuiviEmployeRendezVous();
     suiviemployerendezvouss: SuiviEmployeRendezVous[] = [];
 
@@ -117,6 +119,7 @@ export class ReadSuiviEmployeRendezVous implements OnInit,AfterViewInit {
     }
 
     getSuiviEmployeRendezVouss() {
+        this.isLoading = true;
         const userStorage = this.suiviemployerendezvousService.getUserConnecte();
         if (userStorage) {
             const user = JSON.parse(userStorage);
@@ -125,6 +128,7 @@ export class ReadSuiviEmployeRendezVous implements OnInit,AfterViewInit {
         this.suiviemployerendezvousService.readSuiviEmployeRendezVous(this.suiviemployerendezvousSearch).subscribe((response: HttpResponseApi) => {
             if (response.data) {
                 this.suiviemployerendezvouss = response.data;
+                this.isLoading = false;
             }
         });
     }

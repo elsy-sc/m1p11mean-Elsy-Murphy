@@ -6,6 +6,7 @@ import { DropdownModule } from 'primeng/dropdown';
 import { FormsModule } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
 import { CalendarModule } from 'primeng/calendar';
+import { LoadingModule } from '../../../components/loading/loading.module';
 
 @NgModule({
   declarations: [NombreReservation],
@@ -15,7 +16,8 @@ import { CalendarModule } from 'primeng/calendar';
     ChartModule,
     DropdownModule,
     InputTextModule,
-    CalendarModule
+    CalendarModule,
+    LoadingModule
   ]
 })
 export class NombreReservationModule { }

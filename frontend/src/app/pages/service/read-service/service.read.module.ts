@@ -14,6 +14,8 @@ import { FormsModule } from "@angular/forms";
 import { InputTextareaModule } from "primeng/inputtextarea";
 import { DialogModule } from "primeng/dialog";
 import { FileUploadModule } from "primeng/fileupload";
+import { LoadingModule } from "../../../components/loading/loading.module";
+
 @NgModule({
     declarations: [
         ReadService
@@ -32,7 +34,8 @@ import { FileUploadModule } from "primeng/fileupload";
         InputTextareaModule,
         DialogModule,
         LabelInputModule,
-        FileUploadModule    
+        FileUploadModule,
+        LoadingModule
     ]
 })
 export class ReadServiceModule { }

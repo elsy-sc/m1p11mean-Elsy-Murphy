@@ -58,12 +58,14 @@ export class ListeUtilisateurComponent implements OnInit {
   }
 
   getListUtilisateur () {
+    this.isLoading = true;
     this.utilisateurService.read(this.utilisateurSearch).subscribe(
       (response: HttpResponseApi) => {
         console.log("params,",this.utilisateurSearch);
         console.log("response ==",response);
         if (response.data) {
           this.utilisateurs = response.data;
+          this.isLoading = false;
         }
       },
       (error) => {

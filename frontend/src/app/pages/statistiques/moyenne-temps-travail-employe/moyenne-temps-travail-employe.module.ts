@@ -13,6 +13,7 @@ import { ToastModule } from 'primeng/toast';
 import { GenericPopupModule } from '../../../components/generic-popup/generic-popup.module';
 import { LabelInputModule } from '../../../components/labelinput/labelinput.module';
 import { MoyenneTempsTravailEmploye } from './moyenne-temps-travail-employe.component';
+import { LoadingModule } from '../../../components/loading/loading.module';
 
 
 
@@ -32,7 +33,8 @@ import { MoyenneTempsTravailEmploye } from './moyenne-temps-travail-employe.comp
     InputTextareaModule,
     DialogModule,
     LabelInputModule,
-    ToastModule
+    ToastModule,
+    LoadingModule
   ]
 
 })

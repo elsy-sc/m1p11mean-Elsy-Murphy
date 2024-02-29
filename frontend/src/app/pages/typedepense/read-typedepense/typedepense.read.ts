@@ -10,6 +10,8 @@ import { TypeDepenseService } from "../../../services/typedepense/typedepense.se
 })
 export class ReadTypeDepense implements OnInit {
 
+    isLoading: boolean = false;
+
     typedepenseSearch: TypeDepense = new TypeDepense();
     typedepenses: TypeDepense[] = [];
 
@@ -77,10 +79,11 @@ export class ReadTypeDepense implements OnInit {
     }
 
     getTypeDepenses() {
-
+        this.isLoading = true;
         this.typedepenseService.readTypeDepense(this.typedepenseSearch).subscribe((response: HttpResponseApi) => {
             if (response.data) {
                 this.typedepenses = response.data;
+                this.isLoading = false;
             }
         });
     }

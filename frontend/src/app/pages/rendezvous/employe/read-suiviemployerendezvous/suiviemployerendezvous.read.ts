@@ -19,7 +19,7 @@ import { response } from "express";
 export class ReadSuiviEmployeRendezVousEmploye implements OnInit {
 
     dropOccurred: boolean = false;
-
+    isLoading: boolean = false;
     nonCommences: SuiviEmployeRendezVous[] = [];
     enCours: SuiviEmployeRendezVous[] = [];
     termines: SuiviEmployeRendezVous[] = [];
@@ -44,6 +44,7 @@ export class ReadSuiviEmployeRendezVousEmploye implements OnInit {
         this.nonCommences = [];
         this.enCours = [];
         this.termines = [];
+        this.isLoading = true;
         this.suiviEmployeRendezvousService.readSuiviEmployeRendezVous(new SuiviEmployeRendezVous()).subscribe(
             (response) => {
                 if (response.data) {
@@ -62,6 +63,7 @@ export class ReadSuiviEmployeRendezVousEmploye implements OnInit {
                             }
                         }
                     }
+                    this.isLoading = false;
                 }
             },
             (error) => {

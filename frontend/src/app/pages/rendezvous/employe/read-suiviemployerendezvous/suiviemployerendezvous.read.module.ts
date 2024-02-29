@@ -16,6 +16,7 @@ import { DialogModule } from "primeng/dialog";
 import {DataViewModule} from 'primeng/dataview';
 import { DragDropModule } from 'primeng/dragdrop';
 import { CalendarModule } from "primeng/calendar";
+import { LoadingModule } from "../../../../components/loading/loading.module";
 
 @NgModule({
     declarations: [
@@ -39,7 +40,8 @@ import { CalendarModule } from "primeng/calendar";
         DragDropModule,
         CalendarModule,
         DialogModule,
-        CalendarModule
+        CalendarModule,
+        LoadingModule
     ]
 })
 export class ReadSuiviEmployeRendezVousEmployeModule { }

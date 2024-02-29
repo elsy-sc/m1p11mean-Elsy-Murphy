@@ -10,6 +10,8 @@ import { StatistiqueService } from '../../../services/statistique/statistique.se
 })
 export class MoyenneTempsTravailEmploye implements OnInit, AfterViewInit {
 
+  isLoading: boolean = false;
+
   datedebut: string|undefined;
   datefin: string|undefined;
 
@@ -31,10 +33,12 @@ export class MoyenneTempsTravailEmploye implements OnInit, AfterViewInit {
   getMoyenneTempsTravailEmploye () {
     this.moyennetempsdetravailemployes = [];
     if (this.datedebut && this.datefin && this.datedebut.trim() != '' && this.datefin.trim() != '') {
+      this.isLoading = true;
       this.statistiqueService.getMoyenneTempsTravailEmploye(this.datedebut,this.datefin).subscribe(
         (response) => {
           if (response.data) {
             this.moyennetempsdetravailemployes = response.data;
+            this.isLoading = false;
           }
         } ,
         (error) => {

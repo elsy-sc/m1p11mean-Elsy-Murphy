@@ -25,6 +25,7 @@ export class ReadService implements OnInit {
     loadingButtonUpdate: boolean = true;
 
     showDeletePopup: boolean = false;
+    isLoading: boolean = false;
 
     showUpdatePopup: boolean = false;
 
@@ -138,18 +139,22 @@ export class ReadService implements OnInit {
     }
 
     getServices() {
+        this.isLoading = true;
         this.offreSpecialService.readOffrespeciale(this.serviceSearch).subscribe((response: HttpResponseApi) => {
             console.log(response);
             if (response.data) {
                 this.services = response.data;
+                this.isLoading = false;
             }
         });
     }
 
     getServiceCategories(){
+        this.isLoading = true;
       this.servicecategorieService.readCategorieService(new CategorieService()).subscribe((response: HttpResponseApi) => {
             if (response.data) {
                 this.categorieservices = response.data;
+                this.isLoading = false;
             }
         });
     }

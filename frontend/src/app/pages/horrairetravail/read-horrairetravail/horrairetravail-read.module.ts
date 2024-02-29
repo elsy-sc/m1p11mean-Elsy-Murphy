@@ -13,6 +13,7 @@ import { RippleModule } from 'primeng/ripple';
 import { ToastModule } from 'primeng/toast';
 import { GenericPopupModule } from '../../../components/generic-popup/generic-popup.module';
 import { LabelInputModule } from '../../../components/labelinput/labelinput.module';
+import { LoadingModule } from '../../../components/loading/loading.module';
 
 
 
@@ -31,7 +32,8 @@ import { LabelInputModule } from '../../../components/labelinput/labelinput.modu
     GenericPopupModule,
     InputTextareaModule,
     DialogModule,
-    LabelInputModule
+    LabelInputModule,
+    LoadingModule
   ]
 
 })

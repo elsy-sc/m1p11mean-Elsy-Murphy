@@ -14,6 +14,8 @@ import { Date } from "../../../beans/date.bean.util";
 })
 export class ReadDepense implements OnInit {
 
+    isLoading: boolean = false;
+
     depenseSearch: Depense = new Depense();
     depenses: Depense[] = [];
     typedepense: TypeDepense[] = [];
@@ -80,10 +82,11 @@ export class ReadDepense implements OnInit {
     }
 
     getDepenses() {
-
+        this.isLoading = true;
         this.depenseService.readDepense(this.depenseSearch).subscribe((response: HttpResponseApi) => {
             if (response.data) {
                 this.depenses = response.data;
+                this.isLoading = false;
             }
         });
     }

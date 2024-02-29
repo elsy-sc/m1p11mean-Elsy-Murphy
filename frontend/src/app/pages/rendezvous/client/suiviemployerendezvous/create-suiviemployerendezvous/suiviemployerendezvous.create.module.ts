@@ -17,6 +17,7 @@ import { AccordionModule } from "primeng/accordion";
 import { TableModule } from "primeng/table";
 import { CalendarModule } from "primeng/calendar";
 import { GenericPopupModule } from "../../../../../components/generic-popup/generic-popup.module";
+import { LoadingModule } from "../../../../../components/loading/loading.module";
 @NgModule({
     declarations: [
         CreateSuiviEmployeRendezVous
@@ -39,7 +40,8 @@ import { GenericPopupModule } from "../../../../../components/generic-popup/gene
         AccordionModule,
         TableModule,
         CalendarModule,
-        GenericPopupModule
+        GenericPopupModule,
+        LoadingModule
     ]
 })
 export class CreateSuiviEmployeRendezVousModule { }

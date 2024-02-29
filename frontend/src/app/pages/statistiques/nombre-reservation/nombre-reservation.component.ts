@@ -10,6 +10,8 @@ import { StatistiqueService } from '../../../services/statistique/statistique.se
 })
 export class NombreReservation implements OnInit {
 
+  isLoading: boolean = false;
+
   barData: any;
   barOptions: any;
 
@@ -143,12 +145,14 @@ export class NombreReservation implements OnInit {
   }
 
   getNombreReservationParMois() {
+    this.isLoading = true;
     this.statistiqueService.readNombreReservationParMois(this.annee).subscribe(
       (response) => {
         response.data?.forEach(nombrereservation => {
           this.dataMois[nombrereservation._id - 1] = nombrereservation.nombrereservation;
         });
         this.initBarCharts();
+        this.isLoading = false;
       },
       (error) => {
         console.error(error);
