@@ -81,6 +81,7 @@ class Rendezvous extends TableObject {
 
     static async checkAndSendReminders(db, client) {
         const now = moment().format('YYYY-MM-DD HH:mm:ss');
+        const minutesAvant = 30;
         const rendezvous = new Rendezvous();
         rendezvous.idclient = client._id;
         const appointments = await rendezvous.read(db, { 
@@ -91,7 +92,7 @@ class Rendezvous extends TableObject {
         });
         let reminder = [];
         appointments.forEach(appointment => {  
-            if (moment(appointment.dateheurerendezvous).diff(moment(), 'minutes') < 5) {
+            if (moment(appointment.dateheurerendezvous).diff(moment(), 'minutes') < minutesAvant) {
                 reminder.push(appointment);
             }            
         });
