@@ -51,7 +51,7 @@
                 <LabelInput label="Nom" type="text" name="nom"
                     [ngClass]="{'ng-dirty ng-invalid' : errorsUpdate && errorsUpdate[0]?.field ==='nom'} "
                     (input)="onInput()" [(ngModel)]="typedepenseUpdate.nom" />
-                <p *ngIf="errorsUpdate && errorsUpdate[0]?.field ==='nom'" class="text-danger">
+                <p *ngIf="errorsUpdate && errorsUpdate[0]?.field ==='nom'" style="color: red;">
                     {{errorsUpdate[0]?.message}}</p>
                 <div class="flex flex-column gap-2 container">
                     <div class="labelContainer"><label for="textarea" class="label">Description</label></div>
@@ -60,7 +60,7 @@
                                 [ngClass]="{'ng-dirty ng-invalid' : errorsUpdate && errorsUpdate[0]?.field ==='description'} "
                                 (input)="onInput()" [(ngModel)]="typedepenseUpdate.description"></textarea></span></div>
                 </div>
-                <p *ngIf="errorsUpdate && errorsUpdate[0]?.field ==='description'" class="text-danger">
+                <p *ngIf="errorsUpdate && errorsUpdate[0]?.field ==='description'" style="color: red;">
                     {{errorsUpdate[0]?.message}}</p>
             </ng-template>
             <ng-template pTemplate="footer">

@@ -218,6 +218,8 @@ export class BeneficeNet implements OnInit {
 
   onAnneeChange() {
     this.dataMois = new Array(12).fill(0);
+    this.dataDepenseMois = [];
+    this.dataBeneficeWithDepenseMois = [];
     this.annee = new Date(this.annee).getFullYear().toString();
     this.getDepenseParMois();
     this.getBeneficeParMois();
