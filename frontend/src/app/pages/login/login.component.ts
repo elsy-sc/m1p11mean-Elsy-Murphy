@@ -20,7 +20,7 @@ import { MessageService } from 'primeng/api';
         }
     `]
 })
-export class LoginComponent implements OnInit,AfterViewInit {
+export class LoginComponent implements OnInit, AfterViewInit {
 
     isLoading: boolean = false;
     utilisateur!: Utilisateur;
@@ -45,16 +45,24 @@ export class LoginComponent implements OnInit,AfterViewInit {
         this.utilisateurService.utilisateurConnecte.subscribe(
             (user) => {
                 if (user) {
-                    this.router.navigate(['/beauty-salon']);
+                    if (user.role == 2) {
+                        this.router.navigate(['/beauty-salon/rendezvous/client/read']);
+                    }
+                    if (user.role == 1) {
+                        this.router.navigate(['/beauty-salon/rendezvous/employe/read']);
+                    }
+                    if (user.role == 0) {
+                        this.router.navigate(['/beauty-salon/employe/read']);
+                    }
                 }
             }
         );
     }
 
     ngAfterViewInit(): void {
-        this.route.queryParamMap.subscribe(params => {     
+        this.route.queryParamMap.subscribe(params => {
             if (params.get('message')) {
-                this.messageService.add({severity:"success", summary:"Succès", detail: params.get('message')?.toString()});
+                this.messageService.add({ severity: "success", summary: "Succès", detail: params.get('message')?.toString() });
             }
         });
     }
@@ -73,7 +81,15 @@ export class LoginComponent implements OnInit,AfterViewInit {
                         let utilisateurLogin = Object.assign(new Utilisateur(), response.data[0]);
                         this.utilisateurService.setUserConnecte(utilisateurLogin);
                         this.isLoading = false;
-                        this.router.navigate(['/beauty-salon']);
+                        if (utilisateurLogin.role == 2) {
+                            this.router.navigate(['/beauty-salon/rendezvous/client/read']);
+                        }
+                        if (utilisateurLogin.role == 1) {
+                            this.router.navigate(['/beauty-salon/rendezvous/employe/read']);
+                        }
+                        if (utilisateurLogin.role == 0) {
+                            this.router.navigate(['/beauty-salon/employe/read']);
+                        }
                     }
                 } else {
                     this.isLoading = false;

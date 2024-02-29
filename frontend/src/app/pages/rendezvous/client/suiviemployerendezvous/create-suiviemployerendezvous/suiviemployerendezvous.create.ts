@@ -51,7 +51,7 @@ export class CreateSuiviEmployeRendezVous implements OnInit {
                     this.errors = response.data;
                     this.isLoading = false;
                 } else if (response.status == 201) {
-                    this.router.navigate(["/beauty-salon/rendezvous/client/read"]);
+                    this.router.navigate(["/beauty-salon/rendezvous/client/read"],{ queryParams: { message: "Prise de rendez-vous bien reservé, rendez-vous ajouté avec succes"} });
                 } else {
                     this.isLoading = false;
                     this.messageService.add({ severity: "error", summary: "Erreur", detail: response.message });
