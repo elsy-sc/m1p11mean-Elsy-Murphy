@@ -5,7 +5,7 @@
             <h5>Temps moyen de travail pour chaque employé</h5>
             <p-table [value]="moyennetempsdetravailemployes" [paginator]="true" [rows]="3">
                 <ng-template pTemplate="caption">
-                    <p-accordion>
+                    <p-accordion [activeIndex]="0">
                         <p-accordionTab header="Recherche" [selected]="false" class="line-height-3 m-0">
                             <div class="labelContainer"><label for="">Date entre : </label></div>
                             <div class="inputContainer">
@@ -34,7 +34,7 @@
                     <tr>
                         <td>{{moyennetempsdetravailemploye.employe.nom}}</td>
                         <td>{{moyennetempsdetravailemploye.employe.prenom}}</td>
-                        <td><strong>{{moyennetempsdetravailemploye.moyenneTempsTravail}}</strong></td>
+                        <td><strong>{{moyennetempsdetravailemploye.moyenneTempsTravail || '0'}}</strong></td>
                     </tr>
                 </ng-template>
             </p-table>
