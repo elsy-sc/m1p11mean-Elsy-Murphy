@@ -83,10 +83,12 @@ class SuiviEmployeRendezvous extends Rendezvous {
         };
         let suiviemployerendezvous = await rendezvous.read(db, query);
         let employes = [];
+        let employesObject = [];
         let moyenneHeureTravailParEmploye = [];
         suiviemployerendezvous.forEach(element => {
             if (employes.indexOf(element.idemploye) == -1) {
                 employes.push(element.idemploye);
+                employesObject.push(element.employe[0]);
             }
         });
         employes.forEach(employe => {
@@ -102,7 +104,7 @@ class SuiviEmployeRendezvous extends Rendezvous {
                 }
             });
             moyenneHeureTravailParEmploye.push({
-                idemploye: employe,
+                employe: employesObject[employes.indexOf(employe)],
                 moyenneTempsTravail: tempsTravail / nombreRendezvous,
                 nombreRendezvous: nombreRendezvous
             });
