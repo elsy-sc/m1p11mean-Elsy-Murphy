@@ -1,7 +1,6 @@
 const { Offrespeciale } = require('../models/offrespeciale.model');
 
-function startServerWithNotificationOffreSpecial(app, port, db) {
-    const cors = require('cors');
+async function startServerWithNotificationOffreSpecial(app, port, db) {
     const http  = require('http');
     const socketIo = require('socket.io');
     const server = http.createServer(app);
@@ -11,7 +10,7 @@ function startServerWithNotificationOffreSpecial(app, port, db) {
         }
     });
     
-    db.collection('service').watch().on('change', (change) => {
+    await db.collection('service').watch().on('change', (change) => {
         if (change.operationType === 'insert' || change.operationType === 'update') {
             const id = change.documentKey._id;
             const offreSpeciale  = new Offrespeciale();

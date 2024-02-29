@@ -24,5 +24,5 @@ routeUtil.loadRoutes(app, routes);
 
 (async () => {
     const db = await getMongoDBDatabase();
-    startServerWithNotificationOffreSpecial(app, port, db);
+    await startServerWithNotificationOffreSpecial(app, port, db);
 })();
