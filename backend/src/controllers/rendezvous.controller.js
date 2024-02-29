@@ -391,7 +391,7 @@ async function rappelRendezvous(req, res) {
 async function sendMailRappel(req, res) {
     const db = await getMongoDBDatabase();
     try {
-        Rendezvous.sendMailReminder(req.body.appointment, req.body.client);
+        await Rendezvous.sendMailReminder(req.body.appointment, req.body.client);
         httpUtil.sendJson(res, null, 200, "OK");
     } catch (error) {
         httpUtil.sendJson(

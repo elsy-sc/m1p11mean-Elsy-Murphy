@@ -27,11 +27,12 @@ export class RendezvousRappel implements OnInit {
         switchMap(() => this.rendezvousService.rappelerRendezvous())
        ).subscribe(result => {
         if (result.data != null && result.data.length > 0 && !isRendezvousStored(result.data[0]._id) ) {
+          const avant = 30;
           this.rendezvousService.sendMailRappelRendezvous(result.data[0]).subscribe(() => {
             this.messageService.add({
               severity: "info",
               summary: "Rappel",
-              detail: "Vous avez de(s) rendez-vous dans 5 minutes",
+              detail: `Vous avez de(s) rendez-vous dans ${avant} minutes`,
               life: 10000
             });
           });
