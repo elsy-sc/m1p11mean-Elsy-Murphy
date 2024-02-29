@@ -208,6 +208,17 @@ async function prendreRendezvous(req, res) {
         }
     }
 }
+
+async function getMoyenneHeureTravailParEmployeParDate(req, res){
+    const db = await getMongoDBDatabase();
+    try {
+        await SuiviEmployeRendezvous.getMoyenneHeureTravailParEmployeParDate(db, req.body?.datedebut, req.body?.datefin).then((result) => {
+            httpUtil.sendJson(res, result, 200, "OK");
+        });
+    } catch (error) {
+        return httpUtil.sendJson(res, null, error.status || error.statusCode || 500, error.message);
+    }
+}
   
 
 exports.createSuiviEmployeRendezvous = createSuiviEmployeRendezvous;
@@ -216,3 +227,4 @@ exports.updateSuiviEmployeRendezvous = updateSuiviEmployeRendezvous;
 exports.deleteSuiviEmployeRendezvous = deleteSuiviEmployeRendezvous;
 exports.prendreRendezvous = prendreRendezvous;
 exports.prendreEmployeDisponible = prendreEmployeDisponible;
+exports.getMoyenneHeureTravailParEmployeParDate = getMoyenneHeureTravailParEmployeParDate;
