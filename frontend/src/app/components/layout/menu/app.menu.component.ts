@@ -223,6 +223,11 @@ export class AppMenuComponent implements OnInit {
                                     label: "Bénéfices",
                                     icon: 'pi pi-fw pi-chart-line',
                                     routerLink: ['statistique/beneficenet']
+                                },
+                                {
+                                    label: "Moyenne heure de travail par employe",
+                                    icon: "pi pi-fw pi-list",
+                                    routerLink: ['statistique/moyenneheuretravailparemployepardate']
                                 }
                             ]
                         }
