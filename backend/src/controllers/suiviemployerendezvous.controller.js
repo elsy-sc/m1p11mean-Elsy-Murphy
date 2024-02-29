@@ -212,7 +212,26 @@ async function prendreRendezvous(req, res) {
 async function getMoyenneHeureTravailParEmployeParDate(req, res){
     const db = await getMongoDBDatabase();
     try {
+        let AllEmploye = await new Employe().read(db);
         await SuiviEmployeRendezvous.getMoyenneHeureTravailParEmployeParDate(db, req.body?.datedebut, req.body?.datefin).then((result) => {
+
+            // if the allemploye is not in the result then we add it to the result with moyenheuretravail = 0 and nombreRendezvous = 0
+            AllEmploye.forEach(employe => {
+                let employeExist = false;
+                result.forEach(element => {
+                    if (element.employe._id == employe._id) {
+                        employeExist = true;
+                    }
+                });
+                if (!employeExist) {
+                    result.push({
+                        employe: employe,
+                        moyenneheuretravail: 0,
+                        nombrerendezvous: 0
+                    });
+                }
+            });
+
             httpUtil.sendJson(res, result, 200, "OK");
         });
     } catch (error) {
