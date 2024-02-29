@@ -27,6 +27,7 @@ import { InscriptionComponent } from './pages/inscription/inscription.component'
 import { NombreReservation } from './pages/statistiques/nombre-reservation/nombre-reservation.component';
 import { BeneficeNet } from './pages/statistiques/benefice-net/benefice-net.component';
 import { SuiviTacheEffectue } from './pages/suivitacheeffectue/suivi-tache-effectue.component';
+import { MoyenneTempsTravailEmploye } from './pages/statistiques/moyenne-temps-travail-employe/moyenne-temps-travail-employe.component';
 
 const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -53,6 +54,7 @@ const routes: Routes = [
       {path:'suivitâcheeffectue', component: SuiviTacheEffectue, canActivate: [AuthGuard], data:{role: 1}},
       {path:'statistique/nombrereservation' , component: NombreReservation, canActivate: [AuthGuard], data:{role: 0}},
       {path:'statistique/beneficenet' , component: BeneficeNet, canActivate: [AuthGuard], data:{role: 0}},
+      {path:'statistique/moyenneheuretravailparemployepardate' , component: MoyenneTempsTravailEmploye, canActivate: [AuthGuard], data:{role: 0}},
     ]
   }
 ];

@@ -79,7 +79,7 @@ export class StatistiqueService {
         return this.http.post<HttpResponseApi>(url, body, httpOptions);
     }
 
-    readDepenseParMois (annee: string) {
+    readDepenseParMois (annee: string) : Observable<HttpResponseApi> {
         let url = BASE_URL + "/depense/depenseparmois";
         let token = this.getToken();
         const httpOptions = {
@@ -89,6 +89,19 @@ export class StatistiqueService {
             })
         };
         let body = {annee: annee};
+        return this.http.post<HttpResponseApi>(url, body, httpOptions);
+    }
+
+    getMoyenneTempsTravailEmploye (datedebut: string, datefin: string) : Observable<HttpResponseApi> {
+        let url = BASE_URL + "/suiviemployerendezvous/moyenneHeureTravailParEmployeParDate";
+        let token = this.getToken();
+        const httpOptions = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            })
+        };
+        let body = {datedebut: datedebut, datefin: datefin};
         return this.http.post<HttpResponseApi>(url, body, httpOptions);
     }
 
