@@ -139,7 +139,7 @@ export class ReadService implements OnInit {
 
     getServices() {
         this.offreSpecialService.readOffrespeciale(this.serviceSearch).subscribe((response: HttpResponseApi) => {
-            
+            console.log(response);
             if (response.data) {
                 this.services = response.data;
             }

@@ -42,7 +42,11 @@ async function createOffrespeciale(req, res, next) {
 async function readOffrespeciale(req, res) {
     const db = await getMongoDBDatabase();
     try {
-        await new Offrespeciale(req.body?.descriptionoffrespeciale ? { $regex: new RegExp(req.body?.descriptionoffrespeciale, 'i')} : null).read(db).then((result) => {
+        const offrespeciale = new Offrespeciale(null, null, null, null, null, req.body?.idcategorieservice, req.body?.nom, req.body?.description, null, null, null);
+        if (offrespeciale.nom) {
+            offrespeciale.nom = { $regex: offrespeciale.nom, $options: 'i' };
+        }
+        await offrespeciale.read(db).then((result) => {
             httpUtil.sendJson(res, result, 200, "OK");
         });
     } catch (error) {
