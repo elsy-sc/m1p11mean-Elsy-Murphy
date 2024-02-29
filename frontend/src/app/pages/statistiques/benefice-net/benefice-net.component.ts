@@ -38,7 +38,6 @@ export class BeneficeNet implements OnInit {
       'jour'
     ];
     this.getDepenseParMois();
-    this.getBeneficeParMois();
   }
 
   initLinehartsMois() {
@@ -192,6 +191,7 @@ export class BeneficeNet implements OnInit {
     this.statistiqueService.readDepenseParMois(this.annee).subscribe(
       (response) => {
         this.dataDepenseMois = response.data;
+        this.getBeneficeParMois();
       },
       (error) => {
         console.error(error);
@@ -222,7 +222,6 @@ export class BeneficeNet implements OnInit {
     this.dataBeneficeWithDepenseMois = [];
     this.annee = new Date(this.annee).getFullYear().toString();
     this.getDepenseParMois();
-    this.getBeneficeParMois();
   }
 
   onDateEntreChange() {
